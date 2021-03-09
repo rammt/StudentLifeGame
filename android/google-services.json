@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "840586414635",
+    "firebase_url": "https://studentlifegame-859d8-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "studentlifegame-859d8",
     "storage_bucket": "studentlifegame-859d8.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "840586414635-efgl70gl4rq5lgbalm5dv1er7r13pk4c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "no.ntnu.tdt4240.game",
+            "certificate_hash": "93e0ec591031971998a027d42cea6b22fb363744"
+          }
+        },
         {
           "client_id": "840586414635-5clibod16scf42p9bf7qpdgoackinjfk.apps.googleusercontent.com",
           "client_type": 3
