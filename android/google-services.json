@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "840586414635",
+    "project_id": "studentlifegame-859d8",
+    "storage_bucket": "studentlifegame-859d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840586414635:android:73f1de729ae2fe728cb86e",
+        "android_client_info": {
+          "package_name": "no.ntnu.tdt4240.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840586414635-5clibod16scf42p9bf7qpdgoackinjfk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_imAkKci_nGzA0pxUBQfRCPMUDK8_QM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840586414635-5clibod16scf42p9bf7qpdgoackinjfk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

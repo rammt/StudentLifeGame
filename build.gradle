@@ -9,8 +9,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.4'
-        
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'com.google.gms:google-services:4.3.5'
 
     }
 }
@@ -53,11 +53,17 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "com.android.application"
+    apply plugin: 'com.google.gms.google-services'
 
     configurations { natives }
 
     dependencies {
         implementation project(":core")
+        implementation platform('com.google.firebase:firebase-bom:26.6.0')
+        implementation platform("com.google.firebase:firebase-auth")
+        implementation platform("com.google.firebase:firebase-firestore")
+        implementation platform("com.google.firebase:firebase-functions")
+
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
