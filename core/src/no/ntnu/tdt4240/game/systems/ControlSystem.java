@@ -9,11 +9,9 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
-import java.awt.Button;
-
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.components.ResourceGainer;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class ControlSystem extends EntitySystem {
     private ImmutableArray<Entity> playerEntities;
@@ -25,7 +23,7 @@ public class ControlSystem extends EntitySystem {
 
     public void addedToEngine(Engine engine){
         playerEntities = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
-        resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainer.class).get());
+        resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         buttons = engine.getEntitiesFor(Family.all(ButtonComponent.class).get());
     }
 

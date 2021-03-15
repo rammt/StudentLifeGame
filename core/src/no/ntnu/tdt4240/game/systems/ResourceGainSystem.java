@@ -8,7 +8,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.components.ResourceGainer;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class ResourceGainSystem extends EntitySystem {
     private ImmutableArray<Entity> playerEntities;
@@ -17,11 +17,11 @@ public class ResourceGainSystem extends EntitySystem {
     private Engine engine;
 
     private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
-    private ComponentMapper<ResourceGainer> rgm = ComponentMapper.getFor(ResourceGainer.class);
+    private ComponentMapper<ResourceGainerComponent> rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
     public void addedToEngine(Engine engine){
         playerEntities = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
-        resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainer.class).get());
+        resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
     }
 
     public void update(float deltaTime){
@@ -39,7 +39,7 @@ public class ResourceGainSystem extends EntitySystem {
         }
     }
 
-    public void addResourceGainerToPlayer(ResourceGainer rg, PlayerComponent player){
+    public void addResourceGainerToPlayer(ResourceGainerComponent rg, PlayerComponent player){
         player.addResourceGainer(rg);
     }
 

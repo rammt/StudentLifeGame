@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import javax.annotation.Resource;
-
 import no.ntnu.tdt4240.game.components.ButtonComponent;
+import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceComponent;
-import no.ntnu.tdt4240.game.components.ResourceGainer;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ControlSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
@@ -42,18 +42,22 @@ public class StudentLifeGame extends Game {
 		font = new BitmapFont();
 		shapeRenderer = new ShapeRenderer();
 
+		engine.addSystem(new AudioSystem());
 		engine.addSystem(new RenderSystem(shapeRenderer, font, batch));
 		engine.addSystem(new ResourceGainSystem());
 		engine.addSystem(new ControlSystem());
 
-		//game = engine.createEntity();
+
+		game = engine.createEntity();
+		game.add(new GameComponent().create());
+		engine.addEntity(game);
 
 		Entity resource = engine.createEntity();
 		resource.add(new ResourceComponent().create("Studass"));
 		engine.addEntity(resource);
 
 		Entity resourceGainer = engine.createEntity();
-		resourceGainer.add(new ResourceGainer().create(100f,5));
+		resourceGainer.add(new ResourceGainerComponent().create(100f,5));
 		engine.addEntity(resourceGainer);
 
 		Entity player1 = engine.createEntity();
@@ -64,9 +68,17 @@ public class StudentLifeGame extends Game {
 		player2.add(new PlayerComponent().create("name2", 2));
 		engine.addEntity(player2);
 
+		float buttonHeight = 60f;
+		float buttonWidth = 140f;
+
+		float copyButtonX = SCREEN_WIDTH/2;
+		float copyButtonY = SCREEN_HEIGHT/2;
+
 		Entity button = engine.createEntity();
-		button.add(new ButtonComponent().create(100,100,50,50));
+		button.add(new ButtonComponent().create(buttonHeight,buttonWidth,copyButtonX,copyButtonY));
 		engine.addEntity(button);
+
+		game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
 
 	}
 
