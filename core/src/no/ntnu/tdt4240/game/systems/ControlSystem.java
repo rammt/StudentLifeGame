@@ -21,19 +21,19 @@ public class ControlSystem extends EntitySystem {
     private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
     private ComponentMapper<ButtonComponent> bm = ComponentMapper.getFor(ButtonComponent.class);
 
-    public void addedToEngine(Engine engine){
+    public void addedToEngine(Engine engine) {
         playerEntities = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
         resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         buttons = engine.getEntitiesFor(Family.all(ButtonComponent.class).get());
     }
 
-    public void update(float deltaTime){
-        if(Gdx.input.justTouched()){
-            Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(),0);
-            for( Entity button : buttons){
+    public void update(float deltaTime) {
+        if (Gdx.input.justTouched()) {
+            Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            for (Entity button : buttons) {
                 ButtonComponent btn = bm.get(button);
-                if(btn.button.contains(touch.x,Gdx.graphics.getHeight()-touch.y)){
-                    for (Entity player : playerEntities){
+                if (btn.button.contains(touch.x, Gdx.graphics.getHeight() - touch.y)) {
+                    for (Entity player : playerEntities) {
                         PlayerComponent p = pm.get(player);
                         p.buttonPress();
                     }

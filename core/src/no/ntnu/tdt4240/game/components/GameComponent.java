@@ -3,7 +3,7 @@ package no.ntnu.tdt4240.game.components;
 import com.badlogic.ashley.core.Component;
 
 public class GameComponent implements Component {
-    public enum GameState{
+    public enum GameState {
         GAME_START,
         GAME_PLAYING,
     }
@@ -15,7 +15,7 @@ public class GameComponent implements Component {
         return this;
     }
 
-    public GameComponent setState(GameState state){
+    public GameComponent setState(GameState state) {
         this.gameState = state;
         return this;
     }

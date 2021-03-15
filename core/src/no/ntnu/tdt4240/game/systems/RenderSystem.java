@@ -31,14 +31,14 @@ public class RenderSystem extends EntitySystem {
     private ComponentMapper<GameComponent> gm = ComponentMapper.getFor(GameComponent.class);
 
 
-    public RenderSystem(ShapeRenderer sr, BitmapFont fr, SpriteBatch sb){
+    public RenderSystem(ShapeRenderer sr, BitmapFont fr, SpriteBatch sb) {
         spriteBatch = sb;
         fontRenderer = fr;
         shapeRenderer = sr;
     }
 
     @Override
-    public void addedToEngine(Engine engine){
+    public void addedToEngine(Engine engine) {
         playerEntities = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
         resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         buttonEntities = engine.getEntitiesFor(Family.all(ButtonComponent.class).get());
@@ -46,12 +46,12 @@ public class RenderSystem extends EntitySystem {
     }
 
     @Override
-    public void removedFromEngine (Engine engine){
+    public void removedFromEngine(Engine engine) {
 
     }
 
     @Override
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         super.update(deltaTime);
 
         for (Entity game : games) {
@@ -60,37 +60,31 @@ public class RenderSystem extends EntitySystem {
             if (gameComponent.gameState == GameComponent.GameState.GAME_PLAYING) {
 
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                for(Entity button : buttonEntities){
+                for (Entity button : buttonEntities) {
                     Rectangle bt = button.getComponent(ButtonComponent.class).button;
-                    shapeRenderer.rect(bt.x,bt.y,bt.width,bt.height);
+                    shapeRenderer.rect(bt.x, bt.y, bt.width, bt.height);
                 }
-                //ResourceGainer rg1 = rgm.get(resourceGainers.get(0));
 
                 float p1Score = 0;
-                //float p2Score = 0;
 
-                for(Entity player : playerEntities){
+                for (Entity player : playerEntities) {
                     PlayerComponent pc = pm.get(player);
-                    if(pc.playerNum == 1) p1Score = pc.getScore();
-                    //if(pc.playerNum == 2) p2Score = pc.getScore();
+                    if (pc.playerNum == 1) p1Score = pc.getScore();
+
                 }
-                String p1NumberAsString = String.format("%.2f",p1Score);
-                //String p2NumberAsString = String.format("%.2f",p2Score);
+                String p1NumberAsString = String.format("%.2f", p1Score);
 
                 shapeRenderer.end();
                 spriteBatch.begin();
-                fontRenderer.draw(spriteBatch, "$ " + p1NumberAsString, 250,250);
+                fontRenderer.draw(spriteBatch, "$ " + p1NumberAsString, 250, 250);
                 spriteBatch.end();
             }
 
+            shapeRenderer.end();
 
-                shapeRenderer.end();
-
-
-
-            }
         }
     }
+}
 
 
 

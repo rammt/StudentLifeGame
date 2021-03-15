@@ -19,27 +19,19 @@ public class ResourceGainSystem extends EntitySystem {
     private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
     private ComponentMapper<ResourceGainerComponent> rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
-    public void addedToEngine(Engine engine){
+    public void addedToEngine(Engine engine) {
         playerEntities = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
         resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
     }
 
-    public void update(float deltaTime){
-        for(Entity player : playerEntities){
+    public void update(float deltaTime) {
+        for (Entity player : playerEntities) {
             PlayerComponent pc = pm.get(player);
-            //ResourceGainer rg1 = rgm.get(resourceGainers.get(0));
-
-            /*ResourceGainer rg = new ResourceGainer();
-            for(Entity res : resourceGainers){
-                rg = rgm.get(res);
-            }*/
-
-            //addResourceGainerToPlayer(rg1, pc);
             pc.updateScore(1f * deltaTime);
         }
     }
 
-    public void addResourceGainerToPlayer(ResourceGainerComponent rg, PlayerComponent player){
+    public void addResourceGainerToPlayer(ResourceGainerComponent rg, PlayerComponent player) {
         player.addResourceGainer(rg);
     }
 

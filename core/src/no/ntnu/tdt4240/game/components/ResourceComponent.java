@@ -4,11 +4,13 @@ import com.badlogic.ashley.core.Component;
 
 public class ResourceComponent implements Component {
     private String name;
-    public ResourceComponent create(String name){
+
+    public ResourceComponent create(String name) {
         this.name = name;
         return this;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 }

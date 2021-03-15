@@ -20,81 +20,80 @@ import no.ntnu.tdt4240.game.systems.RenderSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class StudentLifeGame extends Game {
-	private float SCREEN_WIDTH;
-	private float SCREEN_HEIGHT;
+    private float SCREEN_WIDTH;
+    private float SCREEN_HEIGHT;
 
-	private PooledEngine engine;
+    private PooledEngine engine;
 
-	private Entity game;
+    private Entity game;
 
-	private BitmapFont font;
-	private SpriteBatch batch;
-	private ShapeRenderer shapeRenderer;
-	
-	@Override
-	public void create(){
-		SCREEN_WIDTH = Gdx.graphics.getWidth();
-		SCREEN_HEIGHT = Gdx.graphics.getHeight();
+    private BitmapFont font;
+    private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
 
-		engine = new PooledEngine();
+    @Override
+    public void create() {
+        SCREEN_WIDTH = Gdx.graphics.getWidth();
+        SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
-		batch = new SpriteBatch();
-		font = new BitmapFont();
-		shapeRenderer = new ShapeRenderer();
+        engine = new PooledEngine();
 
-		engine.addSystem(new AudioSystem());
-		engine.addSystem(new RenderSystem(shapeRenderer, font, batch));
-		engine.addSystem(new ResourceGainSystem());
-		engine.addSystem(new ControlSystem());
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+        shapeRenderer = new ShapeRenderer();
 
+        engine.addSystem(new AudioSystem());
+        engine.addSystem(new RenderSystem(shapeRenderer, font, batch));
+        engine.addSystem(new ResourceGainSystem());
+        engine.addSystem(new ControlSystem());
 
-		game = engine.createEntity();
-		game.add(new GameComponent().create());
-		engine.addEntity(game);
+        game = engine.createEntity();
+        game.add(new GameComponent().create());
+        engine.addEntity(game);
 
-		Entity resource = engine.createEntity();
-		resource.add(new ResourceComponent().create("Studass"));
-		engine.addEntity(resource);
+        Entity resource = engine.createEntity();
+        resource.add(new ResourceComponent().create("Studass"));
+        engine.addEntity(resource);
 
-		Entity resourceGainer = engine.createEntity();
-		resourceGainer.add(new ResourceGainerComponent().create(100f,5));
-		engine.addEntity(resourceGainer);
+        Entity resourceGainer = engine.createEntity();
+        resourceGainer.add(new ResourceGainerComponent().create(100f, 5));
+        engine.addEntity(resourceGainer);
 
-		Entity player1 = engine.createEntity();
-		player1.add(new PlayerComponent().create("name1", 1));
-		engine.addEntity(player1);
+        Entity player1 = engine.createEntity();
+        player1.add(new PlayerComponent().create("name1", 1));
+        engine.addEntity(player1);
 
-		Entity player2 = engine.createEntity();
-		player2.add(new PlayerComponent().create("name2", 2));
-		engine.addEntity(player2);
+        Entity player2 = engine.createEntity();
+        player2.add(new PlayerComponent().create("name2", 2));
+        engine.addEntity(player2);
 
-		float buttonHeight = 60f;
-		float buttonWidth = 140f;
+        float buttonHeight = 60f;
+        float buttonWidth = 140f;
 
-		float copyButtonX = SCREEN_WIDTH/2;
-		float copyButtonY = SCREEN_HEIGHT/2;
+        float copyButtonX = SCREEN_WIDTH / 2;
+        float copyButtonY = SCREEN_HEIGHT / 2;
 
-		Entity button = engine.createEntity();
-		button.add(new ButtonComponent().create(buttonHeight,buttonWidth,copyButtonX,copyButtonY));
-		engine.addEntity(button);
+        Entity button = engine.createEntity();
+        button.add(new ButtonComponent().create(buttonHeight, buttonWidth, copyButtonX, copyButtonY));
+        engine.addEntity(button);
 
-		game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
+        game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
 
-	}
+    }
 
-	@Override
-	public void render(){
-		Gdx.gl.glClearColor(0,0,0,1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		engine.update(Gdx.graphics.getDeltaTime());
-	}
+        engine.update(Gdx.graphics.getDeltaTime());
+    }
 
-	@Override
-	public void dispose(){
-		batch.dispose();
-		font.dispose();
-	}
+    @Override
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
+    }
 
 
 }

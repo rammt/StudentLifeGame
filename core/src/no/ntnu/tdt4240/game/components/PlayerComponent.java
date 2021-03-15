@@ -10,27 +10,30 @@ public class PlayerComponent implements Component {
     public int playerNum;
     private Array<ResourceGainerComponent> resourceGainers = new Array<ResourceGainerComponent>();
 
-    public PlayerComponent create(String name, int num){
+    public PlayerComponent create(String name, int num) {
         this.name = name;
         playerNum = num;
         return this;
     }
-    public PlayerComponent create(String name, int num, ResourceGainerComponent rg){
+
+    public PlayerComponent create(String name, int num, ResourceGainerComponent rg) {
         this.name = name;
         playerNum = num;
         resourceGainers.add(rg);
         return this;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public float getScore(){
+
+    public float getScore() {
         return score;
     }
-    public PlayerComponent updateScore(float num){
-        if(!resourceGainers.isEmpty()){
-            for(ResourceGainerComponent rg : resourceGainers){
+
+    public PlayerComponent updateScore(float num) {
+        if (!resourceGainers.isEmpty()) {
+            for (ResourceGainerComponent rg : resourceGainers) {
                 num += rg.getGainPerSecond();
             }
         }
@@ -38,14 +41,14 @@ public class PlayerComponent implements Component {
         return this;
     }
 
-    public void addResourceGainer(ResourceGainerComponent rg){
-        if(score >= rg.getPrice()){
+    public void addResourceGainer(ResourceGainerComponent rg) {
+        if (score >= rg.getPrice()) {
             score -= rg.getPrice();
             resourceGainers.add(rg);
         }
     }
 
-    public void buttonPress(){
+    public void buttonPress() {
         score += 3f;
     }
 }
