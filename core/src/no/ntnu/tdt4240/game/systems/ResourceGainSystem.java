@@ -35,7 +35,7 @@ public class ResourceGainSystem extends EntitySystem {
             }*/
 
             //addResourceGainerToPlayer(rg1, pc);
-            pc.updateScore(0.2f);
+            pc.updateScore(1f * deltaTime);
         }
     }
 

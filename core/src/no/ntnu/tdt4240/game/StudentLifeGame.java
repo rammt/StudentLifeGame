@@ -53,7 +53,7 @@ public class StudentLifeGame extends Game {
 		engine.addEntity(resource);
 
 		Entity resourceGainer = engine.createEntity();
-		resourceGainer.add(new ResourceGainer().create(100f,1));
+		resourceGainer.add(new ResourceGainer().create(100f,5));
 		engine.addEntity(resourceGainer);
 
 		Entity player1 = engine.createEntity();

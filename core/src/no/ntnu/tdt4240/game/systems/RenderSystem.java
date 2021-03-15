@@ -58,19 +58,19 @@ public class RenderSystem extends EntitySystem {
         //ResourceGainer rg1 = rgm.get(resourceGainers.get(0));
 
         float p1Score = 0;
-        float p2Score = 0;
+        //float p2Score = 0;
 
         for(Entity player : playerEntities){
             PlayerComponent pc = pm.get(player);
             if(pc.playerNum == 1) p1Score = pc.getScore();
-            if(pc.playerNum == 2) p2Score = pc.getScore();
+            //if(pc.playerNum == 2) p2Score = pc.getScore();
         }
         String p1NumberAsString = String.format("%.2f",p1Score);
-        String p2NumberAsString = String.format("%.2f",p2Score);
+        //String p2NumberAsString = String.format("%.2f",p2Score);
 
         shapeRenderer.end();
         spriteBatch.begin();
-        fontRenderer.draw(spriteBatch, "$ " + p1NumberAsString + ",  $ " + p2NumberAsString, 250,250);
+        fontRenderer.draw(spriteBatch, "$ " + p1NumberAsString, 250,250);
         spriteBatch.end();
     }
 

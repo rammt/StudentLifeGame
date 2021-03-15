@@ -39,10 +39,13 @@ public class PlayerComponent implements Component {
     }
 
     public void addResourceGainer(ResourceGainer rg){
-        resourceGainers.add(rg);
+        if(score >= rg.getPrice()){
+            score -= rg.getPrice();
+            resourceGainers.add(rg);
+        }
     }
 
     public void buttonPress(){
-        score += 10f;
+        score += 3f;
     }
 }

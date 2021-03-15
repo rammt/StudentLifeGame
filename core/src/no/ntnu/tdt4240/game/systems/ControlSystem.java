@@ -7,6 +7,9 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector3;
+
+import java.awt.Button;
 
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -28,10 +31,17 @@ public class ControlSystem extends EntitySystem {
 
     public void update(float deltaTime){
         if(Gdx.input.justTouched()){
-            for (Entity player : playerEntities){
-                PlayerComponent p = pm.get(player);
-                p.buttonPress();
+            Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(),0);
+            for( Entity button : buttons){
+                ButtonComponent btn = bm.get(button);
+                if(btn.button.contains(touch.x,Gdx.graphics.getHeight()-touch.y)){
+                    for (Entity player : playerEntities){
+                        PlayerComponent p = pm.get(player);
+                        p.buttonPress();
+                    }
+                }
             }
+
         }
     }
 }
