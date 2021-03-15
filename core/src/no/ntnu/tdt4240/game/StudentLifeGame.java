@@ -7,9 +7,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import javax.annotation.Resource;
+
+import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.components.ResourceComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainer;
+import no.ntnu.tdt4240.game.systems.ControlSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class StudentLifeGame extends Game {
 	private float SCREEN_WIDTH;
@@ -21,6 +29,7 @@ public class StudentLifeGame extends Game {
 
 	private BitmapFont font;
 	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
 	
 	@Override
 	public void create(){
@@ -31,14 +40,34 @@ public class StudentLifeGame extends Game {
 
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		shapeRenderer = new ShapeRenderer();
 
-		engine.addSystem(new RenderSystem(batch, font));
+		engine.addSystem(new RenderSystem(shapeRenderer, font, batch));
+		engine.addSystem(new ResourceGainSystem());
+		engine.addSystem(new ControlSystem());
 
 		//game = engine.createEntity();
 
-		Entity player = engine.createEntity();
-		player.add(new PlayerComponent().create("name1"));
-		engine.addEntity(player);
+		Entity resource = engine.createEntity();
+		resource.add(new ResourceComponent().create("Studass"));
+		engine.addEntity(resource);
+
+		Entity resourceGainer = engine.createEntity();
+		resourceGainer.add(new ResourceGainer().create(100f,1));
+		engine.addEntity(resourceGainer);
+
+		Entity player1 = engine.createEntity();
+		player1.add(new PlayerComponent().create("name1", 1));
+		engine.addEntity(player1);
+
+		Entity player2 = engine.createEntity();
+		player2.add(new PlayerComponent().create("name2", 2));
+		engine.addEntity(player2);
+
+		Entity button = engine.createEntity();
+		button.add(new ButtonComponent().create(100,100,50,50));
+		engine.addEntity(button);
+
 	}
 
 	@Override
