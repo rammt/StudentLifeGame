@@ -126,7 +126,7 @@ public class StatScreen implements Screen{
         );
         game.getBatch().end();
 
-        //game.getEngine().update(Gdx.graphics.getDeltaTime());
+        game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
 
     }
 

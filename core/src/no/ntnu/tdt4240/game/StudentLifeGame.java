@@ -44,9 +44,9 @@ public class StudentLifeGame extends Game {
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         kokCounter = 0;
 
-        engine = new ECSengine(shapeRenderer,font,batch);
-
         shapeRenderer = new ShapeRenderer();
+
+        engine = new ECSengine(shapeRenderer,font,batch);
 
         this.setScreen(new StartScreen(this));
     }

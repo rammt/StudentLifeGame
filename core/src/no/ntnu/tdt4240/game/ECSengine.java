@@ -22,7 +22,7 @@ import no.ntnu.tdt4240.game.systems.RenderSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.screens.StartScreen;
 
-public class ECSengine extends PooledEngine{
+public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
@@ -30,7 +30,7 @@ public class ECSengine extends PooledEngine{
     private float SCREEN_HEIGHT;
 
     public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch){
-
+        super();
 
         SCREEN_WIDTH = Gdx.graphics.getWidth();
         SCREEN_HEIGHT = Gdx.graphics.getHeight();
@@ -71,6 +71,14 @@ public class ECSengine extends PooledEngine{
         engine.addEntity(button);
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
+    }
+
+    public PooledEngine getEngine(){
+        return engine;
+    }
+
+    public Entity getGame(){
+        return game;
     }
 
 }
