@@ -172,6 +172,8 @@ public class StartScreen implements Screen{
 		);
 		game.getBatch().end();
 
+		game.getEngine().update(Gdx.graphics.getDeltaTime());
+
 	}
 
 	@Override
