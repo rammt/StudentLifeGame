@@ -88,7 +88,6 @@ public class StudentLifeGame extends Game {
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
 
-
         this.setScreen(new StartScreen(this));
     }
 

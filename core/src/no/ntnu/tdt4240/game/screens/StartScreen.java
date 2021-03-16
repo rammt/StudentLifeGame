@@ -28,7 +28,7 @@ public class StartScreen implements Screen{
 
 	private TextButton.TextButtonStyle textButtonStyleDOWN;
 	private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton;
+    private Button copyButton, pasteButton, deliverButton, statButton;
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
@@ -124,6 +124,21 @@ public class StartScreen implements Screen{
 			}
 		});
 
+		statButton = new TextButton("STATS",game.getSkin());
+		statButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
+		statButton.setPosition(
+				Gdx.graphics.getWidth()/2f - deliverButton.getWidth()/2,
+				0);
+		statButton.addListener(new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+
+				game.setScreen(new StatScreen(game));
+
+				return true;
+			}
+		});
+
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
 				copyButton.getStyle().down,
 				copyButton.getStyle().down,
@@ -152,6 +167,7 @@ public class StartScreen implements Screen{
 		game.getStage().addActor(copyButton);
 		game.getStage().addActor(pasteButton);
 		game.getStage().addActor(deliverButton);
+		game.getStage().addActor(statButton);
 	}
 
 	@Override
@@ -172,7 +188,7 @@ public class StartScreen implements Screen{
 		);
 		game.getBatch().end();
 
-		game.getEngine().update(Gdx.graphics.getDeltaTime());
+		//game.getEngine().update(Gdx.graphics.getDeltaTime());
 
 	}
 
