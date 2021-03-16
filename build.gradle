@@ -36,6 +36,8 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
+   
 }
 
 project(":desktop") {
@@ -53,12 +55,12 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "com.android.application"
-    apply plugin: 'com.google.gms.google-services'
 
     configurations { natives }
 
     dependencies {
         implementation project(":core")
+
         implementation platform('com.google.firebase:firebase-bom:26.6.0')
         implementation "com.google.firebase:firebase-auth"
         implementation "com.google.firebase:firebase-firestore"
@@ -72,8 +74,12 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        
+
+
     }
+
+    apply plugin: 'com.google.gms.google-services'
+
 }
 
 project(":core") {
@@ -83,6 +89,7 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        
+
+
     }
 }
