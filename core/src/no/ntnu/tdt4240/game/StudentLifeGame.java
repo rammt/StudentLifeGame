@@ -1,8 +1,7 @@
 package no.ntnu.tdt4240.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,49 +13,66 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class StudentLifeGame extends ApplicationAdapter {
-	Stage stage;
-	SpriteBatch batch;
-	Texture img;
-	TextButton signInBtn;
+import no.ntnu.tdt4240.game.screens.StartScreen;
 
+public class StudentLifeGame extends Game {
 	public FirebaseInterface firebase;
 
 	public StudentLifeGame(FirebaseInterface firebase) {
 		this.firebase = firebase;
 	}
-	
+
+	private SpriteBatch batch;
+	private BitmapFont font;
+	private Stage stage;
+	private Skin skin;
+	private TextureAtlas textureAtlas;
+
 	@Override
 	public void create () {
-		stage = new Stage();
 		batch = new SpriteBatch();
-
+		font = new BitmapFont();
+		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
-		BitmapFont font = new BitmapFont();
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.font = font;
-		signInBtn = new TextButton("SIGN IN BUTTON PLEASE CLICK ME", textButtonStyle);
-		stage.addActor(signInBtn);
-
-		signInBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed (ChangeEvent event, Actor actor) {
-				firebase.onSignInButtonClicked();
-			}
-		});
+		skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+		this.setScreen(new StartScreen(this));
 	}
 
 
 
 	@Override
 	public void render () {
-		stage.draw();
+		super.render();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		font.dispose();
+		stage.dispose();
+		skin.dispose();
+		textureAtlas.dispose();
 	}
+
+	public SpriteBatch getBatch(){
+		return batch;
+	}
+	public BitmapFont getFont(){
+		return font;
+	}
+	public Stage getStage(){
+		return stage;
+	}
+	public Skin getSkin(){
+		return skin;
+	}
+	public TextureAtlas getTextureAtlas(){
+		return textureAtlas;
+	}
+
 }
