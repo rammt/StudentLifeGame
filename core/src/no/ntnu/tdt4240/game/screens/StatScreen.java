@@ -52,9 +52,6 @@ public class StatScreen implements Screen{
 
         game.getStage().clear();
 
-        //kok teller
-        counter = 0;
-
         //progressbar shit, se bort trash
 		/*
 		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
@@ -123,7 +120,7 @@ public class StatScreen implements Screen{
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kok : " + String.valueOf(counter),
+                "Kokt : " + String.valueOf(game.getKokCounter()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

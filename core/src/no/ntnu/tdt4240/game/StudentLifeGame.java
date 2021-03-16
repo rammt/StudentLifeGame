@@ -36,6 +36,8 @@ public class StudentLifeGame extends Game {
     private Entity game;
     private ShapeRenderer shapeRenderer;
 
+    private int kokCounter;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -43,6 +45,7 @@ public class StudentLifeGame extends Game {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        kokCounter = 0;
 
         SCREEN_WIDTH = Gdx.graphics.getWidth();
         SCREEN_HEIGHT = Gdx.graphics.getHeight();
@@ -124,6 +127,12 @@ public class StudentLifeGame extends Game {
     }
     public PooledEngine getEngine() {
         return engine;
+    }
+    public void setKokCounter(int increment){
+        kokCounter = kokCounter + increment;
+    }
+    public int getKokCounter(){
+        return kokCounter;
     }
 
 }

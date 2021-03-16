@@ -33,8 +33,6 @@ public class StartScreen implements Screen{
     private boolean pasted;
     private boolean delivered;
 
-    private int counter;
-
     /* progressbar trash
 	private TextureRegionDrawable textureRegionDrawable;
 	private ProgressBar.ProgressBarStyle progressBarStyle;
@@ -52,9 +50,6 @@ public class StartScreen implements Screen{
 		copied = false;
 		pasted = false;
 		delivered = false;
-
-		//kok teller
-		counter = 0;
 
 		//progressbar shit, se bort trash
 		/*
@@ -115,7 +110,7 @@ public class StartScreen implements Screen{
 				if(copied && pasted && !delivered){
 					copied=false;
 					pasted=false;
-					counter++;
+					game.setKokCounter(1);
 					//test
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
@@ -182,7 +177,7 @@ public class StartScreen implements Screen{
 		game.getBatch().begin();
 		game.getFont().draw(
 			game.getBatch(),
-			"Kok : " + String.valueOf(counter),
+			"Kok : " + String.valueOf(game.getKokCounter()),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
