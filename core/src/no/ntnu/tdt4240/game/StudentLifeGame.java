@@ -30,10 +30,7 @@ public class StudentLifeGame extends Game {
 	private Skin skin;
 	private TextureAtlas textureAtlas;
 
-    private float SCREEN_WIDTH;
-    private float SCREEN_HEIGHT;
-    private PooledEngine engine;
-    private Entity game;
+    private ECSengine engine;
     private ShapeRenderer shapeRenderer;
 
     private int kokCounter;
@@ -47,49 +44,9 @@ public class StudentLifeGame extends Game {
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         kokCounter = 0;
 
-        SCREEN_WIDTH = Gdx.graphics.getWidth();
-        SCREEN_HEIGHT = Gdx.graphics.getHeight();
-
-        engine = new PooledEngine();
+        engine = new ECSengine(shapeRenderer,font,batch);
 
         shapeRenderer = new ShapeRenderer();
-
-        engine.addSystem(new AudioSystem());
-        engine.addSystem(new RenderSystem(shapeRenderer, font, batch));
-        engine.addSystem(new ResourceGainSystem());
-        engine.addSystem(new ControlSystem());
-
-        game = engine.createEntity();
-        game.add(new GameComponent().create());
-        engine.addEntity(game);
-
-        Entity resource = engine.createEntity();
-        resource.add(new ResourceComponent().create("Studass"));
-        engine.addEntity(resource);
-
-        Entity resourceGainer = engine.createEntity();
-        resourceGainer.add(new ResourceGainerComponent().create(100f, 5));
-        engine.addEntity(resourceGainer);
-
-        Entity player1 = engine.createEntity();
-        player1.add(new PlayerComponent().create("name1", 1));
-        engine.addEntity(player1);
-
-        Entity player2 = engine.createEntity();
-        player2.add(new PlayerComponent().create("name2", 2));
-        engine.addEntity(player2);
-
-        float buttonHeight = 60f;
-        float buttonWidth = 140f;
-
-        float copyButtonX = SCREEN_WIDTH / 2;
-        float copyButtonY = SCREEN_HEIGHT / 2;
-
-        Entity button = engine.createEntity();
-        button.add(new ButtonComponent().create(buttonHeight, buttonWidth, copyButtonX, copyButtonY));
-        engine.addEntity(button);
-
-        game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
 
         this.setScreen(new StartScreen(this));
     }
@@ -125,7 +82,7 @@ public class StudentLifeGame extends Game {
     public TextureAtlas getTextureAtlas(){
         return textureAtlas;
     }
-    public PooledEngine getEngine() {
+    public ECSengine getEngine() {
         return engine;
     }
     public void setKokCounter(int increment){
