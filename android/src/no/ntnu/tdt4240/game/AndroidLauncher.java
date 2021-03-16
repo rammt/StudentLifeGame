@@ -104,8 +104,9 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 
 	private void updateUI(FirebaseUser user) {
-		if (user != null) {
+		if (user == null) {
 			System.out.println("Didn't sign in");
+
 		} else {
 			System.out.println("Signed in");
 		}

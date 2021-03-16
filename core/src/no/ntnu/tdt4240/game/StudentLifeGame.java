@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import no.ntnu.tdt4240.game.screens.LoginScreen;
 import no.ntnu.tdt4240.game.screens.StartScreen;
 
 public class StudentLifeGame extends Game {
@@ -40,7 +41,7 @@ public class StudentLifeGame extends Game {
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-		this.setScreen(new StartScreen(this));
+		this.setScreen(new LoginScreen(this));
 	}
 
 
