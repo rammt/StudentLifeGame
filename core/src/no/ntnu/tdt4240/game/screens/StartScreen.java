@@ -54,8 +54,7 @@ public class StartScreen implements Screen{
 
 		//kok teller
 		counter = 0;
-		buttonFont = new BitmapFont();
-		buttonFont.getData().setScale(4);
+		buttonFont = new BitmapFont(Gdx.files.internal("skin/font-big-export.fnt"));
 
 		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
@@ -63,7 +62,8 @@ public class StartScreen implements Screen{
 		game.getSkin().add("white", new Texture(pixmap));
 		textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(
 			new Texture(Gdx.files.internal("skin/glassy-ui.png"))));
-		progressBarStyle = new ProgressBar.ProgressBarStyle(game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
+		progressBarStyle = new ProgressBar.ProgressBarStyle(
+			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 
 		//kode for knappene pluss logikk når knappen trykkes
@@ -121,7 +121,6 @@ public class StartScreen implements Screen{
 			}
 		});
 
-
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
 				copyButton.getStyle().down,
 				copyButton.getStyle().down,
@@ -131,8 +130,8 @@ public class StartScreen implements Screen{
 		);
 		textButtonStyleUP = new TextButton.TextButtonStyle(
 				copyButton.getStyle().up,
-				copyButton.getStyle().up,
-				copyButton.getStyle().up,
+				copyButton.getStyle().down,
+				copyButton.getStyle().checked,
 				buttonFont
 		);
 
