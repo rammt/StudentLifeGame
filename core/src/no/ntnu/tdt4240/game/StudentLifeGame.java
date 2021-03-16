@@ -23,7 +23,7 @@ public class StudentLifeGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("skin/font-big-export.fnt"));
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));

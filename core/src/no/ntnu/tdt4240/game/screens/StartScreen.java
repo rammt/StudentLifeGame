@@ -35,12 +35,13 @@ public class StartScreen implements Screen{
 
     private int counter;
 
+    /* progressbar trash
 	private TextureRegionDrawable textureRegionDrawable;
 	private ProgressBar.ProgressBarStyle progressBarStyle;
     private ProgressBar progressBar;
-
 	private Pixmap pixmap;
 	private BitmapFont buttonFont;
+     */
 
 
     final StudentLifeGame game;
@@ -54,8 +55,9 @@ public class StartScreen implements Screen{
 
 		//kok teller
 		counter = 0;
-		buttonFont = new BitmapFont(Gdx.files.internal("skin/font-big-export.fnt"));
 
+		//progressbar shit, se bort trash
+		/*
 		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
@@ -65,6 +67,7 @@ public class StartScreen implements Screen{
 		progressBarStyle = new ProgressBar.ProgressBarStyle(
 			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
 		progressBarStyle.knobBefore = progressBarStyle.knob;
+		 */
 
 		//kode for knappene pluss logikk når knappen trykkes
 		copyButton = new TextButton("COPYBUTTON",game.getSkin());
@@ -125,25 +128,27 @@ public class StartScreen implements Screen{
 				copyButton.getStyle().down,
 				copyButton.getStyle().down,
 				copyButton.getStyle().down,
-				buttonFont
+				game.getFont()
 
 		);
 		textButtonStyleUP = new TextButton.TextButtonStyle(
 				copyButton.getStyle().up,
 				copyButton.getStyle().down,
 				copyButton.getStyle().checked,
-				buttonFont
+				game.getFont()
 		);
 
+		/*
 		//progressbar på hvor langt du har kommet
 		progressBar = new ProgressBar(0, 10, 0.5f, true,
 			game.getSkin(), "default-horizontal");
 		progressBar.setPosition(Gdx.graphics.getWidth()/7f,Gdx.graphics.getWidth()/2f );
 		progressBar.setSize(copyButton.getWidth()/10,copyButton.getHeight()*3);
 		progressBar.setAnimateDuration(2);
+		 */
 
 		//legger til aktors
-		game.getStage().addActor(progressBar);
+		//game.getStage().addActor(progressBar);
 		game.getStage().addActor(copyButton);
 		game.getStage().addActor(pasteButton);
 		game.getStage().addActor(deliverButton);
@@ -159,7 +164,6 @@ public class StartScreen implements Screen{
 		game.getStage().draw();
 		//batch tegner vi resten på
 		game.getBatch().begin();
-		game.getFont().getData().setScale(8);
 		game.getFont().draw(
 			game.getBatch(),
 			"Kok : " + String.valueOf(counter),
