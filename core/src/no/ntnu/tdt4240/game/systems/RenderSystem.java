@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.GameComponent;
@@ -25,16 +27,19 @@ public class RenderSystem extends EntitySystem {
     private final BitmapFont fontRenderer;
     private final SpriteBatch spriteBatch;
     private final ShapeRenderer shapeRenderer;
+    private final Stage stage;
 
     private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
     private ComponentMapper<ResourceGainerComponent> rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
     private ComponentMapper<GameComponent> gm = ComponentMapper.getFor(GameComponent.class);
+    private ComponentMapper<ButtonComponent> bm = ComponentMapper.getFor(ButtonComponent.class);
 
 
-    public RenderSystem(ShapeRenderer sr, BitmapFont fr, SpriteBatch sb) {
+    public RenderSystem(ShapeRenderer sr, BitmapFont fr, SpriteBatch sb, Stage stage) {
         spriteBatch = sb;
         fontRenderer = fr;
         shapeRenderer = sr;
+        this.stage = stage;
     }
 
     @Override
@@ -59,28 +64,19 @@ public class RenderSystem extends EntitySystem {
             System.out.println(gameComponent.gameState);
             if (gameComponent.gameState == GameComponent.GameState.GAME_PLAYING) {
 
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 for (Entity button : buttonEntities) {
-                    Rectangle bt = button.getComponent(ButtonComponent.class).button;
-                    shapeRenderer.rect(bt.x, bt.y, bt.width, bt.height);
+                    stage.addActor(button.getComponent(ButtonComponent.class).getTextButton());
                 }
-
-                float p1Score = 0;
-
-                for (Entity player : playerEntities) {
-                    PlayerComponent pc = pm.get(player);
-                    if (pc.playerNum == 1) p1Score = pc.getScore();
-
-                }
-                String p1NumberAsString = String.format("%.2f", p1Score);
 
                 shapeRenderer.end();
                 spriteBatch.begin();
-                fontRenderer.draw(spriteBatch, "$ " + p1NumberAsString, 250, 250);
                 spriteBatch.end();
+
+                stage.act();
+                stage.draw();
             }
 
-            shapeRenderer.end();
+
 
         }
     }

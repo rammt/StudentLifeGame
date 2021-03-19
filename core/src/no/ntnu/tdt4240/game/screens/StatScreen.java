@@ -1,5 +1,6 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import java.awt.Font;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.ButtonComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class StatScreen implements Screen{
 
@@ -65,6 +68,7 @@ public class StatScreen implements Screen{
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 		 */
 
+
         gameButton = new TextButton("back",game.getSkin());
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
         gameButton.setPosition(
@@ -93,6 +97,15 @@ public class StatScreen implements Screen{
                 gameButton.getStyle().checked,
                 game.getFont()
         );
+
+        Entity testButton = game.getEngine().getEngine().createEntity();
+        testButton.add(new ButtonComponent().create(
+                Gdx.graphics.getWidth()/2f,
+                Gdx.graphics.getHeight()/8f,
+                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
+                Gdx.graphics.getHeight()/2f - gameButton.getHeight()/2,
+                "test", game.getSkin(), textButtonStyleUP));
+        game.getEngine().getEngine().addEntity(testButton);
 
 		/*
 		//progressbar på hvor langt du har kommet

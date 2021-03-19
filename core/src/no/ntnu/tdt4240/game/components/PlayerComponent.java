@@ -6,49 +6,19 @@ import com.badlogic.gdx.utils.Array;
 
 public class PlayerComponent implements Component {
     private String name;
-    private float score = 0;
-    public int playerNum;
-    private Array<ResourceGainerComponent> resourceGainers = new Array<ResourceGainerComponent>();
+    public int playerId;
 
-    public PlayerComponent create(String name, int num) {
+    //burde assigne id på en annen måte, men enn så lenge
+    public PlayerComponent create(String name, int id) {
         this.name = name;
-        playerNum = num;
-        return this;
-    }
-
-    public PlayerComponent create(String name, int num, ResourceGainerComponent rg) {
-        this.name = name;
-        playerNum = num;
-        resourceGainers.add(rg);
+        playerId = id;
         return this;
     }
 
     public String getName() {
         return name;
     }
-
-    public float getScore() {
-        return score;
-    }
-
-    public PlayerComponent updateScore(float num) {
-        if (!resourceGainers.isEmpty()) {
-            for (ResourceGainerComponent rg : resourceGainers) {
-                num += rg.getGainPerSecond();
-            }
-        }
-        score += num;
-        return this;
-    }
-
-    public void addResourceGainer(ResourceGainerComponent rg) {
-        if (score >= rg.getPrice()) {
-            score -= rg.getPrice();
-            resourceGainers.add(rg);
-        }
-    }
-
-    public void buttonPress() {
-        score += 3f;
+    public int getPlayerId() {
+        return playerId;
     }
 }

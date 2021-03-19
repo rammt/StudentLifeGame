@@ -27,12 +27,12 @@ public class ResourceGainSystem extends EntitySystem {
     public void update(float deltaTime) {
         for (Entity player : playerEntities) {
             PlayerComponent pc = pm.get(player);
-            pc.updateScore(1f * deltaTime);
+            //pc.updateScore(1f * deltaTime);
         }
     }
 
     public void addResourceGainerToPlayer(ResourceGainerComponent rg, PlayerComponent player) {
-        player.addResourceGainer(rg);
+        //player.addResourceGainer(rg);
     }
 
 }

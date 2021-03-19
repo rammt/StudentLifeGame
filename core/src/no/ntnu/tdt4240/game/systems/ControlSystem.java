@@ -28,18 +28,17 @@ public class ControlSystem extends EntitySystem {
     }
 
     public void update(float deltaTime) {
-        if (Gdx.input.justTouched()) {
+        /*if (Gdx.input.justTouched()) {
             Vector3 touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             for (Entity button : buttons) {
                 ButtonComponent btn = bm.get(button);
                 if (btn.button.contains(touch.x, Gdx.graphics.getHeight() - touch.y)) {
                     for (Entity player : playerEntities) {
                         PlayerComponent p = pm.get(player);
-                        p.buttonPress();
                     }
                 }
             }
 
-        }
+        }*/
     }
 }

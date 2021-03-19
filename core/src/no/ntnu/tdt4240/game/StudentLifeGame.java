@@ -59,7 +59,7 @@ public class StudentLifeGame extends Game {
 
         shapeRenderer = new ShapeRenderer();
 
-        engine = new ECSengine(shapeRenderer,font,batch);
+        engine = new ECSengine(shapeRenderer,font,batch,stage);
 
         this.setScreen(new StartScreen(this));
     }

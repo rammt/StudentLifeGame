@@ -16,29 +16,26 @@ import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
+import no.ntnu.tdt4240.game.components.StatsComponent;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ControlSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.screens.StartScreen;
 
+//Skal bare inneholde ting som skal kjøres fra start, knapper ogsånt legges til i screens
 public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
-    private float SCREEN_WIDTH;
-    private float SCREEN_HEIGHT;
 
-    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch){
+    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage){
         super();
-
-        SCREEN_WIDTH = Gdx.graphics.getWidth();
-        SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
         engine = new PooledEngine();
 
         engine.addSystem(new AudioSystem());
-        engine.addSystem(new RenderSystem(shapeRenderer, font, batch));
+        engine.addSystem(new RenderSystem(shapeRenderer, font, batch, stage));
         engine.addSystem(new ResourceGainSystem());
         engine.addSystem(new ControlSystem());
 
@@ -47,30 +44,21 @@ public class ECSengine{
         engine.addEntity(game);
 
         Entity resource = engine.createEntity();
-        resource.add(new ResourceComponent().create("Studass"));
+        resource.add(new ResourceComponent().create("Studass",20));
         engine.addEntity(resource);
 
         Entity resourceGainer = engine.createEntity();
-        resourceGainer.add(new ResourceGainerComponent().create(100f, 5));
+        resourceGainer.add(new ResourceGainerComponent().create(3));
         engine.addEntity(resourceGainer);
 
-        Entity player1 = engine.createEntity();
-        player1.add(new PlayerComponent().create("name1", 1));
-        engine.addEntity(player1);
-
-        Entity player2 = engine.createEntity();
-        player2.add(new PlayerComponent().create("name2", 2));
-        engine.addEntity(player2);float buttonHeight = 60f;
-        float buttonWidth = 140f;
-
-        float copyButtonX = SCREEN_WIDTH / 2;
-        float copyButtonY = SCREEN_HEIGHT / 2;
-
-        Entity button = engine.createEntity();
-        button.add(new ButtonComponent().create(buttonHeight, buttonWidth, copyButtonX, copyButtonY));
-        engine.addEntity(button);
+        Entity localPlayer = engine.createEntity();
+        localPlayer.add(new PlayerComponent().create("Insert name", 1));
+        localPlayer.add(new StatsComponent().create(1));
+        engine.addEntity(localPlayer);
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
+
+
     }
 
     public PooledEngine getEngine(){
