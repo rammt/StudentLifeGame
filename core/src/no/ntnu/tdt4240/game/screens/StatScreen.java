@@ -70,7 +70,12 @@ public class StatScreen implements Screen{
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 		 */
 
-        kokCount = new TextFieldComponent(100,100);
+
+
+        Entity kokCount = game.getEngine().getEngine().createEntity();
+        kokCount.add(new TextFieldComponent().create(
+                100,100, 100, 100, "test", game.getSkin()));
+        game.getEngine().getEngine().addEntity(kokCount);
 
         gameButton = new TextButton("back",game.getSkin());
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
