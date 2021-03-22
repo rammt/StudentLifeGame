@@ -74,7 +74,7 @@ public class StatScreen implements Screen{
 
         Entity kokCount = game.getEngine().getEngine().createEntity();
         kokCount.add(new TextFieldComponent().create(
-                100,100, 100, 100, "test", game.getSkin()));
+                500,300, 100, 100, "test", game.getSkin()));
         game.getEngine().getEngine().addEntity(kokCount);
 
         gameButton = new TextButton("back",game.getSkin());
