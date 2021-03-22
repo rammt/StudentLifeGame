@@ -33,6 +33,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private GoogleSignInClient mSignInClient;
 
+	private String user;
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,15 +54,24 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	}
 
 	@Override
-	public void onSignInButtonClicked() {
+	public String onSignInButtonClicked() {
 		signIn();
+		return user;
 	}
-
 
 	public void signIn() {
 		// Launches the sign in flow, the result is returned in onActivityResult
 		Intent signInIntent = mSignInClient.getSignInIntent();
 		startActivityForResult(signInIntent, RC_SIGN_IN);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		FirebaseUser currentUser = mAuth.getCurrentUser();
+		if (currentUser != null) {
+			handleUser(currentUser);
+		}
 	}
 
 	@Override
@@ -92,23 +103,23 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 							// Sign in success, update UI with the signed-in user's information
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
-							updateUI(user);
+							handleUser(user);
 						} else {
 							// If sign in fails, display a message to the user.
 							Log.w(TAG, "signInWithCredential:failure", task.getException());
-							updateUI(null);
+							handleUser(null);
 						}
 					}
 				});
 	}
 
 
-	private void updateUI(FirebaseUser user) {
+	private void handleUser(FirebaseUser user) {
 		if (user == null) {
 			System.out.println("Didn't sign in");
-
 		} else {
 			System.out.println("Signed in");
+			this.user = user.getDisplayName();
 		}
 	}
 }

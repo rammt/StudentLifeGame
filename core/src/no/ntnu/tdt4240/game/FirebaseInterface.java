@@ -1,7 +1,7 @@
 package no.ntnu.tdt4240.game;
 
 public interface FirebaseInterface {
-    void onSignInButtonClicked();
+    String onSignInButtonClicked();
     /*
     public void onSignOutButtonClicked();
     public boolean isSignedIn();

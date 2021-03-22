@@ -35,16 +35,15 @@ public class LoginScreen implements Screen {
                 Gdx.graphics.getWidth()/2f - logInBtn.getWidth()/2,
                 Gdx.graphics.getHeight()/2f + logInBtn.getHeight()/2);
 
+        //legger til aktors
+        game.getStage().addActor(logInBtn);
 
         logInBtn.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.firebase.onSignInButtonClicked();
+                game.setUser(game.firebase.onSignInButtonClicked());
             }
         });
-
-        //legger til aktors
-        game.getStage().addActor(logInBtn);
     }
 
     @Override
@@ -59,6 +58,10 @@ public class LoginScreen implements Screen {
         game.getBatch().begin();
         game.getFont().getData().setScale(8);
         game.getBatch().end();
+
+        if (game.getUser() != null) {
+            game.setScreen(new StartScreen(game));
+        }
 
     }
 
