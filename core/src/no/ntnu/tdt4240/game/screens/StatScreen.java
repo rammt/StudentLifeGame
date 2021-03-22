@@ -26,12 +26,14 @@ import java.awt.Font;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
+import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
 public class StatScreen implements Screen{
 
     private TextButton.TextButtonStyle textButtonStyleDOWN;
     private TextButton.TextButtonStyle textButtonStyleUP;
     private Button copyButton, pasteButton, deliverButton, gameButton;
+    private TextFieldComponent kokCount;
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
@@ -68,6 +70,7 @@ public class StatScreen implements Screen{
 		progressBarStyle.knobBefore = progressBarStyle.knob;
 		 */
 
+        kokCount = new TextFieldComponent(100,100);
 
         gameButton = new TextButton("back",game.getSkin());
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
