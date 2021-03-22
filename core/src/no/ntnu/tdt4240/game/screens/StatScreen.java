@@ -31,21 +31,7 @@ public class StatScreen implements Screen{
 
     private TextButton.TextButtonStyle textButtonStyleDOWN;
     private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, gameButton;
-    private boolean copied;
-    private boolean pasted;
-    private boolean delivered;
-
-    private int counter;
-
-    /* progressbar trash
-	private TextureRegionDrawable textureRegionDrawable;
-	private ProgressBar.ProgressBarStyle progressBarStyle;
-    private ProgressBar progressBar;
-	private Pixmap pixmap;
-	private BitmapFont buttonFont;
-     */
-
+    private Button gameButton, saveStatsButton;
 
     final StudentLifeGame game;
 
@@ -54,19 +40,6 @@ public class StatScreen implements Screen{
         this.game = game;
 
         game.getStage().clear();
-
-        //progressbar shit, se bort trash
-		/*
-		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		game.getSkin().add("white", new Texture(pixmap));
-		textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(
-			new Texture(Gdx.files.internal("skin/glassy-ui.png"))));
-		progressBarStyle = new ProgressBar.ProgressBarStyle(
-			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
-		progressBarStyle.knobBefore = progressBarStyle.knob;
-		 */
 
 
         gameButton = new TextButton("back",game.getSkin());
@@ -98,26 +71,18 @@ public class StatScreen implements Screen{
                 game.getFont()
         );
 
-        Entity testButton = game.getEngine().getEngine().createEntity();
-        testButton.add(new ButtonComponent().create(
-                Gdx.graphics.getWidth()/2f,
-                Gdx.graphics.getHeight()/8f,
-                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2f - gameButton.getHeight()/2,
-                "test", game.getSkin(), textButtonStyleUP));
-        game.getEngine().getEngine().addEntity(testButton);
 
-		/*
-		//progressbar på hvor langt du har kommet
-		progressBar = new ProgressBar(0, 10, 0.5f, true,
-			game.getSkin(), "default-horizontal");
-		progressBar.setPosition(Gdx.graphics.getWidth()/7f,Gdx.graphics.getWidth()/2f );
-		progressBar.setSize(copyButton.getWidth()/10,copyButton.getHeight()*3);
-		progressBar.setAnimateDuration(2);
-		 */
+        saveStatsButton = new TextButton("Save Game", game.getSkin());
+        saveStatsButton.setSize(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/8f);
+        saveStatsButton.setPosition(Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2, Gdx.graphics.getHeight()/2f - gameButton.getHeight()/2);
+        saveStatsButton.addListener(new InputListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       game.firebase.saveStats(game.getKokCounter());
+                                       return true;
+                                   }
+                               });
 
-        //legger til aktors
-        //game.getStage().addActor(progressBar);
         game.getStage().addActor(gameButton);
     }
 

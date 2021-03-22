@@ -2,6 +2,7 @@ package no.ntnu.tdt4240.game;
 
 public interface FirebaseInterface {
     String onSignInButtonClicked();
+    void saveStats(int currKok);
     /*
     public void onSignOutButtonClicked();
     public boolean isSignedIn();
