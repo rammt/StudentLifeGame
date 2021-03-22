@@ -54,10 +54,6 @@ public class LoginScreen implements Screen {
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
-        //batch tegner vi resten på
-        game.getBatch().begin();
-        game.getFont().getData().setScale(8);
-        game.getBatch().end();
 
         if (game.getUser() != null) {
             game.setScreen(new StartScreen(game));
