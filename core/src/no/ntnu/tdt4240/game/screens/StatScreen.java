@@ -78,12 +78,13 @@ public class StatScreen implements Screen{
         saveStatsButton.addListener(new InputListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       game.firebase.saveStats(game.getKokCounter());
+                                       game.firebase.saveStats(game.getUser());
                                        return true;
                                    }
                                });
 
         game.getStage().addActor(gameButton);
+        game.getStage().addActor(saveStatsButton);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class StatScreen implements Screen{
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getKokCounter()),
+                "Kokt : " + String.valueOf(game.getUser().getKokCount()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

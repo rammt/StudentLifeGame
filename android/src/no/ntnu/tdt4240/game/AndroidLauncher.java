@@ -24,7 +24,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +44,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private GoogleSignInClient mSignInClient;
 
-	private String user;
+	private Player user;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -62,13 +65,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	}
 
 	@Override
-	public String onSignInButtonClicked() {
-		signIn();
-		return user;
-	}
-
-	public void signIn() {
-		// Launches the sign in flow, the result is returned in onActivityResult
+	public void onSignInButtonClicked(Player user) {
+		this.user = user;
 		Intent signInIntent = mSignInClient.getSignInIntent();
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -78,7 +76,9 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		super.onStart();
 		FirebaseUser currentUser = mAuth.getCurrentUser();
 		if (currentUser != null) {
-			handleUser(currentUser);
+			this.user = new Player();
+			getStats(this.user);
+			this.user.setName(currentUser.getDisplayName());
 		}
 	}
 
@@ -122,35 +122,51 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	}
 
 
-	private void handleUser(FirebaseUser user) {
-		if (user == null) {
+	private void handleUser(FirebaseUser fb_user) {
+		if (fb_user == null) {
 			System.out.println("Didn't sign in");
 		} else {
 			System.out.println("Signed in");
-			this.user = user.getDisplayName();
+			this.user.setName(fb_user.getDisplayName());
+			getStats(this.user);
 		}
 	}
 
 	@Override
-	public void saveStats(int currKok) {
-		Map<String, Object> statsTest = new HashMap<>();
-		statsTest.put("kokCount", currKok);
-		statsTest.put("user", "William");
+	public void saveStats(Player user) {
+		FirebaseUser fb_user = mAuth.getCurrentUser();
 
-		// Add a new document with a generated ID
-		db.collection("stats")
-			.add(statsTest)
-			.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+		if (fb_user != null) {
+			Map<String, Object> stats = new HashMap<>();
+			stats.put("kokCount", user.getKokCount());
+			stats.put("user", user.getName());
+
+			db.collection("stats").document(fb_user.getUid()).set(stats);
+		}
+	}
+
+	@Override
+	public void getStats(final Player user) {
+		FirebaseUser fb_user = mAuth.getCurrentUser();
+		if (fb_user != null) {
+			DocumentReference userStatsRef = db.collection("stats").document(fb_user.getUid());
+
+			userStatsRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 				@Override
-				public void onSuccess(DocumentReference documentReference) {
-					Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-				}
-			})
-			.addOnFailureListener(new OnFailureListener() {
-				@Override
-				public void onFailure(@NonNull Exception e) {
-					Log.w(TAG, "Error adding document", e);
+				public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+					if (task.isSuccessful()) {
+						DocumentSnapshot document = task.getResult();
+						if (document.exists()) {
+							Long kokCount = (Long) document.get("kokCount");
+							user.setKokCount(kokCount.intValue());
+						} else {
+							Log.d(TAG, "No such document");
+						}
+					} else {
+						Log.d(TAG, "get failed with ", task.getException());
+					}
 				}
 			});
+		}
 	}
 }
