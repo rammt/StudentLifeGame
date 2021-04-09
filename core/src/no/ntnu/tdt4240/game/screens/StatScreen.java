@@ -98,14 +98,22 @@ public class StatScreen implements Screen{
                 game.getFont()
         );
 
-        Entity testButton = game.getEngine().getEngine().createEntity();
+        final Boolean checked = false;
+        InputListener inputListner = new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        };
+
+        Entity testButton = game.getEngine().createEntity();
         testButton.add(new ButtonComponent().create(
                 Gdx.graphics.getWidth()/2f,
                 Gdx.graphics.getHeight()/8f,
                 Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
                 Gdx.graphics.getHeight()/2f - gameButton.getHeight()/2,
-                "test", game.getSkin(), textButtonStyleUP));
-        game.getEngine().getEngine().addEntity(testButton);
+                "test", game.getSkin(), inputListner));
+        game.getEngine().addEntity(testButton);
 
 		/*
 		//progressbar på hvor langt du har kommet
@@ -139,7 +147,7 @@ public class StatScreen implements Screen{
         );
         game.getBatch().end();
 
-        game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
+        game.getEngine().update(Gdx.graphics.getDeltaTime());
 
     }
 

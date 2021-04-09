@@ -25,6 +25,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.screens.LoginScreen;
+import no.ntnu.tdt4240.game.screens.ShopScreen;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ControlSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
@@ -64,7 +65,7 @@ public class StudentLifeGame extends Game {
 
         engine = new ECSengine(shapeRenderer,font,batch,stage);
 
-        this.setScreen(new LoginScreen(this));
+        this.setScreen(new ShopScreen(this));
     }
 
     @Override
@@ -98,8 +99,8 @@ public class StudentLifeGame extends Game {
     public TextureAtlas getTextureAtlas(){
         return textureAtlas;
     }
-    public ECSengine getEngine() {
-        return engine;
+    public PooledEngine getEngine() {
+        return engine.getEngine();
     }
     public void setKokCounter(int increment){
         kokCounter = kokCounter + increment;
@@ -107,12 +108,13 @@ public class StudentLifeGame extends Game {
     public int getKokCounter(){
         return kokCounter;
     }
-
     public String getUser() {
         return user;
     }
-
     public void setUser(String user) {
         this.user = user;
+    }
+    public ShapeRenderer getShapeRenderer(){
+        return shapeRenderer;
     }
 }

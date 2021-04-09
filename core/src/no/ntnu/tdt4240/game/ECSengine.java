@@ -58,7 +58,6 @@ public class ECSengine{
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
 
-
     }
 
     public PooledEngine getEngine(){
