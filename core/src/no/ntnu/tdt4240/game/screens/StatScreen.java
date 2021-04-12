@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
 
+import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
@@ -36,7 +37,6 @@ public class StatScreen implements Screen{
 
     private TextButton.TextButtonStyle textButtonStyleDOWN;
     private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, gameButton;
     private Label kokCount;
     private Label antLevert;
     private Label leaderboard;
@@ -44,20 +44,9 @@ public class StatScreen implements Screen{
     private Label hackerKok;
     private Label professorKok;
 
-    private boolean copied;
-    private boolean pasted;
-    private boolean delivered;
 
-    private int counter;
 
-    /* progressbar trash
-	private TextureRegionDrawable textureRegionDrawable;
-	private ProgressBar.ProgressBarStyle progressBarStyle;
-    private ProgressBar progressBar;
-	private Pixmap pixmap;
-	private BitmapFont buttonFont;
-     */
-
+    private Button gameButton, saveStatsButton, saveOffline;
 
     final StudentLifeGame game;
 
@@ -66,29 +55,11 @@ public class StatScreen implements Screen{
         this.game = game;
 
         game.getStage().clear();
-
-        //progressbar shit, se bort trash
-		/*
-		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		game.getSkin().add("white", new Texture(pixmap));
-		textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(
-			new Texture(Gdx.files.internal("skin/glassy-ui.png"))));
-		progressBarStyle = new ProgressBar.ProgressBarStyle(
-			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
-		progressBarStyle.knobBefore = progressBarStyle.knob;
-		 */
+        Player user = game.getUser();
 
 
-
-       /* Entity kokCount = game.getEngine().getEngine().createEntity();
-        kokCount.add(new TextFieldComponent().create(
-                500,300, 100, 100, "Antall klikk:", game.getSkin()));
-        game.getEngine().getEngine().addEntity(kokCount); */
-
-        kokCount = new TextFieldComponent().create(game.getKokCounter()*3, "Antall Klikk:", game.getSkin()).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create(game.getKokCounter(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create((int) (user.getKokCount()*3), "Antall Klikk:", game.getSkin()).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create((int) user.getKokCount(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
         leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin()).getTextFieldComponent();
         aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin()).getTextFieldComponent();
         hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
@@ -139,22 +110,33 @@ public class StatScreen implements Screen{
         );
 
 
-		/*
-		//progressbar på hvor langt du har kommet
-		progressBar = new ProgressBar(0, 10, 0.5f, true,
-			game.getSkin(), "default-horizontal");
-		progressBar.setPosition(Gdx.graphics.getWidth()/7f,Gdx.graphics.getWidth()/2f );
-		progressBar.setSize(copyButton.getWidth()/10,copyButton.getHeight()*3);
-		progressBar.setAnimateDuration(2);
-		 */
+        saveStatsButton = new TextButton("Save Game", game.getSkin());
+        saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
+        saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f);
+        saveStatsButton.addListener(new InputListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+               game.firebase.saveStats(game.getUser());
+               return true;
+           }
+       });
 
-        //legger til aktors
-        //game.getStage().addActor(progressBar);
+
+        saveOffline = new TextButton("Save offline", game.getSkin());
+        saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
+        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 0);
+        saveOffline.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.getUser().saveOffline();
+                return true;
+            }
+        });
+
         game.getStage().addActor(gameButton);
-        /*game.getStage().addActor(kokCount);
-        game.getStage().addActor(antLevert);*/
         game.getStage().addActor(table);
-
+        game.getStage().addActor(saveStatsButton);
+        game.getStage().addActor(saveOffline);
     }
 
     @Override
@@ -171,7 +153,7 @@ public class StatScreen implements Screen{
         layout.setText(game.getFont(),String.valueOf(game.getUser()));
         game.getFont().draw(
                 game.getBatch(),
-                String.valueOf(game.getUser()),
+                String.valueOf(game.getUser().getName()),
                 Gdx.graphics.getWidth()/2f - (layout.width/2),
                 Gdx.graphics.getHeight()/1.2f
         );
@@ -203,7 +185,7 @@ public class StatScreen implements Screen{
 
     @Override
     public void dispose() {
-
+        game.getUser().saveOffline();
     }
 
 }

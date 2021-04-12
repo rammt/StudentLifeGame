@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -15,12 +16,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 
@@ -30,10 +41,11 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	private static final String TAG = "GoogleSignInActivity";
 
 	private FirebaseAuth mAuth;
+	private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 	private GoogleSignInClient mSignInClient;
 
-	private String user;
+	private Player user;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -54,13 +66,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	}
 
 	@Override
-	public String onSignInButtonClicked() {
-		signIn();
-		return user;
-	}
-
-	public void signIn() {
-		// Launches the sign in flow, the result is returned in onActivityResult
+	public void onSignInButtonClicked(Player user) {
+		this.user = user;
 		Intent signInIntent = mSignInClient.getSignInIntent();
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -70,7 +77,9 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		super.onStart();
 		FirebaseUser currentUser = mAuth.getCurrentUser();
 		if (currentUser != null) {
-			handleUser(currentUser);
+			this.user = new Player();
+			getStats(this.user);
+			this.user.setName(currentUser.getDisplayName());
 		}
 	}
 
@@ -114,12 +123,51 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	}
 
 
-	private void handleUser(FirebaseUser user) {
-		if (user == null) {
+	private void handleUser(FirebaseUser fb_user) {
+		if (fb_user == null) {
 			System.out.println("Didn't sign in");
 		} else {
 			System.out.println("Signed in");
-			this.user = user.getDisplayName();
+			this.user.setName(fb_user.getDisplayName());
+			getStats(this.user);
+		}
+	}
+
+	@Override
+	public void saveStats(Player user) {
+		FirebaseUser fb_user = mAuth.getCurrentUser();
+
+		if (fb_user != null) {
+			Map<String, Object> stats = new HashMap<>();
+			stats.put("kokCount", user.getKokCount());
+			stats.put("user", user.getName());
+
+			db.collection("stats").document(fb_user.getUid()).set(stats);
+		}
+	}
+
+	@Override
+	public void getStats(final Player user) {
+		FirebaseUser fb_user = mAuth.getCurrentUser();
+		if (fb_user != null) {
+			DocumentReference userStatsRef = db.collection("stats").document(fb_user.getUid());
+
+			userStatsRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+				@Override
+				public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+					if (task.isSuccessful()) {
+						DocumentSnapshot document = task.getResult();
+						if (document.exists()) {
+							Long kokCount = (Long) document.get("kokCount");
+							user.setKokCount(kokCount.intValue());
+						} else {
+							Log.d(TAG, "No such document");
+						}
+					} else {
+						Log.d(TAG, "get failed with ", task.getException());
+					}
+				}
+			});
 		}
 	}
 }
