@@ -78,12 +78,13 @@ public class StatScreen implements Screen{
         saveStatsButton.addListener(new InputListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       game.firebase.saveStats(game.getUser());
-                                       return true;
-                                   }
-                               });
+               game.firebase.saveStats(game.getUser());
+               return true;
+           }
+       });
 
 
+        saveOffline = new TextButton("Save offline", game.getSkin());
         saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
         saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 0);
         saveOffline.addListener(new InputListener() {
@@ -111,7 +112,7 @@ public class StatScreen implements Screen{
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getUser().getKokCount()),
+                "Kokt : " + game.getUser().getKokCount(),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
@@ -143,7 +144,7 @@ public class StatScreen implements Screen{
 
     @Override
     public void dispose() {
-
+        game.getUser().saveOffline();
     }
 
 }

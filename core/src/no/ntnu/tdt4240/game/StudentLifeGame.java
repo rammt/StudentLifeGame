@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Date;
+
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -74,6 +77,8 @@ public class StudentLifeGame extends Game {
 
     @Override
     public void dispose() {
+        super.dispose();
+        user.saveOffline();
         batch.dispose();
         font.dispose();
         batch.dispose();

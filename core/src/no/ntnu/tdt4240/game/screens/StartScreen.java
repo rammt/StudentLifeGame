@@ -29,7 +29,7 @@ public class StartScreen implements Screen{
 
 	private TextButton.TextButtonStyle textButtonStyleDOWN;
 	private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, statButton, newGainerButton;
+    private Button copyButton, pasteButton, deliverButton, statButton;
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
@@ -123,16 +123,6 @@ public class StartScreen implements Screen{
 			}
 		});
 
-		newGainerButton = new TextButton("Add gainer", game.getSkin());
-		newGainerButton.setSize(Gdx.graphics.getWidth()/4f,Gdx.graphics.getHeight()/16f);
-		newGainerButton.setPosition(0, 0);
-		newGainerButton.addListener(new InputListener(){
-			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				game.getUser().setAmtResourceGainers(game.getUser().getAmtResourceGainers()+1);
-				return true;
-			}
-		});
 
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
 				copyButton.getStyle().down,
@@ -155,7 +145,6 @@ public class StartScreen implements Screen{
 		game.getStage().addActor(pasteButton);
 		game.getStage().addActor(deliverButton);
 		game.getStage().addActor(statButton);
-		game.getStage().addActor(newGainerButton);
 	}
 
 	@Override
@@ -170,7 +159,7 @@ public class StartScreen implements Screen{
 		game.getBatch().begin();
 		game.getFont().draw(
 			game.getBatch(),
-			"Resourcegainers : " + String.valueOf(game.getUser().getAmtResourceGainers()),
+			"Resourcegainers : " + game.getUser().getAmtResourceGainers(),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
@@ -202,7 +191,7 @@ public class StartScreen implements Screen{
 
 	@Override
 	public void dispose() {
-
+		game.getUser().saveOffline();
 	}
     
 }
