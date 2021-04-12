@@ -159,13 +159,13 @@ public class StartScreen implements Screen{
 		game.getBatch().begin();
 		game.getFont().draw(
 			game.getBatch(),
-			"Resourcegainers : " + game.getUser().getAmtResourceGainers(),
+			"Kok : " + game.getUser().getKokCount(),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
 		game.getBatch().end();
 
-		//game.getEngine().update(Gdx.graphics.getDeltaTime());
+		game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
 
 	}
 

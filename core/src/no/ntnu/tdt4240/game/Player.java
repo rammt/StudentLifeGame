@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
 import java.util.Date;
 
 public class Player {
-    private int kokCount;
+    private float kokCount;
     private String name;
 
     private int amtResourceGainers;
@@ -19,14 +19,14 @@ public class Player {
         this.resourcePrefs = Gdx.app.getPreferences("resourcePrefs");
         this.lastSave =  new Date(resourcePrefs.getLong("lastSave")).getTime();
         this.amtResourceGainers = resourcePrefs.getInteger("amtResourceGainers", 0);
-        this.kokCount = resourcePrefs.getInteger("kokCount", 0);
+        this.kokCount = resourcePrefs.getFloat("kokCount", 0);
     }
 
-    public int getKokCount() {
+    public float getKokCount() {
         return kokCount;
     }
 
-    public void setKokCount(int kokCount) {
+    public void setKokCount(float kokCount) {
         this.kokCount = kokCount;
     }
 
@@ -58,7 +58,7 @@ public class Player {
         System.out.println("Saving game offline");
         resourcePrefs.putLong("lastSave", new Date().getTime());
         resourcePrefs.putInteger("amtResourceGainers", amtResourceGainers);
-        resourcePrefs.putInteger("kokCount", kokCount);
+        resourcePrefs.putFloat("kokCount", kokCount);
         resourcePrefs.flush();
     }
 }

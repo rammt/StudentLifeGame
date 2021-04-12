@@ -63,9 +63,9 @@ public class StudentLifeGame extends Game {
 
         shapeRenderer = new ShapeRenderer();
 
-        engine = new ECSengine(shapeRenderer,font,batch,stage);
-
         setUser(new Player());
+
+        engine = new ECSengine(shapeRenderer,font,batch,stage, user);
 
         this.setScreen(new StartScreen(this));
     }
@@ -77,7 +77,6 @@ public class StudentLifeGame extends Game {
 
     @Override
     public void dispose() {
-        super.dispose();
         user.saveOffline();
         batch.dispose();
         font.dispose();
