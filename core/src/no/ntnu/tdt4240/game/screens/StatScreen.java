@@ -96,8 +96,7 @@ public class StatScreen implements Screen{
 
         Table table = new Table();
         table.setFillParent(true);
-
-        table.defaults().minWidth(500).expandX().minHeight(300).spaceBottom(50);
+        table.defaults().minWidth(500).expandX().minHeight(300).pad(40);
         table.add(kokCount);
         table.add(antLevert);
         table.row();
