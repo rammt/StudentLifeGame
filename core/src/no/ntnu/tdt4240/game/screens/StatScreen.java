@@ -96,15 +96,15 @@ public class StatScreen implements Screen{
 
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
-        table.add(kokCount).minWidth(400).expandX();
-        table.add(antLevert).minWidth(400).expandX();
+        table.defaults().minWidth(500).expandX().minHeight(300).pad(40);
+        table.add(kokCount);
+        table.add(antLevert);
         table.row();
-        table.add(leaderboard).minWidth(400).expandX();
-        table.add(aiKok).minWidth(400).expandX();
+        table.add(leaderboard);
+        table.add(aiKok);
         table.row();
-        table.add(hackerKok).minWidth(400).expandX();
-        table.add(professorKok).minWidth(400).expandX();
+        table.add(hackerKok);
+        table.add(professorKok);
 
 
 
