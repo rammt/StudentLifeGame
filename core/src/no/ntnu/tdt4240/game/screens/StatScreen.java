@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -36,6 +37,12 @@ public class StatScreen implements Screen{
     private TextButton.TextButtonStyle textButtonStyleUP;
     private Button copyButton, pasteButton, deliverButton, gameButton;
     private Label kokCount;
+    private Label antLevert;
+    private Label leaderboard;
+    private Label aiKok;
+    private Label hackerKok;
+    private Label professorKok;
+
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
@@ -79,7 +86,25 @@ public class StatScreen implements Screen{
                 500,300, 100, 100, "Antall klikk:", game.getSkin()));
         game.getEngine().getEngine().addEntity(kokCount); */
 
-        kokCount = new TextFieldComponent().create(500,400,100,100, "Antall klikk:", game.getSkin()).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create(400,400,10,1200, "Antall Klikk:", game.getSkin()).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create(400,400,500,1200, "Antall Levert:", game.getSkin()).getTextFieldComponent();
+        leaderboard = new TextFieldComponent().create(400,400,500,1200, "Leaderboard: #1", game.getSkin()).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(400,400,500,1200, "AI som koker:", game.getSkin()).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(400,400,500,1200, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(400,400,500,1200, "Professor som koker:", game.getSkin()).getTextFieldComponent();
+
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(true);
+        table.add(kokCount);
+        table.add(antLevert);
+        table.row();
+        table.add(leaderboard);
+        table.add(aiKok);
+        table.row();
+        table.add(hackerKok);
+        table.add(professorKok);
 
 
 
@@ -133,7 +158,10 @@ public class StatScreen implements Screen{
         //legger til aktors
         //game.getStage().addActor(progressBar);
         game.getStage().addActor(gameButton);
-        game.getStage().addActor(kokCount);
+        /*game.getStage().addActor(kokCount);
+        game.getStage().addActor(antLevert);*/
+        game.getStage().addActor(table);
+
     }
 
     @Override

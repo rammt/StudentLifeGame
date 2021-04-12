@@ -33,16 +33,14 @@ public class TextFieldComponent extends Actor implements Component {
 
         textField = new Label(text, skin);
         textField.setSize(width,height);
-        textField.setPosition(x, y);
-        textField.setFontScale(5);
+        //textField.setPosition(x, y);
+        textField.setFontScale(3);
 
 
         Pixmap labelColor = new Pixmap(500, 300, Pixmap.Format.RGB888);
-        labelColor.setColor(Color.BLACK);
+        labelColor.setColor(Color.BLUE);
         labelColor.fill();
         textField.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
-      
-
 
         return this;
     }
