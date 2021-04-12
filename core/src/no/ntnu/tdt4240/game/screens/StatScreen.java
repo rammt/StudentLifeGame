@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -166,10 +167,12 @@ public class StatScreen implements Screen{
         game.getStage().draw();
         //batch tegner vi resten på
         game.getBatch().begin();
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(game.getFont(),String.valueOf(game.getUser()));
         game.getFont().draw(
                 game.getBatch(),
                 String.valueOf(game.getUser()),
-                Gdx.graphics.getWidth()/3f,
+                Gdx.graphics.getWidth()/2f - (layout.width/2),
                 Gdx.graphics.getHeight()/1.2f
         );
         game.getBatch().end();
