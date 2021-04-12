@@ -91,20 +91,20 @@ public class StatScreen implements Screen{
         leaderboard = new TextFieldComponent().create(400,400,500,1200, "Leaderboard: #1", game.getSkin()).getTextFieldComponent();
         aiKok = new TextFieldComponent().create(400,400,500,1200, "AI som koker:", game.getSkin()).getTextFieldComponent();
         hackerKok = new TextFieldComponent().create(400,400,500,1200, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(400,400,500,1200, "Professor som koker:", game.getSkin()).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(400,400,500,1200, "Professor som koker lalalal:", game.getSkin()).getTextFieldComponent();
 
 
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(true);
-        table.add(kokCount);
-        table.add(antLevert);
+        table.add(kokCount).minWidth(400).expandX();
+        table.add(antLevert).minWidth(400).expandX();
         table.row();
-        table.add(leaderboard);
-        table.add(aiKok);
+        table.add(leaderboard).minWidth(400).expandX();
+        table.add(aiKok).minWidth(400).expandX();
         table.row();
-        table.add(hackerKok);
-        table.add(professorKok);
+        table.add(hackerKok).minWidth(400).expandX();
+        table.add(professorKok).minWidth(400).expandX();
 
 
 
@@ -137,14 +137,6 @@ public class StatScreen implements Screen{
                 game.getFont()
         );
 
-        Entity testButton = game.getEngine().getEngine().createEntity();
-        testButton.add(new ButtonComponent().create(
-                Gdx.graphics.getWidth()/2f,
-                Gdx.graphics.getHeight()/8f,
-                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2f - gameButton.getHeight()/2,
-                "test", game.getSkin(), textButtonStyleUP));
-        game.getEngine().getEngine().addEntity(testButton);
 
 		/*
 		//progressbar på hvor langt du har kommet

@@ -32,7 +32,8 @@ public class TextFieldComponent extends Actor implements Component {
     public TextFieldComponent create(float width, float height, float x, float y, String text, Skin skin/*, final TextButton.TextButtonStyle style*/) {
 
         textField = new Label(text, skin);
-        textField.setSize(width,height);
+        textField.setWrap(true);
+        //textField.setSize(width,height);
         //textField.setPosition(x, y);
         textField.setFontScale(3);
 
