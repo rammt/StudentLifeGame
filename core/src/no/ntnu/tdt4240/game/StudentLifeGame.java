@@ -59,7 +59,7 @@ public class StudentLifeGame extends Game {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        kokCounter = 0;
+        kokCounter = 1000;
 
         shapeRenderer = new ShapeRenderer();
 

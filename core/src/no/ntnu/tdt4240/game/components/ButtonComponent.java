@@ -1,7 +1,6 @@
 package no.ntnu.tdt4240.game.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
