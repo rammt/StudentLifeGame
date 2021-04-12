@@ -14,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -33,7 +35,7 @@ public class StatScreen implements Screen{
     private TextButton.TextButtonStyle textButtonStyleDOWN;
     private TextButton.TextButtonStyle textButtonStyleUP;
     private Button copyButton, pasteButton, deliverButton, gameButton;
-    private TextFieldComponent kokCount;
+    private Label kokCount;
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
@@ -72,10 +74,14 @@ public class StatScreen implements Screen{
 
 
 
-        Entity kokCount = game.getEngine().getEngine().createEntity();
+       /* Entity kokCount = game.getEngine().getEngine().createEntity();
         kokCount.add(new TextFieldComponent().create(
-                500,300, 100, 100, "test", game.getSkin()));
-        game.getEngine().getEngine().addEntity(kokCount);
+                500,300, 100, 100, "Antall klikk:", game.getSkin()));
+        game.getEngine().getEngine().addEntity(kokCount); */
+
+        kokCount = new TextFieldComponent().create(500,400,100,100, "Antall klikk:", game.getSkin()).getTextFieldComponent();
+
+
 
         gameButton = new TextButton("back",game.getSkin());
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
@@ -127,6 +133,7 @@ public class StatScreen implements Screen{
         //legger til aktors
         //game.getStage().addActor(progressBar);
         game.getStage().addActor(gameButton);
+        game.getStage().addActor(kokCount);
     }
 
     @Override

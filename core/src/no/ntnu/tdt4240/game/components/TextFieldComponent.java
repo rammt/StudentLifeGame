@@ -19,9 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class TextFieldComponent implements Component {
+public class TextFieldComponent extends Actor implements Component {
 
     private Label textField;
     private Boolean checked = false;
@@ -30,10 +31,10 @@ public class TextFieldComponent implements Component {
 
     public TextFieldComponent create(float width, float height, float x, float y, String text, Skin skin/*, final TextButton.TextButtonStyle style*/) {
 
-        textField = new Label("hei", skin);
+        textField = new Label(text, skin);
         textField.setSize(width,height);
         textField.setPosition(x, y);
-        textField.setFontScale(10);
+        textField.setFontScale(5);
 
 
         Pixmap labelColor = new Pixmap(500, 300, Pixmap.Format.RGB888);
