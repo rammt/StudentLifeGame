@@ -86,12 +86,12 @@ public class StatScreen implements Screen{
                 500,300, 100, 100, "Antall klikk:", game.getSkin()));
         game.getEngine().getEngine().addEntity(kokCount); */
 
-        kokCount = new TextFieldComponent().create(400,400,10,1200, "Antall Klikk:", game.getSkin()).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create(400,400,500,1200, "Antall Levert:", game.getSkin()).getTextFieldComponent();
-        leaderboard = new TextFieldComponent().create(400,400,500,1200, "Leaderboard: #1", game.getSkin()).getTextFieldComponent();
-        aiKok = new TextFieldComponent().create(400,400,500,1200, "AI som koker:", game.getSkin()).getTextFieldComponent();
-        hackerKok = new TextFieldComponent().create(400,400,500,1200, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(400,400,500,1200, "Professor som koker lalalal:", game.getSkin()).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create(game.getKokCounter()*3, "Antall Klikk:", game.getSkin()).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create(game.getKokCounter(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
+        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin()).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin()).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(0, "Professor som koker lalalal:", game.getSkin()).getTextFieldComponent();
 
 
         Table table = new Table();
@@ -168,7 +168,7 @@ public class StatScreen implements Screen{
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getKokCounter()),
+                String.valueOf(game.getUser()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

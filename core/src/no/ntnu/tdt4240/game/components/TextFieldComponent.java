@@ -29,9 +29,9 @@ public class TextFieldComponent extends Actor implements Component {
     private Label label;
     private TextureRegionDrawable textureRegionDrawableBg;
 
-    public TextFieldComponent create(float width, float height, float x, float y, String text, Skin skin/*, final TextButton.TextButtonStyle style*/) {
+    public TextFieldComponent create(int value ,String text, Skin skin/*, final TextButton.TextButtonStyle style*/) {
 
-        textField = new Label(text, skin);
+        textField = new Label(text + " " + value, skin);
         textField.setWrap(true);
         //textField.setSize(width,height);
         //textField.setPosition(x, y);
