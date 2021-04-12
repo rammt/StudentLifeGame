@@ -31,7 +31,7 @@ public class StatScreen implements Screen{
 
     private TextButton.TextButtonStyle textButtonStyleDOWN;
     private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button gameButton, saveStatsButton;
+    private Button gameButton, saveStatsButton, saveOffline;
 
     final StudentLifeGame game;
 
@@ -83,8 +83,20 @@ public class StatScreen implements Screen{
                                    }
                                });
 
+
+        saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
+        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 0);
+        saveOffline.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.getUser().saveOffline();
+                return true;
+            }
+        });
+
         game.getStage().addActor(gameButton);
         game.getStage().addActor(saveStatsButton);
+        game.getStage().addActor(saveOffline);
     }
 
     @Override
