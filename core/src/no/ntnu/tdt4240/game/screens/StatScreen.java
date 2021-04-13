@@ -35,8 +35,6 @@ import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
 public class StatScreen implements Screen{
 
-    private TextButton.TextButtonStyle textButtonStyleDOWN;
-    private TextButton.TextButtonStyle textButtonStyleUP;
     private Label kokCount;
     private Label antLevert;
     private Label leaderboard;
@@ -95,21 +93,6 @@ public class StatScreen implements Screen{
             }
         });
 
-        textButtonStyleDOWN = new TextButton.TextButtonStyle(
-                gameButton.getStyle().down,
-                gameButton.getStyle().down,
-                gameButton.getStyle().down,
-                game.getFont()
-
-        );
-        textButtonStyleUP = new TextButton.TextButtonStyle(
-                gameButton.getStyle().up,
-                gameButton.getStyle().down,
-                gameButton.getStyle().checked,
-                game.getFont()
-        );
-
-
         saveStatsButton = new TextButton("Save Game", game.getSkin());
         saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
         saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f);
@@ -150,10 +133,10 @@ public class StatScreen implements Screen{
         //batch tegner vi resten på
         game.getBatch().begin();
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(game.getFont(),String.valueOf(game.getUser()));
+        layout.setText(game.getFont(), game.getUser().getName());
         game.getFont().draw(
                 game.getBatch(),
-                String.valueOf(game.getUser().getName()),
+                game.getUser().getName(),
                 Gdx.graphics.getWidth()/2f - (layout.width/2),
                 Gdx.graphics.getHeight()/1.2f
         );
