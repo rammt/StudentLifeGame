@@ -27,9 +27,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
 
-import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
+import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
@@ -53,11 +53,11 @@ public class StatScreen implements Screen{
         this.game = game;
 
         game.getStage().clear();
-        Player user = game.getUser();
+        Entity player = game.getPlayer();
+        PlayerComponent pc = player.getComponent(PlayerComponent.class);
 
-
-        kokCount = new TextFieldComponent().create((int) (user.getKokCount()*3), "Antall Klikk:", game.getSkin()).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create((int) user.getKokCount(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin()).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
         leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin()).getTextFieldComponent();
         aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin()).getTextFieldComponent();
         hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
@@ -99,7 +99,7 @@ public class StatScreen implements Screen{
         saveStatsButton.addListener(new InputListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-               game.firebase.saveStats(game.getUser());
+               game.firebase.saveStats(game.getPlayer());
                return true;
            }
        });
@@ -111,7 +111,7 @@ public class StatScreen implements Screen{
         saveOffline.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.getUser().saveOffline();
+                //game.getUser().saveOffline();
                 return true;
             }
         });
@@ -133,16 +133,19 @@ public class StatScreen implements Screen{
         //batch tegner vi resten på
         game.getBatch().begin();
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(game.getFont(), game.getUser().getName());
+        Entity player = game.getPlayer();
+        PlayerComponent pc = player.getComponent(PlayerComponent.class);
+
+        layout.setText(game.getFont(), pc.getName());
         game.getFont().draw(
                 game.getBatch(),
-                game.getUser().getName(),
+                pc.getName(),
                 Gdx.graphics.getWidth()/2f - (layout.width/2),
                 Gdx.graphics.getHeight()/1.2f
         );
         game.getBatch().end();
 
-        game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
+        game.getEngine().update(Gdx.graphics.getDeltaTime());
 
     }
 
@@ -168,7 +171,6 @@ public class StatScreen implements Screen{
 
     @Override
     public void dispose() {
-        game.getUser().saveOffline();
     }
 
 }

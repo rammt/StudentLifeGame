@@ -1,9 +1,11 @@
 package no.ntnu.tdt4240.game;
 
+import com.badlogic.ashley.core.Entity;
+
 public interface FirebaseInterface {
-    void onSignInButtonClicked(Player user);
-    void saveStats(Player user);
-    void getStats(Player user);
+    void onSignInButtonClicked(Entity emptyPlayer);
+    void saveStats(Entity player);
+    //void getStats(Player user);
     /*
     public void onSignOutButtonClicked();
     public boolean isSignedIn();

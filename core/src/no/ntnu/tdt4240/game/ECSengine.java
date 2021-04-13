@@ -22,6 +22,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.StatsComponent;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ControlSystem;
+import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.screens.StartScreen;
@@ -31,9 +32,12 @@ public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
+    private FirebaseInterface firebase;
 
-    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, Player player){
+    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, FirebaseInterface firebase){
         super();
+
+        this.firebase = firebase;
 
         engine = new PooledEngine();
 
@@ -41,29 +45,11 @@ public class ECSengine{
         engine.addSystem(new RenderSystem(shapeRenderer, font, batch, stage));
         engine.addSystem(new ResourceGainSystem());
         engine.addSystem(new ControlSystem());
+        engine.addSystem(new OnStartGameSystem(firebase));
 
         game = engine.createEntity();
         game.add(new GameComponent().create());
         engine.addEntity(game);
-
-        /*Entity resource = engine.createEntity();
-        resource.add(new ResourceComponent().create("Studass",20));
-        engine.addEntity(resource);
-*/
-
-        Entity resourceGainer = engine.createEntity();
-        resourceGainer.add(new ResourceGainerComponent().create("Studass", 50, 3));
-        engine.addEntity(resourceGainer);
-
-        Entity localPlayer = engine.createEntity();
-        localPlayer.add(new PlayerComponent().create(player));
-        engine.addEntity(localPlayer);
-
-        long secondsSinceSave = (new Date().getTime() - player.getLastSave())/1000;
-
-        if (secondsSinceSave > 10) {
-            engine.getSystem(ResourceGainSystem.class).addOfflineResource(secondsSinceSave);
-        }
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
@@ -76,4 +62,7 @@ public class ECSengine{
         return game;
     }
 
+    public FirebaseInterface getFirebase() {
+        return firebase;
+    }
 }

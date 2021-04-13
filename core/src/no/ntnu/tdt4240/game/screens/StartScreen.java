@@ -1,5 +1,8 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -22,8 +25,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
 
-import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.PlayerComponent;
 
 public class StartScreen implements Screen{
 
@@ -100,8 +103,10 @@ public class StartScreen implements Screen{
 				if(copied && pasted && !delivered){
 					copied=false;
 					pasted=false;
-					Player user = game.getUser();
-					user.setKokCount(user.getKokCount()+1);
+
+					Entity player = game.getPlayer();
+					PlayerComponent pc = player.getComponent(PlayerComponent.class);
+					pc.setKokCount(pc.getKokCount()+1);
 					//test
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
@@ -159,15 +164,17 @@ public class StartScreen implements Screen{
 		game.getStage().draw();
 		//batch tegner vi resten på
 		game.getBatch().begin();
+		Entity player = game.getPlayer();
+		PlayerComponent pc = player.getComponent(PlayerComponent.class);
 		game.getFont().draw(
 			game.getBatch(),
-			"Kok : " + game.getUser().getKokCount(),
+			"Kok : " + pc.getKokCount(),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
 		game.getBatch().end();
 
-		game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
+		game.getEngine().update(Gdx.graphics.getDeltaTime());
 
 	}
 
@@ -193,7 +200,6 @@ public class StartScreen implements Screen{
 
 	@Override
 	public void dispose() {
-		game.getUser().saveOffline();
 	}
     
 }

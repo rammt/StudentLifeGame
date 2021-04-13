@@ -1,5 +1,8 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -17,8 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.PlayerComponent;
 
 public class LoginScreen implements Screen {
 
@@ -42,25 +45,20 @@ public class LoginScreen implements Screen {
         logInBtn.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                Player user = new Player();
-                game.firebase.onSignInButtonClicked(user);
-                game.setUser(user);
+                Entity player = game.getPlayer();
+                game.firebase.onSignInButtonClicked(player);
+                game.setScreen(new StartScreen(game));
             }
         });
     }
 
     @Override
     public void render(float delta) {
-
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
-
-        if (game.getUser() != null) {
-            game.setScreen(new StartScreen(game));
-        }
 
     }
 
