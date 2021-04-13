@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
 
+import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 
@@ -52,23 +53,9 @@ public class StartScreen implements Screen{
 		pasted = false;
 		delivered = false;
 
-		//progressbar shit, se bort trash
-		/*
-		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		game.getSkin().add("white", new Texture(pixmap));
-		textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(
-			new Texture(Gdx.files.internal("skin/glassy-ui.png"))));
-		progressBarStyle = new ProgressBar.ProgressBarStyle(
-			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
-		progressBarStyle.knobBefore = progressBarStyle.knob;
-		 */
-
 		float width = Gdx.graphics.getWidth()/2f;
 		float height = Gdx.graphics.getHeight()/8f;
 		float x = Gdx.graphics.getWidth()/2f - width/2;
-
 		//kode for knappene pluss logikk når knappen trykkes
 
 		InputListener copyListener = new InputListener(){
@@ -107,7 +94,8 @@ public class StartScreen implements Screen{
 				if(copied && pasted && !delivered){
 					copied=false;
 					pasted=false;
-					game.setKokCounter(1);
+					Player user = game.getUser();
+					user.setKokCount(user.getKokCount()+1);
 					//test
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
@@ -134,6 +122,7 @@ public class StartScreen implements Screen{
 
 		statButton = new ButtonElement(x, statY, "STATS", game.getSkin(), statListener);
 
+
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
 				copyButton.getStyle().down,
 				copyButton.getStyle().down,
@@ -148,14 +137,6 @@ public class StartScreen implements Screen{
 				game.getFont()
 		);
 
-		/*
-		//progressbar på hvor langt du har kommet
-		progressBar = new ProgressBar(0, 10, 0.5f, true,
-			game.getSkin(), "default-horizontal");
-		progressBar.setPosition(Gdx.graphics.getWidth()/7f,Gdx.graphics.getWidth()/2f );
-		progressBar.setSize(copyButton.getWidth()/10,copyButton.getHeight()*3);
-		progressBar.setAnimateDuration(2);
-		 */
 
 		//legger til aktors
 		//game.getStage().addActor(progressBar);
@@ -177,13 +158,13 @@ public class StartScreen implements Screen{
 		game.getBatch().begin();
 		game.getFont().draw(
 			game.getBatch(),
-			"Kok : " + String.valueOf(game.getKokCounter()),
+			"Kok : " + game.getUser().getKokCount(),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
 		game.getBatch().end();
 
-		//game.getEngine().update(Gdx.graphics.getDeltaTime());
+		game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
 
 	}
 
@@ -209,7 +190,7 @@ public class StartScreen implements Screen{
 
 	@Override
 	public void dispose() {
-
+		game.getUser().saveOffline();
 	}
     
 }

@@ -61,7 +61,6 @@ public class RenderSystem extends EntitySystem {
 
         for (Entity game : games) {
             GameComponent gameComponent = gm.get(game);
-            System.out.println(gameComponent.gameState);
             if (gameComponent.gameState == GameComponent.GameState.GAME_PLAYING) {
 
                 for (Entity button : buttonEntities) {

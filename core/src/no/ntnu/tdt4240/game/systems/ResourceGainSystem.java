@@ -6,33 +6,53 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.utils.Timer;
 
+import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.components.ResourceComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class ResourceGainSystem extends EntitySystem {
-    private ImmutableArray<Entity> playerEntities;
+    private ImmutableArray<Entity> player;
     private ImmutableArray<Entity> resourceGainers;
-
-    private Engine engine;
 
     private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
     private ComponentMapper<ResourceGainerComponent> rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
     public void addedToEngine(Engine engine) {
-        playerEntities = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
+        player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
         resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
     }
 
     public void update(float deltaTime) {
-        for (Entity player : playerEntities) {
+        addResourcesByTime(deltaTime);
+    }
+
+    private float calculateNewResourceGain(float gainIncrement) {
+        float addedResources = 0;
+
+        for (Entity resourceGainer : resourceGainers) {
+            ResourceGainerComponent rgc = rgm.get(resourceGainer);
+            addedResources += rgc.getGainPerSecond() * gainIncrement;
+        }
+
+        return addedResources;
+    }
+
+
+    private void addResourcesByTime(float time) {
+        for (Entity player : player) {
             PlayerComponent pc = pm.get(player);
-            //pc.updateScore(1f * deltaTime);
+
+            Player playerObj = pc.getPlayer();
+
+            playerObj.setKokCount(playerObj.getKokCount() + calculateNewResourceGain(time));
         }
     }
 
-    public void addResourceGainerToPlayer(ResourceGainerComponent rg, PlayerComponent player) {
-        //player.addResourceGainer(rg);
-    }
 
+    public void addOfflineResource(float secondsSinceSave) {
+        addResourcesByTime(secondsSinceSave);
+    }
 }
