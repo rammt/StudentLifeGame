@@ -19,7 +19,7 @@ public class Player {
         this.resourcePrefs = Gdx.app.getPreferences("resourcePrefs");
 
         long lastSave = resourcePrefs.getLong("lastSave");
-        int minimumMSSinceEpoch = 10000;
+        int minimumMSSinceEpoch = 10000; //Safe test for time since epoch, if more than 10000ms has gone they probably have a save.
         if (lastSave > minimumMSSinceEpoch) {
             this.lastSave =  new Date(resourcePrefs.getLong("lastSave")).getTime();
         } else {
