@@ -17,7 +17,15 @@ public class Player {
 
     public Player() {
         this.resourcePrefs = Gdx.app.getPreferences("resourcePrefs");
-        this.lastSave =  new Date(resourcePrefs.getLong("lastSave")).getTime();
+
+        long lastSave = resourcePrefs.getLong("lastSave");
+        int minimumMSSinceEpoch = 10000;
+        if (lastSave > minimumMSSinceEpoch) {
+            this.lastSave =  new Date(resourcePrefs.getLong("lastSave")).getTime();
+        } else {
+            this.lastSave = new Date().getTime();
+        }
+
         this.amtResourceGainers = resourcePrefs.getInteger("amtResourceGainers", 0);
         this.kokCount = resourcePrefs.getFloat("kokCount", 0);
         this.name = resourcePrefs.getString("name", "NoNameFound");
