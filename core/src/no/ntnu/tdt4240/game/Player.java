@@ -20,6 +20,7 @@ public class Player {
         this.lastSave =  new Date(resourcePrefs.getLong("lastSave")).getTime();
         this.amtResourceGainers = resourcePrefs.getInteger("amtResourceGainers", 0);
         this.kokCount = resourcePrefs.getFloat("kokCount", 0);
+        this.name = resourcePrefs.getString("name", "NoNameFound");
     }
 
     public float getKokCount() {
@@ -59,6 +60,7 @@ public class Player {
         resourcePrefs.putLong("lastSave", new Date().getTime());
         resourcePrefs.putInteger("amtResourceGainers", amtResourceGainers);
         resourcePrefs.putFloat("kokCount", kokCount);
+        resourcePrefs.putString("name", name);
         resourcePrefs.flush();
     }
 }

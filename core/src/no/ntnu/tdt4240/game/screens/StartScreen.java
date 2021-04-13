@@ -48,6 +48,8 @@ public class StartScreen implements Screen{
 	public StartScreen(final StudentLifeGame game) {
 		this.game = game;
 
+		game.getStage().clear();
+
 		copied = false;
 		pasted = false;
 		delivered = false;
