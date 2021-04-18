@@ -45,6 +45,7 @@ public class LoginScreen implements Screen {
                 Player user = new Player();
                 game.firebase.onSignInButtonClicked(user);
                 game.setUser(user);
+                game.setScreen(new StartScreen(game));
             }
         });
     }
@@ -58,9 +59,9 @@ public class LoginScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if (game.getUser() != null) {
+        /*if (game.getUser() != null) {
             game.setScreen(new StartScreen(game));
-        }
+        }*/
 
     }
 
