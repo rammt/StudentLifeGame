@@ -35,12 +35,14 @@ import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
 public class StatScreen implements Screen{
 
+
     private Label kokCount;
     private Label antLevert;
     private Label leaderboard;
     private Label aiKok;
     private Label hackerKok;
     private Label professorKok;
+
 
 
 
@@ -116,6 +118,7 @@ public class StatScreen implements Screen{
             }
         });
 
+
         game.getStage().addActor(gameButton);
         game.getStage().addActor(table);
         game.getStage().addActor(saveStatsButton);
@@ -136,8 +139,10 @@ public class StatScreen implements Screen{
         layout.setText(game.getFont(), game.getUser().getName());
         game.getFont().draw(
                 game.getBatch(),
+
                 game.getUser().getName(),
                 Gdx.graphics.getWidth()/2f - (layout.width/2),
+
                 Gdx.graphics.getHeight()/1.2f
         );
         game.getBatch().end();
