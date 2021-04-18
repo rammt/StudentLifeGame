@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -34,6 +35,7 @@ public class StartScreen implements Screen{
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
+    private ParticleEffect pe;
 
     /* progressbar trash
 	private TextureRegionDrawable textureRegionDrawable;
@@ -137,6 +139,10 @@ public class StartScreen implements Screen{
 				game.getFont()
 		);
 
+		pe = new ParticleEffect();
+		pe.load(Gdx.files.internal("effects/Particles.party"), Gdx.files.internal("effects"));
+		pe.setPosition(40,40);
+		pe.start();
 
 		//legger til aktors
 		//game.getStage().addActor(progressBar);
@@ -162,6 +168,9 @@ public class StartScreen implements Screen{
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
+
+		pe.draw(game.getBatch());
+
 		game.getBatch().end();
 
 		game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
@@ -174,6 +183,7 @@ public class StartScreen implements Screen{
 
 	@Override
 	public void show() {
+
 	}
 
 	@Override
