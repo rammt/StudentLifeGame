@@ -24,6 +24,7 @@ import java.awt.Font;
 
 import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 
 public class StartScreen implements Screen{
 
@@ -35,6 +36,7 @@ public class StartScreen implements Screen{
     private boolean delivered;
     private boolean upgraded = false;
 
+
     /* progressbar trash
 	private TextureRegionDrawable textureRegionDrawable;
 	private ProgressBar.ProgressBarStyle progressBarStyle;
@@ -43,9 +45,7 @@ public class StartScreen implements Screen{
 	private BitmapFont buttonFont;
      */
 
-
-    final StudentLifeGame game;
-
+	final StudentLifeGame game;
 	public StartScreen(final StudentLifeGame game) {
 		this.game = game;
 		Player user = game.getUser();
@@ -58,6 +58,21 @@ public class StartScreen implements Screen{
 			pasted = false;
 			delivered = false;
 
+		float width = Gdx.graphics.getWidth()/2f;
+		float height = Gdx.graphics.getHeight()/8f;
+		float x = Gdx.graphics.getWidth()/2f - width/2;
+		//kode for knappene pluss logikk når knappen trykkes
+
+		InputListener copyListener = new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if(!copied){
+					copied = true;
+					copyButton.setStyle(textButtonStyleDOWN);
+				}
+				return true;
+			}
+		};
 			//kode for knappene pluss logikk når knappen trykkes
 			copyButton = new TextButton("COPYBUTTON", game.getSkin());
 			copyButton.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 8f);
@@ -76,6 +91,22 @@ public class StartScreen implements Screen{
 				}
 			});
 
+		float copyY = Gdx.graphics.getHeight()/2f + height/2;
+		copyButton = new ButtonElement(x, copyY, "COPYBUTTON", game.getSkin(), copyListener);
+
+		InputListener pasteListener = new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if(copied && !pasted){
+					pasted = true;
+					//test
+					pasteButton.setStyle(textButtonStyleDOWN);
+				}
+				return true;
+			}
+		};
+
+		float pasteY = Gdx.graphics.getHeight()/2f - height/2;
 			pasteButton = new TextButton("PASTEBUTTON", game.getSkin());
 			pasteButton.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 8f);
 			pasteButton.setPosition(
@@ -93,6 +124,25 @@ public class StartScreen implements Screen{
 				}
 			});
 
+		pasteButton = new ButtonElement(x, pasteY, "DELIVERBUTTON", game.getSkin(), pasteListener);
+
+		InputListener deliverListener = new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if(copied && pasted && !delivered){
+					copied=false;
+					pasted=false;
+					Player user = game.getUser();
+					user.setKokCount(user.getKokCount()+1);
+					//test
+					copyButton.setStyle(textButtonStyleUP);
+					pasteButton.setStyle(textButtonStyleUP);
+				}
+				return true;
+			}
+		};
+
+		float deliverY = Gdx.graphics.getHeight()/2f - height*1.5f;
 			deliverButton = new TextButton("DELIVERBUTTON", game.getSkin());
 			deliverButton.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 8f);
 			deliverButton.setPosition(
@@ -114,7 +164,16 @@ public class StartScreen implements Screen{
 				}
 			});
 
-			statButton = new TextButton("STATS", game.getSkin());
+		deliverButton = new ButtonElement(x, deliverY, "PASTEBUTTON", game.getSkin(), deliverListener);
+
+		InputListener statListener = new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new StatScreen(game));
+				return true;
+			}
+		};
+				/*statButton = new TextButton("STATS", game.getSkin());
 			statButton.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 8f);
 			statButton.setPosition(
 					Gdx.graphics.getWidth() / 2f - deliverButton.getWidth() / 2,
@@ -125,9 +184,13 @@ public class StartScreen implements Screen{
 
 					game.setScreen(new StatScreen(game));
 
-					return true;
-				}
-			});
+				return true;
+			}
+		});*/
+
+		float statY = 0;
+
+		statButton = new ButtonElement(x, statY, "STATS", game.getSkin(), statListener);
 
 		copyPasteDeliverButton = new TextButton("COPY,PASTE,DELIVER", game.getSkin());
 		copyPasteDeliverButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);

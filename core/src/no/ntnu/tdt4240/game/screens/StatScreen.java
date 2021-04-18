@@ -45,6 +45,8 @@ public class StatScreen implements Screen{
 
 
     private Button gameButton, saveStatsButton, saveOffline;
+    private TextButton.TextButtonStyle textButtonStyleDOWN;
+    private TextButton.TextButtonStyle textButtonStyleUP;
 
     final StudentLifeGame game;
 
@@ -132,12 +134,12 @@ public class StatScreen implements Screen{
         game.getStage().draw();
         //batch tegner vi resten på
         game.getBatch().begin();
-        GlyphLayout layout = new GlyphLayout();
-        layout.setText(game.getFont(), game.getUser().getName());
+        //GlyphLayout layout = new GlyphLayout();
+        //layout.setText(game.getFont(), game.getUser().getName());
         game.getFont().draw(
                 game.getBatch(),
-                game.getUser().getName(),
-                Gdx.graphics.getWidth()/2f - (layout.width/2),
+                "Kokt: " + game.getUser().getKokCount(),
+                Gdx.graphics.getWidth()/3f /* - (layout.width/2)*/,
                 Gdx.graphics.getHeight()/1.2f
         );
         game.getBatch().end();

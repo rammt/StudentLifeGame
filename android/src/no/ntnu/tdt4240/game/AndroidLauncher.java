@@ -158,8 +158,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 					if (task.isSuccessful()) {
 						DocumentSnapshot document = task.getResult();
 						if (document.exists()) {
-							double kokCount = document.getDouble("kokCount");
-							user.setKokCount((float)kokCount);
+							Long kokCount = (Long) document.get("kokCount");
+							user.setKokCount(kokCount.intValue());
 						} else {
 							Log.d(TAG, "No such document");
 						}
