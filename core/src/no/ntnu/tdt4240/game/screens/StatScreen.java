@@ -26,6 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
+import java.util.List;
+import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -112,6 +114,9 @@ public class StatScreen implements Screen{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //game.getUser().saveOffline();
+                game.firebase.getHighscore();
+                List<Map<String,Object>> l = game.firebase.getHighscore();
+                System.out.println(l);
                 return true;
             }
         });
