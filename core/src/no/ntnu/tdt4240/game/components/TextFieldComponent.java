@@ -29,7 +29,7 @@ public class TextFieldComponent extends Actor implements Component {
 
 
         Pixmap labelColor = new Pixmap(500, 100, Pixmap.Format.RGB888);
-        labelColor.setColor(34f/255f,116f/255f,165f/255f,0);
+        labelColor.setColor(157f/255f,173f/255f,188f/255f,0);
         labelColor.fill();
         textField.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
 
