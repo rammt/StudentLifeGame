@@ -28,11 +28,14 @@ public class ShopScreen implements Screen {
     public ShopScreen(final StudentLifeGame game) {
 
         this.game = game;
+        this.game.getStage().clear();
+
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
+
         final int prisBuy1 = 100;
         final int prisBuy2 = 200;
         final int prisBuy3 = 500;
@@ -137,7 +140,7 @@ public class ShopScreen implements Screen {
                 "Shop",game.getSkin(), new InputListener(){
                     @Override
                     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        //game.setScreen(new ShopScreen(game));
+                        game.setScreen(new ShopScreen(game));
                         return true;
                     }}));
         game.getEngine().addEntity(settingsButton);

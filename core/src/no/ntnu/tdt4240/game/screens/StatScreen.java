@@ -29,45 +29,14 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class StatScreen implements Screen{
 
-    private TextButton.TextButtonStyle textButtonStyleDOWN;
-    private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, gameButton;
-    private boolean copied;
-    private boolean pasted;
-    private boolean delivered;
-
-    private int counter;
-
-    /* progressbar trash
-	private TextureRegionDrawable textureRegionDrawable;
-	private ProgressBar.ProgressBarStyle progressBarStyle;
-    private ProgressBar progressBar;
-	private Pixmap pixmap;
-	private BitmapFont buttonFont;
-     */
-
+    private Button  gameButton;
 
     final StudentLifeGame game;
 
     public StatScreen(final StudentLifeGame game) {
 
         this.game = game;
-
-        game.getStage().clear();
-
-        //progressbar shit, se bort trash
-		/*
-		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		game.getSkin().add("white", new Texture(pixmap));
-		textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(
-			new Texture(Gdx.files.internal("skin/glassy-ui.png"))));
-		progressBarStyle = new ProgressBar.ProgressBarStyle(
-			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
-		progressBarStyle.knobBefore = progressBarStyle.knob;
-		 */
-
+        this.game.getStage().clear();
 
         gameButton = new TextButton("back",game.getSkin());
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
@@ -83,20 +52,6 @@ public class StatScreen implements Screen{
                 return true;
             }
         });
-
-        textButtonStyleDOWN = new TextButton.TextButtonStyle(
-                gameButton.getStyle().down,
-                gameButton.getStyle().down,
-                gameButton.getStyle().down,
-                game.getFont()
-
-        );
-        textButtonStyleUP = new TextButton.TextButtonStyle(
-                gameButton.getStyle().up,
-                gameButton.getStyle().down,
-                gameButton.getStyle().checked,
-                game.getFont()
-        );
 
         final Boolean checked = false;
         InputListener inputListner = new InputListener(){
@@ -115,17 +70,7 @@ public class StatScreen implements Screen{
                 "test", game.getSkin(), inputListner));
         game.getEngine().addEntity(testButton);
 
-		/*
-		//progressbar på hvor langt du har kommet
-		progressBar = new ProgressBar(0, 10, 0.5f, true,
-			game.getSkin(), "default-horizontal");
-		progressBar.setPosition(Gdx.graphics.getWidth()/7f,Gdx.graphics.getWidth()/2f );
-		progressBar.setSize(copyButton.getWidth()/10,copyButton.getHeight()*3);
-		progressBar.setAnimateDuration(2);
-		 */
 
-        //legger til aktors
-        //game.getStage().addActor(progressBar);
         game.getStage().addActor(gameButton);
     }
 
@@ -141,7 +86,7 @@ public class StatScreen implements Screen{
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getKokCounter()),
+                "stat : " + String.valueOf(game.getKokCounter()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
