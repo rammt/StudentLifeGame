@@ -54,7 +54,7 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();
