@@ -60,6 +60,7 @@ public class LoginScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
+
     }
 
     @Override

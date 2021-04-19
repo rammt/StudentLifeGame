@@ -71,6 +71,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	@Override
 	public void onSignInButtonClicked(Entity emptyPlayer) {
 		this.player = emptyPlayer;
+		System.out.println("CHECKEM");
 		Intent signInIntent = mSignInClient.getSignInIntent();
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -109,18 +110,19 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private void firebaseAuthWithGoogle(String idToken) {
 		AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+		System.out.println("CHECK FIREBASEAUTHWITHGOOGLE");
 		mAuth.signInWithCredential(credential)
 				.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 					@Override
 					public void onComplete(@NonNull Task<AuthResult> task) {
 						if (task.isSuccessful()) {
 							// Sign in success, update UI with the signed-in user's information
-							Log.d(TAG, "signInWithCredential:success");
+							System.out.println("signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
 							handleLogin(user);
 						} else {
 							// If sign in fails, display a message to the user.
-							Log.w(TAG, "signInWithCredential:failure", task.getException());
+							System.out.println("signInWithCredential:failure, " + task.getException());
 							handleLogin(null);
 						}
 					}
@@ -144,6 +146,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	private void setInfoFromFirebaseOnPlayer(final Entity player) {
 		final FirebaseUser fb_user = mAuth.getCurrentUser();
 		if (fb_user != null) {
+			System.out.println("I AM SETTING INFO ON PLAYER NOW");
 			DocumentReference playerRef = db.collection("players").document(fb_user.getUid());
 
 			playerRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -165,6 +168,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 							pc.setResourceGainers(resourceGainers);
 							System.out.println("Getting data from doc");
 						} else {
+							System.out.println("No data found");
 							Map<String, Object> player = new HashMap<>();
 
 							player.put("kokCount", pc.getKokCount());
@@ -181,6 +185,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 					}
 				}
 			});
+		} else {
+			System.out.println("NO USER FOUND");
 		}
 
 	}
@@ -195,7 +201,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 			Map<String, Object> playerMap = new HashMap<>();
 
 			playerMap.put("kokCount", pc.getKokCount());
-			playerMap.put("name", pc.getName());
+			playerMap.put("name", fb_user.getDisplayName());
 			playerMap.put("lastSave", pc.getLastSave());
 			playerMap.put("resourceGainers", pc.getResourceGainers());
 
@@ -216,7 +222,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 					if (task.isSuccessful()) {
 						DocumentSnapshot document = task.getResult();
 						if (document.exists()) {
-							Long kokCount = (Long) document.get("kokCount");
+							Long kokCount = document.getLong("kokCount");
 							user.setKokCount(kokCount.intValue());
 						} else {
 							Log.d(TAG, "No such document");

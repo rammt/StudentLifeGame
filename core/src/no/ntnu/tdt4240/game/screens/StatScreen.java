@@ -28,8 +28,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import java.awt.Font;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
@@ -137,6 +137,8 @@ public class StatScreen implements Screen{
         PlayerComponent pc = player.getComponent(PlayerComponent.class);
 
         layout.setText(game.getFont(), pc.getName());
+        //GlyphLayout layout = new GlyphLayout();
+        //layout.setText(game.getFont(), game.getUser().getName());
         game.getFont().draw(
                 game.getBatch(),
                 pc.getName(),
