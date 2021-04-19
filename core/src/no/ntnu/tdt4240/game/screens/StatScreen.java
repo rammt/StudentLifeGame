@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
@@ -66,7 +67,7 @@ public class StatScreen implements Screen{
 
         Table table = new Table();
         table.setFillParent(true);
-        table.defaults().minWidth(500).expandX().minHeight(300).pad(40);
+        table.defaults().minWidth(500).minHeight(300).pad(40);
         table.add(kokCount);
         table.add(antLevert);
         table.row();
