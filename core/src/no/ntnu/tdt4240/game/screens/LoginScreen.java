@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -22,34 +23,48 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 
 public class LoginScreen implements Screen {
 
-    private Button logInBtn;
+    private ButtonElement cloudLogInBtn, localLogInBtn;
 
     final StudentLifeGame game;
 
     public LoginScreen(final StudentLifeGame game) {
         this.game = game;
 
-        //kode for knappene pluss logikk når knappen trykkes
-        logInBtn = new TextButton("Log in using Google", game.getSkin());
-        logInBtn.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
-        logInBtn.setPosition(
-                Gdx.graphics.getWidth()/2f - logInBtn.getWidth()/2,
-                Gdx.graphics.getHeight()/2f + logInBtn.getHeight()/2);
+        float buttonWidth = Gdx.graphics.getWidth()/2f;
+        float buttonHeight = Gdx.graphics.getHeight()/8f;
+        final OnStartGameSystem startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
 
-        //legger til aktors
-        game.getStage().addActor(logInBtn);
-
-        logInBtn.addListener(new ChangeListener() {
+        cloudLogInBtn = new ButtonElement(buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
+                Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
             @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Entity player = game.getPlayer();
-                game.firebase.onSignInButtonClicked(player);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.firebase.onSignInButtonClicked();
+                startingSystem.onlineStart(game.getEngine());
                 game.setScreen(new StartScreen(game));
+                return true;
             }
         });
+
+        localLogInBtn = new ButtonElement(buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
+                Gdx.graphics.getHeight()/2f - buttonHeight/2, "Local Login", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                startingSystem.offlineStart(game.getEngine());
+                game.setScreen(new StartScreen(game));
+                return true;
+            }
+        });
+
+
+
+        //legger til aktors
+        game.getStage().addActor(cloudLogInBtn);
+        game.getStage().addActor(localLogInBtn);
     }
 
     @Override
