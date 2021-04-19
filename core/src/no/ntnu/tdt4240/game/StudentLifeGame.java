@@ -1,5 +1,7 @@
 package no.ntnu.tdt4240.game;
 
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -42,8 +44,6 @@ public class StudentLifeGame extends Game {
 		this.firebase = firebase;
 	}
 
-	private Player user;
-
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private Stage stage;
@@ -64,9 +64,7 @@ public class StudentLifeGame extends Game {
 
         shapeRenderer = new ShapeRenderer();
 
-        setUser(new Player());
-
-        engine = new ECSengine(shapeRenderer,font,batch,stage, user);
+        engine = new ECSengine(shapeRenderer, font, batch, stage, firebase);
 
         this.setScreen(new LoginScreen(this));
     }
@@ -78,7 +76,6 @@ public class StudentLifeGame extends Game {
 
     @Override
     public void dispose() {
-        user.saveOffline();
         batch.dispose();
         font.dispose();
         batch.dispose();
@@ -107,14 +104,8 @@ public class StudentLifeGame extends Game {
         return engine.getEngine();
     }
 
-    public Player getUser() {
-        return user;
-    }
-
-    public void setUser(Player user) {
-        this.user = user;
-    }
-    public ShapeRenderer getShapeRenderer(){
-        return shapeRenderer;
+    public Entity getPlayer() {
+        ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
+        return players.get(0);
     }
 }
