@@ -1,5 +1,6 @@
 package no.ntnu.tdt4240.game.screens;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import com.badlogic.gdx.Screen;
@@ -20,18 +21,29 @@ public class HighscoreScreen implements Screen {
         Player user = game.getUser();
         game.getStage().clear();
 
+        Label title = new TextFieldComponent().create(null, "Highscores", game.getSkin(), 6, false).getTextFieldComponent();
+        title.setPosition(Gdx.graphics.getWidth()/2.2f,
+                Gdx.graphics.getHeight()/1.2f);
+
         String[] users = {"holde", "flatner"};
         String[] stats = {"2", "4"};
 
         Table table = new Table();
         table.setFillParent(true);
-        table.defaults().minWidth(500).expandX().minHeight(300).pad(30);
+        table.defaults().minWidth(400).minHeight(100).pad(1);
+        table.add(new TextFieldComponent().create(null, "User", game.getSkin(), 4, true).getTextFieldComponent());
+        table.add(new TextFieldComponent().create(null, "Clicks", game.getSkin(), 4, true).getTextFieldComponent());
+        table.add(new TextFieldComponent().create(null, "Kok", game.getSkin(), 4, true).getTextFieldComponent());
+        table.row();
+
         for(int i = 0; i < users.length; i++) {
-            table.add(new TextFieldComponent().create((int) (6), users[i], game.getSkin()).getTextFieldComponent());
-            table.add(new TextFieldComponent().create((int) (user.getKokCount()*3), stats[i], game.getSkin()).getTextFieldComponent());
+            table.add(new TextFieldComponent().create(null, users[i], game.getSkin(), 3, true).getTextFieldComponent());
+            table.add(new TextFieldComponent().create(null, stats[i], game.getSkin(), 3, true).getTextFieldComponent());
+            table.add(new TextFieldComponent().create(null, "23" , game.getSkin(), 3, true).getTextFieldComponent());
             table.row();
         }
 
+        game.getStage().addActor(title);
         game.getStage().addActor(table);
     }
 
@@ -40,7 +52,6 @@ public class HighscoreScreen implements Screen {
 
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
-        // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
 

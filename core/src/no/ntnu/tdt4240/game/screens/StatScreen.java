@@ -58,12 +58,12 @@ public class StatScreen implements Screen{
         Player user = game.getUser();
 
 
-        kokCount = new TextFieldComponent().create((int) (user.getKokCount()*3), "Antall Klikk:", game.getSkin()).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create((int) user.getKokCount(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
-        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin()).getTextFieldComponent();
-        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin()).getTextFieldComponent();
-        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(0, "Professor som koker:", game.getSkin()).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create((int) (user.getKokCount()*3), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create((int) user.getKokCount(), "Antall Levert:", game.getSkin(), 3, true).getTextFieldComponent();
+        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin(), 3, true).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin(), 3, true).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin(), 3, true).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(0, "Professor som koker:", game.getSkin(), 3, true).getTextFieldComponent();
 
 
         Table table = new Table();
