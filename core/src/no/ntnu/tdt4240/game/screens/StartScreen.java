@@ -37,7 +37,7 @@ public class StartScreen implements Screen{
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
-    private boolean upgraded = false;
+    private boolean upgraded = true;
 
 
     /* progressbar trash
@@ -123,21 +123,17 @@ public class StartScreen implements Screen{
 		float statY = 0;
 		statButton = new ButtonElement(x, statY, "STATS", game.getSkin(), statListener);
 
-		copyPasteDeliverButton = new TextButton("COPY,PASTE,DELIVER", game.getSkin());
-		copyPasteDeliverButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
-		copyPasteDeliverButton.setPosition(
-				Gdx.graphics.getWidth()/2f - copyPasteDeliverButton.getWidth()/2,
-				Gdx.graphics.getHeight()/2f - copyPasteDeliverButton.getHeight()/2);
-		copyPasteDeliverButton.addListener(new InputListener(){
-											   @Override
-											   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-												   Entity player = game.getPlayer();
-												   PlayerComponent pc = player.getComponent(PlayerComponent.class);
-												   pc.setKokCount(pc.getKokCount()+1);
-											   		return true;
-											   }
-										   }
-		);
+		InputListener copyPasteDeliverListener = new InputListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				Entity player = game.getPlayer();
+				PlayerComponent pc = player.getComponent(PlayerComponent.class);
+				pc.setKokCount(pc.getKokCount()+1);
+				return true;
+			}
+		};
+
+		copyPasteDeliverButton = new ButtonElement(x, pasteY, "KOK", game.getSkin(), copyPasteDeliverListener);
 
 
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
