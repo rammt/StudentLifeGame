@@ -10,6 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -50,7 +54,7 @@ public class StatScreen implements Screen{
 
         Table table = new Table();
         table.setFillParent(true);
-        table.defaults().minWidth(500).expandX().minHeight(300).pad(40);
+        table.defaults().minWidth(500).minHeight(300).pad(40);
         table.add(kokCount);
         table.add(antLevert);
         table.row();
@@ -66,7 +70,7 @@ public class StatScreen implements Screen{
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
         gameButton.setPosition(
                 Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                0);
+                20);
         gameButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -77,7 +81,7 @@ public class StatScreen implements Screen{
 
         saveStatsButton = new TextButton("Save Game", game.getSkin());
         saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
-        saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f);
+        saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f+20);
         saveStatsButton.addListener(new InputListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -89,7 +93,7 @@ public class StatScreen implements Screen{
 
         saveOffline = new TextButton("Save offline", game.getSkin());
         saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
-        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 0);
+        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 20);
         saveOffline.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -108,7 +112,7 @@ public class StatScreen implements Screen{
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();
