@@ -7,7 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
@@ -18,7 +17,7 @@ public class HighscoreScreen implements Screen {
 
     public HighscoreScreen(StudentLifeGame game) {
         this.game = game;
-        Player user = game.getUser();
+
         game.getStage().clear();
 
         Label title = new TextFieldComponent().create(null, "Highscores", game.getSkin(), 6, false).getTextFieldComponent();
@@ -55,7 +54,7 @@ public class HighscoreScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        game.getEngine().getEngine().update(Gdx.graphics.getDeltaTime());
+        game.getEngine().update(Gdx.graphics.getDeltaTime());
 
     }
 
