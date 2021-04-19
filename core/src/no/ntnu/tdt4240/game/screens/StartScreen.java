@@ -156,7 +156,7 @@ public class StartScreen implements Screen{
 		InputListener statListener = new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new HighscoreScreen(game));
+				game.setScreen(new StatScreen(game));
 				return true;
 			}
 		};

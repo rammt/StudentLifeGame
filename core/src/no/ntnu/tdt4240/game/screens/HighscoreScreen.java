@@ -1,9 +1,13 @@
 package no.ntnu.tdt4240.game.screens;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -13,15 +17,16 @@ import no.ntnu.tdt4240.game.components.TextFieldComponent;
 public class HighscoreScreen implements Screen {
 
     final StudentLifeGame game;
+    private Button gameButton;
 
 
-    public HighscoreScreen(StudentLifeGame game) {
+    public HighscoreScreen(final StudentLifeGame game) {
         this.game = game;
 
         game.getStage().clear();
 
         Label title = new TextFieldComponent().create(null, "Highscores", game.getSkin(), 6, false).getTextFieldComponent();
-        title.setPosition(Gdx.graphics.getWidth()/2.2f,
+        title.setPosition(Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f);
 
         String[] users = {"holde", "flatner"};
@@ -42,8 +47,24 @@ public class HighscoreScreen implements Screen {
             table.row();
         }
 
+        gameButton = new TextButton("back",game.getSkin());
+        gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
+        gameButton.setPosition(
+                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
+                0);
+        gameButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+
+                game.setScreen(new StatScreen(game));
+
+                return true;
+            }
+        });
+
         game.getStage().addActor(title);
         game.getStage().addActor(table);
+        game.getStage().addActor(gameButton);
     }
 
     @Override
