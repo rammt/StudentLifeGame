@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import no.ntnu.tdt4240.game.Player;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 
 public class LoginScreen implements Screen {
@@ -41,7 +42,10 @@ public class LoginScreen implements Screen {
         logInBtn.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setUser(game.firebase.onSignInButtonClicked());
+                Player user = new Player();
+                game.firebase.onSignInButtonClicked(user);
+                game.setUser(user);
+                game.setScreen(new StartScreen(game));
             }
         });
     }
@@ -55,9 +59,9 @@ public class LoginScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if (game.getUser() != null) {
+        /*if (game.getUser() != null) {
             game.setScreen(new StartScreen(game));
-        }
+        }*/
 
     }
 

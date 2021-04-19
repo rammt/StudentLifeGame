@@ -4,18 +4,18 @@ import com.badlogic.ashley.core.Component;
 
 public class ResourceComponent implements Component {
     private String name;
-    private int price;
+    private int count;
 
-    public ResourceComponent create(String name, int price) {
+    public ResourceComponent create(String name, int count) {
         this.name = name;
-        this.price = price;
+        this.count = count;
         return this;
     }
 
     public String getName() {
         return name;
     }
-    public int getPrice() {
-        return price;
+    public int getCount() {
+        return count;
     }
 }

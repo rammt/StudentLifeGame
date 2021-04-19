@@ -11,6 +11,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Date;
+
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -29,7 +32,7 @@ public class ECSengine{
     private PooledEngine engine;
     private Entity game;
 
-    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage){
+    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, Player player){
         super();
 
         engine = new PooledEngine();
@@ -43,21 +46,26 @@ public class ECSengine{
         game.add(new GameComponent().create());
         engine.addEntity(game);
 
-        Entity resource = engine.createEntity();
+        /*Entity resource = engine.createEntity();
         resource.add(new ResourceComponent().create("Studass",20));
         engine.addEntity(resource);
+*/
 
         Entity resourceGainer = engine.createEntity();
-        resourceGainer.add(new ResourceGainerComponent().create(3));
+        resourceGainer.add(new ResourceGainerComponent().create("Studass", 50, 3));
         engine.addEntity(resourceGainer);
 
         Entity localPlayer = engine.createEntity();
-        localPlayer.add(new PlayerComponent().create("Insert name", 1));
-        localPlayer.add(new StatsComponent().create(1));
+        localPlayer.add(new PlayerComponent().create(player));
         engine.addEntity(localPlayer);
 
-        game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
+        long secondsSinceSave = (new Date().getTime() - player.getLastSave())/1000;
 
+        if (secondsSinceSave > 10) {
+            engine.getSystem(ResourceGainSystem.class).addOfflineResource(secondsSinceSave);
+        }
+
+        game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
 
     public PooledEngine getEngine(){

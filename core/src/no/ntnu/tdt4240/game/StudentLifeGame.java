@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Date;
+
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -39,7 +42,7 @@ public class StudentLifeGame extends Game {
 		this.firebase = firebase;
 	}
 
-	private String user;
+	private Player user;
 
 	private SpriteBatch batch;
 	private BitmapFont font;
@@ -50,7 +53,6 @@ public class StudentLifeGame extends Game {
     private ECSengine engine;
     private ShapeRenderer shapeRenderer;
 
-    private int kokCounter;
 
     @Override
     public void create() {
@@ -59,13 +61,14 @@ public class StudentLifeGame extends Game {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        kokCounter = 1000;
 
         shapeRenderer = new ShapeRenderer();
 
-        engine = new ECSengine(shapeRenderer,font,batch,stage);
+        setUser(new Player());
 
-        this.setScreen(new ShopScreen(this));
+        engine = new ECSengine(shapeRenderer,font,batch,stage, user);
+
+        this.setScreen(new LoginScreen(this));
     }
 
     @Override
@@ -75,6 +78,7 @@ public class StudentLifeGame extends Game {
 
     @Override
     public void dispose() {
+        user.saveOffline();
         batch.dispose();
         font.dispose();
         batch.dispose();
@@ -102,16 +106,12 @@ public class StudentLifeGame extends Game {
     public PooledEngine getEngine() {
         return engine.getEngine();
     }
-    public void setKokCounter(int increment){
-        kokCounter = kokCounter + increment;
-    }
-    public int getKokCounter(){
-        return kokCounter;
-    }
-    public String getUser() {
+
+    public Player getUser() {
         return user;
     }
-    public void setUser(String user) {
+
+    public void setUser(Player user) {
         this.user = user;
     }
     public ShapeRenderer getShapeRenderer(){

@@ -57,9 +57,10 @@ public class ShopScreen implements Screen {
             buy1String,game.getSkin(), new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(game.getKokCounter() >= prisBuy1){
+                    if(game.getUser().getKokCount() >= prisBuy1){
                         counterEidBuy1++;
-                        game.setKokCounter(-prisBuy1);
+
+                        game.getUser().setKokCount(game.getUser().getKokCount()-prisBuy1);
                         System.out.println("KJØPTE KOKERE 1");
                     }
                     return true;
@@ -74,9 +75,9 @@ public class ShopScreen implements Screen {
             buy2String,game.getSkin(), new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(game.getKokCounter() >= prisBuy2){
+                    if(game.getUser().getKokCount() >= prisBuy2){
                         counterEidBuy2++;
-                        game.setKokCounter(-prisBuy2);
+                        game.getUser().setKokCount(game.getUser().getKokCount()-prisBuy2);
                         System.out.println("KJØPTE KOKERE 2");
                     }
                     return true;
@@ -92,9 +93,9 @@ public class ShopScreen implements Screen {
          buy3String,game.getSkin(), new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                if(game.getKokCounter() >= prisBuy3){
+                if(game.getUser().getKokCount() >= prisBuy3){
                     counterEidBuy3++;
-                    game.setKokCounter(-prisBuy3);
+                    game.getUser().setKokCount(game.getUser().getKokCount()-prisBuy3);
                     System.out.println("KJØPTE KOKERE 3");
                 }
                 return true;
@@ -110,9 +111,9 @@ public class ShopScreen implements Screen {
             buy4String,game.getSkin(), new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(game.getKokCounter() >= prisBuy4){
+                    if(game.getUser().getKokCount() >= prisBuy4){
                         counterEidBuy4++;
-                        game.setKokCounter(-prisBuy4);
+                        game.getUser().setKokCount(game.getUser().getKokCount()-prisBuy4);
                         System.out.println("KJØPTE KOKERE 4");
                     }
                     return true;
@@ -170,7 +171,7 @@ public class ShopScreen implements Screen {
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getKokCounter()),
+                "Kokt : " + String.valueOf(game.getUser().getKokCount()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

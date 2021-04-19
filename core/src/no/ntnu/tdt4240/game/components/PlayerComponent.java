@@ -1,24 +1,23 @@
 package no.ntnu.tdt4240.game.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.utils.Array;
+
+import no.ntnu.tdt4240.game.Player;
 
 
 public class PlayerComponent implements Component {
-    private String name;
-    public int playerId;
+    private Player player;
 
-    //burde assigne id på en annen måte, men enn så lenge
-    public PlayerComponent create(String name, int id) {
-        this.name = name;
-        playerId = id;
+    public PlayerComponent create(Player player) {
+        this.player = player;
         return this;
     }
 
-    public String getName() {
-        return name;
+    public Player getPlayer() {
+        return player;
     }
-    public int getPlayerId() {
-        return playerId;
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
