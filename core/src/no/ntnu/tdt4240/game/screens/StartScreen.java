@@ -37,7 +37,7 @@ public class StartScreen implements Screen{
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
-    private boolean upgraded = true;
+    private boolean upgraded = false;
 
 
     /* progressbar trash
