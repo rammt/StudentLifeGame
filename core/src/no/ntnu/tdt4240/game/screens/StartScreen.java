@@ -22,6 +22,7 @@ public class StartScreen implements Screen{
     private boolean pasted;
     private boolean delivered;
     private boolean upgraded = false;
+    private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
 
 
 	final StudentLifeGame game;
@@ -33,6 +34,10 @@ public class StartScreen implements Screen{
 		pasted = false;
 		delivered = false;
 
+		SCREENHEIGHT = Gdx.graphics.getHeight();
+		SCREENWIDTH = Gdx.graphics.getWidth();
+		BUTTONHEIGHTGUI = SCREENHEIGHT/8;
+		BUTTONWIDTHGUI = SCREENWIDTH/4;
 		float width = Gdx.graphics.getWidth()/2f;
 		float height = Gdx.graphics.getHeight()/8f;
 		float x = Gdx.graphics.getWidth()/2f - width/2;
@@ -82,50 +87,35 @@ public class StartScreen implements Screen{
 			}
 		};
 
-		statButton = new TextButton("SHOPS",game.getSkin());
-		statButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
-		statButton.setPosition(
-				Gdx.graphics.getWidth()/2f - deliverButton.getWidth()/2,
-				0);
-		statButton.addListener(new InputListener(){
 
-		});
 		float deliverY = Gdx.graphics.getHeight()/2f - height*1.5f;
 		deliverButton = new ButtonElement(x, deliverY, "DELIVERBUTTON", game.getSkin(), deliverListener);
 
-		copyPasteDeliverButton = new TextButton("COPY,PASTE,DELIVER", game.getSkin());
-		copyPasteDeliverButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
-		copyPasteDeliverButton.setPosition(
-				Gdx.graphics.getWidth()/2f - copyPasteDeliverButton.getWidth()/2,
-				Gdx.graphics.getHeight()/2f - copyPasteDeliverButton.getHeight()/2);
-		copyPasteDeliverButton.addListener(new InputListener(){
-		   @Override
-		   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-			   Entity player = game.getPlayer();
-			   PlayerComponent pc = player.getComponent(PlayerComponent.class);
-			   pc.setKokCount(pc.getKokCount()+1);
-				return true;
-		   }});
+
 
 		float statY = 0;
 
 		InputListener gameListener = new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new StatScreen(game));
+				game.setScreen(new StartScreen(game));
 				return true;
 			}
 		};
-		gameButton = new ButtonElement(x, statY, "GAME", game.getSkin(), gameListener);
+		gameButton = new ButtonElement(BUTTONWIDTHGUI,BUTTONHEIGHTGUI,(SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50, "GAME", game.getSkin(), gameListener);
 
 		InputListener shopListener = new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new StatScreen(game));
+				game.setScreen(new ShopScreen(game));
 				return true;
 			}
 		};
-		shopButton = new ButtonElement(x, statY, "SHOP", game.getSkin(), shopListener);
+		shopButton = new ButtonElement(
+			BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+			(SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
+			"SHOP", game.getSkin(), shopListener
+		);
 
 		InputListener statListener = new InputListener() {
 			@Override
@@ -134,58 +124,25 @@ public class StartScreen implements Screen{
 				return true;
 			}
 		};
-		statButton = new ButtonElement(x, statY, "STATS", game.getSkin(), statListener);
-/*
-		Entity homeButton = game.getEngine().createEntity();
-		homeButton.add(new ButtonComponent().create(
-				BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-				(SCREENWIDTH/4f)-BUTTONWIDTHGUI/2-10,50,
-				"Home",game.getSkin(), new InputListener(){
-					@Override
-					public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-						game.setScreen(new StartScreen(game));
-						return true;
-					}}));
-		game.getEngine().addEntity(homeButton);
-
-		Entity settingsButton = game.getEngine().createEntity();
-		settingsButton.add(new ButtonComponent().create(
-				BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-				(SCREENWIDTH/2f)-BUTTONWIDTHGUI/2,50,
-				"Shop",game.getSkin(), new InputListener(){
-					@Override
-					public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-						game.setScreen(new ShopScreen(game));
-						return true;
-					}}));
-		game.getEngine().addEntity(settingsButton);
-
-		Entity ShopButton = game.getEngine().createEntity();
-		ShopButton.add(new ButtonComponent().create(
-				BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-				(SCREENWIDTH*3/4f)-BUTTONWIDTHGUI/2+buttonPadding,50,
-				"Stats",game.getSkin(), new InputListener(){
-					@Override
-					public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-						game.setScreen(new StatScreen(game));
-						return true;
-					}}));
-		game.getEngine().addEntity(ShopButton);
-*/
+		statButton = new ButtonElement(
+			BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+			(SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
+			"STATS", game.getSkin(), statListener
+		);
 
 
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
-				copyButton.getStyle().down,
-				copyButton.getStyle().down,
-				copyButton.getStyle().down,
-				game.getFont()
+			copyButton.getStyle().down,
+			copyButton.getStyle().down,
+			copyButton.getStyle().down,
+			game.getFont()
 
 		);
 		textButtonStyleUP = new TextButton.TextButtonStyle(
-				copyButton.getStyle().up,
-				copyButton.getStyle().down,
-				copyButton.getStyle().checked,
-				game.getFont()
+			copyButton.getStyle().up,
+			copyButton.getStyle().down,
+			copyButton.getStyle().checked,
+			game.getFont()
 		);
 
 
@@ -194,11 +151,13 @@ public class StartScreen implements Screen{
 			game.getStage().addActor(copyPasteDeliverButton);
 		}
 		else{
-			game.getStage().addActor(statButton);
 			game.getStage().addActor(copyButton);
 			game.getStage().addActor(pasteButton);
 			game.getStage().addActor(deliverButton);
 		}
+		game.getStage().addActor(statButton);
+		game.getStage().addActor(gameButton);
+		game.getStage().addActor(shopButton);
 	}
 
 	@Override

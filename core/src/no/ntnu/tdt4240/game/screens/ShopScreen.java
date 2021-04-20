@@ -5,15 +5,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 
 
 public class ShopScreen implements Screen {
 
+    private Button statButton, gameButton, shopButton;
     final StudentLifeGame game;
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
@@ -121,45 +124,45 @@ public class ShopScreen implements Screen {
                 }}));
         game.getEngine().addEntity(BUY4);
 
+        InputListener gameListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new StartScreen(game));
+                return true;
+            }
+        };
+        gameButton = new ButtonElement(BUTTONWIDTHGUI,BUTTONHEIGHTGUI,(SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50, "GAME", game.getSkin(), gameListener);
 
-        //TODO Meny gui, kanskje ha dette i en egen element klasse?
-
-
-        Entity homeButton = game.getEngine().createEntity();
-        homeButton.add(new ButtonComponent().create(
-            BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-            (SCREENWIDTH/4f)-BUTTONWIDTHGUI/2-buttonPadding,50,
-            "Home",game.getSkin(), new InputListener(){
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new StartScreen(game));
-                    return true;
-                }}));
-        game.getEngine().addEntity(homeButton);
-
-        Entity settingsButton = game.getEngine().createEntity();
-        settingsButton.add(new ButtonComponent().create(
+        InputListener shopListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new ShopScreen(game));
+                return true;
+            }
+        };
+        shopButton = new ButtonElement(
                 BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI/2,50,
-                "Shop",game.getSkin(), new InputListener(){
-                    @Override
-                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new ShopScreen(game));
-                        return true;
-                    }}));
-        game.getEngine().addEntity(settingsButton);
+                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
+                "SHOP", game.getSkin(), shopListener
+        );
 
-        Entity ShopButton = game.getEngine().createEntity();
-        ShopButton.add(new ButtonComponent().create(
+        InputListener statListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new StatScreen(game));
+                return true;
+            }
+        };
+        statButton = new ButtonElement(
                 BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-BUTTONWIDTHGUI/2+buttonPadding,50,
-                "Stats",game.getSkin(), new InputListener(){
-                    @Override
-                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new StatScreen(game));
-                        return true;
-                    }}));
-        game.getEngine().addEntity(ShopButton);
+                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
+                "STATS", game.getSkin(), statListener
+        );
+
+        //add actors til stagen
+        game.getStage().addActor(statButton);
+        game.getStage().addActor(gameButton);
+        game.getStage().addActor(shopButton);
     }
 
     @Override
