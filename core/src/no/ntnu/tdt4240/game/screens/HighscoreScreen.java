@@ -45,7 +45,6 @@ public class HighscoreScreen implements Screen {
 
     private AsyncExecutor executor = new AsyncExecutor(4);
     private AsyncResult<Void> task;
-    private float taskProgressValue = 0;
 
     private boolean updated = false;
 
@@ -71,37 +70,22 @@ public class HighscoreScreen implements Screen {
                 Gdx.graphics.getHeight()/1.2f);
 
 
-        table = new Table();
-        table.setFillParent(true);
-        table.defaults().minWidth(400).minHeight(100).pad(1);
-        table.add(new TextFieldComponent().create(null, "User", game.getSkin(), 4, true).getTextFieldComponent());
-        table.add(new TextFieldComponent().create(null, "Clicks", game.getSkin(), 4, true).getTextFieldComponent());
-        table.add(new TextFieldComponent().create(null, "Kok", game.getSkin(), 4, true).getTextFieldComponent());
-        table.row();
-
         task = executor.submit(new AsyncTask<Void>() {
             @Override
             public Void call() throws Exception {
                 hl = game.firebase.getHighscore();
-                taskProgressValue = 100;
                 return null;
             }
         });
 
         table = new Table();
         table.setFillParent(true);
-        table.defaults().minWidth(400).minHeight(100).pad(1);
+        table.defaults().minWidth(400).minHeight(200).pad(1);
+        table.add(new TextFieldComponent().create(null, "Rank", game.getSkin(), 4, true).getTextFieldComponent()).width(200);
         table.add(new TextFieldComponent().create(null, "User", game.getSkin(), 4, true).getTextFieldComponent());
-        //table.add(new TextFieldComponent().create(null, "Clicks", game.getSkin(), 4, true).getTextFieldComponent());
         table.add(new TextFieldComponent().create(null, "Kok", game.getSkin(), 4, true).getTextFieldComponent());
         table.row();
-/*
-        for(int i = 0; i < users.length; i++) {
-            table.add(new TextFieldComponent().create(null, users[i], game.getSkin(), 3, true).getTextFieldComponent());
-            table.add(new TextFieldComponent().create(null, stats[i], game.getSkin(), 3, true).getTextFieldComponent());
-            table.add(new TextFieldComponent().create(null, "23" , game.getSkin(), 3, true).getTextFieldComponent());
-            table.row();
-        }*/
+
 
         statButton = new ButtonElement(
                 BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
@@ -129,17 +113,10 @@ public class HighscoreScreen implements Screen {
                 users[i] = String.valueOf(hl.get(i).get("name"));
                 stats[i] = String.valueOf(hl.get(i).get("kokCount"));
             }
-            System.out.println(hl);
-            System.out.println(hl.get(0).get("name"));
-            System.out.println(hl.get(0).get("kokCount"));
             users[0] = String.valueOf(hl.get(0).get("name"));
-           /* table.add(new TextFieldComponent().create(null, "User", game.getSkin(), 4, true).getTextFieldComponent());
-            table.add(new TextFieldComponent().create(null, "Clicks", game.getSkin(), 4, true).getTextFieldComponent());
-            table.add(new TextFieldComponent().create(null, "Kok", game.getSkin(), 4, true).getTextFieldComponent());
-            table.row();*/
             for(int i = 0; i < users.length; i++) {
+                table.add(new TextFieldComponent().create(null, String.valueOf(i+1), game.getSkin(), 3, true).getTextFieldComponent()).width(200);
                 table.add(new TextFieldComponent().create(null, users[i], game.getSkin(), 3, true).getTextFieldComponent());
-               // table.add(new TextFieldComponent().create(null, "value", game.getSkin(), 3, true).getTextFieldComponent());
                 table.add(new TextFieldComponent().create(null, stats[i] , game.getSkin(), 3, true).getTextFieldComponent());
                 table.row();
             }
