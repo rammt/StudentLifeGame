@@ -51,6 +51,8 @@ public class ECSengine{
         game.add(new GameComponent().create());
         engine.addEntity(game);
 
+
+
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
 

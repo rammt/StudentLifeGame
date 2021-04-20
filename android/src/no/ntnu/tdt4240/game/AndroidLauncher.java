@@ -41,7 +41,9 @@ import java.util.List;
 import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.screens.HighscoreScreen;
 
 public class AndroidLauncher extends AndroidApplication implements FirebaseInterface {
 
@@ -218,7 +220,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		}
 	}
 
-	public List<Map<String,Object>> getHighscore(){
+	public List<Map<String, Object>> getHighscore(){
 		CollectionReference colRefPlayers = db.collection("players");
 		colRefPlayers.orderBy("kokCount", Query.Direction.DESCENDING).limit(10).get()
 		.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -227,12 +229,12 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 				if(task.isSuccessful()){
 					highscoreList.clear();
 					for(QueryDocumentSnapshot document : task.getResult()){
-						Long kokTemp = document.getLong("kokCount");
-						float kokCount = kokTemp.floatValue();
+						/*Long kokTemp = document.getLong("kokCount");
+						float kokCount = kokTemp.floatValue();*/
 						highscoreList.add(document.getData());
 						Log.d(TAG, document.getId() + " => " + document.getData());
 					}
-					//System.out.println(highscoreList);
+
 				}
 				else{
 					Log.d(TAG, "Error getting documents: " + task.getException());

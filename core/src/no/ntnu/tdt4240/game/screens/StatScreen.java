@@ -24,12 +24,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.async.AsyncExecutor;
+import com.badlogic.gdx.utils.async.AsyncResult;
+import com.badlogic.gdx.utils.async.AsyncTask;
 
 import java.awt.Font;
 import java.util.List;
 import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
@@ -43,6 +47,7 @@ public class StatScreen implements Screen{
     private Label aiKok;
     private Label hackerKok;
     private Label professorKok;
+
 
 
 
@@ -78,6 +83,7 @@ public class StatScreen implements Screen{
         table.add(hackerKok);
         table.add(professorKok);
 
+        // HER
 
 
         gameButton = new TextButton("back",game.getSkin());
@@ -101,8 +107,11 @@ public class StatScreen implements Screen{
         highscoreButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                List<Map<String,Object>> li = game.firebase.getHighscore();
+
 
                 game.setScreen(new HighscoreScreen(game));
+
 
                 return true;
             }
@@ -128,9 +137,8 @@ public class StatScreen implements Screen{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //game.getUser().saveOffline();
-                game.firebase.getHighscore();
-                List<Map<String,Object>> l = game.firebase.getHighscore();
-                System.out.println(l);
+                //List<Map<String,Object>> l = game.firebase.getHighscore();
+                //System.out.println(l);
                 return true;
             }
         });
