@@ -16,7 +16,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.screens.LoginScreen;
+import no.ntnu.tdt4240.game.screens.StartScreen;
 
 public class StudentLifeGame extends Game {
 	public FirebaseInterface firebase;
@@ -47,7 +47,7 @@ public class StudentLifeGame extends Game {
 
         engine = new ECSengine(shapeRenderer, font, batch, stage, firebase);
 
-        this.setScreen(new LoginScreen(this));
+        this.setScreen(new StartScreen(this));
     }
 
     @Override
