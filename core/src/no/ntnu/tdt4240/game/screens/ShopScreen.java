@@ -1,16 +1,21 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 
 
@@ -18,48 +23,59 @@ public class ShopScreen implements Screen {
 
     private Button statButton, gameButton, shopButton;
     private Button buy1Button, buy2Button, buy3Button, buy4Button;
+    private ImmutableArray<Entity> rg;
     final StudentLifeGame game;
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
-    int counterEidBuy1,counterEidBuy2,counterEidBuy3,counterEidBuy4;
-    String buy1String,buy2String,buy3String,buy4String;
-    PlayerComponent pc;
+
+    private int counterEidBuy1,counterEidBuy2,counterEidBuy3,counterEidBuy4;
+    private String buy1String,buy2String,buy3String,buy4String;
+    private PlayerComponent pc;
+    private ComponentMapper<ResourceGainerComponent> rgm;
+    private float[] prices;
 
 
     public ShopScreen(final StudentLifeGame game) {
 
         this.game = game;
         this.game.getStage().clear();
-        Entity player = game.getPlayer();
-        pc = player.getComponent(PlayerComponent.class);
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
+        prices = new float[4];
 
 
+        Entity player = game.getPlayer();
+        pc = player.getComponent(PlayerComponent.class);
+        rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
+        rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
-        //TODO lmao, burde hente alle resourcecompontene og bygge et listview
+        prices[0] = rgm.get(rg.get(0)).getPrice();
+        prices[1] = rgm.get(rg.get(1)).getPrice();
+        prices[2] = rgm.get(rg.get(2)).getPrice();
+        prices[3] = rgm.get(rg.get(3)).getPrice();
+
+        //TODO lmao, burde hente alle resourcecompontene og bygge dem
 
         counterEidBuy1 = 0;
-        final int prisBuy1 = 100;
-        buy1String = "Betalte kokere "+prisBuy1+",-";
-
+        buy1String = "Betalte kokere "+ prices[0] +",-";
         buy1Button = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
                 (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
                 buy1String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy1){
+                if(pc.getKokCount() >= prices[0]){
                     counterEidBuy1++;
 
-                    pc.setKokCount(pc.getKokCount()-prisBuy1);
+                    pc.setKokCount(pc.getKokCount()-prices[0]);
+                    pc.addResourceGainers(rgm.get(rg.get(0)));
                     System.out.println("KJØPTE KOKERE 1");
                 }
                 return true;
@@ -68,7 +84,7 @@ public class ShopScreen implements Screen {
 
         counterEidBuy2= 0;
         final int prisBuy2 = 200;
-        buy2String = "Studass som koker "+prisBuy2+",-";
+        buy2String = "Studass som koker "+prices[1] +",-";
 
         buy2Button = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
@@ -87,7 +103,7 @@ public class ShopScreen implements Screen {
 
         counterEidBuy3= 0;
         final int prisBuy3 = 500;
-        buy3String = "kok scripts "+prisBuy3+",-";
+        buy3String = "kok scripts "+prices[2] +",-";
 
         buy3Button = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
@@ -106,7 +122,7 @@ public class ShopScreen implements Screen {
 
         counterEidBuy4 = 0;
         final int prisBuy4 = 1000;
-        buy4String = "Kok Hackere "+prisBuy4+",-";
+        buy4String = "Kok Hackere "+prices[3] +",-";
 
         buy4Button = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,

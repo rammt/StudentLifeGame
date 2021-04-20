@@ -8,6 +8,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.tdt4240.game.components.GameComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
@@ -20,6 +21,7 @@ public class ECSengine{
     private PooledEngine engine;
     private Entity game;
     private FirebaseInterface firebase;
+    private Entity gainerKoker, gainerStudass, gainerHacker, gainerScripts;
 
     public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, FirebaseInterface firebase){
         super();
@@ -38,7 +40,21 @@ public class ECSengine{
         game.add(new GameComponent().create());
         engine.addEntity(game);
 
+        gainerKoker = engine.createEntity();
+        gainerKoker.add(new ResourceGainerComponent().create("Kokere","Random kokere",50,2));
+        engine.addEntity(gainerKoker);
 
+        gainerStudass = engine.createEntity();
+        gainerStudass.add(new ResourceGainerComponent().create("Studass","Studass kokere",200,10));
+        engine.addEntity(gainerStudass);
+
+        gainerScripts = engine.createEntity();
+        gainerScripts.add(new ResourceGainerComponent().create("Scripts","Kok script",500,25));
+        engine.addEntity(gainerScripts);
+
+        gainerHacker = engine.createEntity();
+        gainerHacker.add(new ResourceGainerComponent().create("Hackere","Hacker kokere",1000,100));
+        engine.addEntity(gainerHacker);
 
         Entity localPlayer = engine.createEntity();
         engine.addEntity(localPlayer);

@@ -7,23 +7,29 @@ import com.badlogic.gdx.Gdx;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 
 public class PlayerComponent implements Component {
     private String name;
     private long lastSave;
     private float kokCount;
-    private List<Map<String, Object>> resourceGainers;
+    private List<Map<String, Object>> firebaseResourceGainers;
+    private ArrayList<Object> resourceGainers;
 
 
-    public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> resourceGainers) {
+    public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> firebaseResourceGainers) {
         this.name = name;
         this.lastSave = lastSave;
         this.kokCount = kokCount;
-        this.resourceGainers = resourceGainers;
+        this.firebaseResourceGainers = firebaseResourceGainers;
+        resourceGainers = new ArrayList<>();
+        for(Map<String, Object> map : firebaseResourceGainers) {
+            for(Map.Entry<String, Object> innerEntry : map.entrySet()) {
+                this.resourceGainers.add((ResourceGainerComponent) innerEntry.getValue());
+            }
+        }
 
         return this;
     }
@@ -32,7 +38,8 @@ public class PlayerComponent implements Component {
         this.name = "NoName";
         this.lastSave = new Date().getTime();
         this.kokCount = 0;
-        this.resourceGainers = Collections.emptyList();
+        this.resourceGainers = new ArrayList<>();
+        this.firebaseResourceGainers = Collections.emptyList();
 
         return this;
     }
@@ -49,10 +56,6 @@ public class PlayerComponent implements Component {
         return kokCount;
     }
 
-    public List<Map<String, Object>> getResourceGainers() {
-        return resourceGainers;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -66,8 +69,17 @@ public class PlayerComponent implements Component {
     }
 
     public void setResourceGainers(List<Map<String, Object>> resourceGainers) {
-        this.resourceGainers = resourceGainers;
+        this.firebaseResourceGainers = resourceGainers;
     }
+
+    public List<Object> getResourceGainers() {
+        return resourceGainers;
+    }
+
+    public void addResourceGainers(ResourceGainerComponent resourceGainerComponent) {
+        resourceGainers.add(resourceGainerComponent);
+    }
+
 }
 
 

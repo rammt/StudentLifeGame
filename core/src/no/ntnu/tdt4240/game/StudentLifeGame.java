@@ -9,12 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.LoginScreen;
 
