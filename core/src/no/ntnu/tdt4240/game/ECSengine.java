@@ -11,6 +11,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Date;
+
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -19,6 +22,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.StatsComponent;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ControlSystem;
+import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.screens.StartScreen;
@@ -28,9 +32,12 @@ public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
+    private FirebaseInterface firebase;
 
-    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage){
+    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, FirebaseInterface firebase){
         super();
+
+        this.firebase = firebase;
 
         engine = new PooledEngine();
 
@@ -38,6 +45,7 @@ public class ECSengine{
         engine.addSystem(new RenderSystem(shapeRenderer, font, batch, stage));
         engine.addSystem(new ResourceGainSystem());
         engine.addSystem(new ControlSystem());
+        engine.addSystem(new OnStartGameSystem(firebase));
 
         game = engine.createEntity();
         game.add(new GameComponent().create());
@@ -59,17 +67,14 @@ public class ECSengine{
         resourceHacker.add(new ResourceComponent().create("kokere",500));
         engine.addEntity(resourceHacker);
 
-        Entity resourceGainer = engine.createEntity();
-        resourceGainer.add(new ResourceGainerComponent().create(3));
-        engine.addEntity(resourceGainer);
 
         Entity localPlayer = engine.createEntity();
-        localPlayer.add(new PlayerComponent().create("Insert name", 1));
+        localPlayer.add(new PlayerComponent().create());
         localPlayer.add(new StatsComponent().create(1));
         engine.addEntity(localPlayer);
 
-        game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
 
+        game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
 
     public PooledEngine getEngine(){
@@ -80,4 +85,7 @@ public class ECSengine{
         return game;
     }
 
+    public FirebaseInterface getFirebase() {
+        return firebase;
+    }
 }

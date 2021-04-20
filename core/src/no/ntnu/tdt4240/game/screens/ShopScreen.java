@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
+import no.ntnu.tdt4240.game.components.PlayerComponent;
 
 
 public class ShopScreen implements Screen {
@@ -21,19 +22,22 @@ public class ShopScreen implements Screen {
     final int buttonPadding;
     int counterEidBuy1,counterEidBuy2,counterEidBuy3,counterEidBuy4;
     String buy1String,buy2String,buy3String,buy4String;
+    PlayerComponent pc;
 
 
     public ShopScreen(final StudentLifeGame game) {
 
         this.game = game;
-
-        game.getStage().clear();
+        this.game.getStage().clear();
+        Entity player = game.getPlayer();
+        pc = player.getComponent(PlayerComponent.class);
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
+
         final int prisBuy1 = 100;
         final int prisBuy2 = 200;
         final int prisBuy3 = 500;
@@ -54,9 +58,10 @@ public class ShopScreen implements Screen {
             buy1String,game.getSkin(), new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(game.getKokCounter() >= prisBuy1){
+                    if(pc.getKokCount() >= prisBuy1){
                         counterEidBuy1++;
-                        game.setKokCounter(-prisBuy1);
+
+                        pc.setKokCount(pc.getKokCount()-prisBuy1);
                         System.out.println("KJØPTE KOKERE 1");
                     }
                     return true;
@@ -71,9 +76,9 @@ public class ShopScreen implements Screen {
             buy2String,game.getSkin(), new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(game.getKokCounter() >= prisBuy2){
+                    if(pc.getKokCount() >= prisBuy2){
                         counterEidBuy2++;
-                        game.setKokCounter(-prisBuy2);
+                        pc.setKokCount(pc.getKokCount()-prisBuy2);
                         System.out.println("KJØPTE KOKERE 2");
                     }
                     return true;
@@ -89,9 +94,9 @@ public class ShopScreen implements Screen {
          buy3String,game.getSkin(), new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                if(game.getKokCounter() >= prisBuy3){
+                if(pc.getKokCount() >= prisBuy3){
                     counterEidBuy3++;
-                    game.setKokCounter(-prisBuy3);
+                    pc.setKokCount(pc.getKokCount()-prisBuy3);
                     System.out.println("KJØPTE KOKERE 3");
                 }
                 return true;
@@ -107,9 +112,9 @@ public class ShopScreen implements Screen {
             buy4String,game.getSkin(), new InputListener(){
                 @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(game.getKokCounter() >= prisBuy4){
+                    if(pc.getKokCount() >= prisBuy4){
                         counterEidBuy4++;
-                        game.setKokCounter(-prisBuy4);
+                        pc.setKokCount(pc.getKokCount()-prisBuy4);
                         System.out.println("KJØPTE KOKERE 4");
                     }
                     return true;
@@ -139,7 +144,7 @@ public class ShopScreen implements Screen {
                 "Shop",game.getSkin(), new InputListener(){
                     @Override
                     public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        //game.setScreen(new ShopScreen(game));
+                        game.setScreen(new ShopScreen(game));
                         return true;
                     }}));
         game.getEngine().addEntity(settingsButton);
@@ -169,7 +174,7 @@ public class ShopScreen implements Screen {
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getKokCounter()),
+                "Kokt : " + String.valueOf(pc.getKokCount()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

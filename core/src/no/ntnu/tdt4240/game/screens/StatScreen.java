@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,9 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,72 +28,95 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import java.awt.Font;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
+import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
 public class StatScreen implements Screen{
 
-    final float BUTTONHEIGHTGUI;
-    final float BUTTONWIDTHGUI;
-    final int SCREENHEIGTH;
-    final int SCREENWIDTH;
-    final int buttonPadding;
-    private TextButton.TextButtonStyle textButtonStyleDOWN;
-    private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, gameButton;
+    private Label kokCount;
+    private Label antLevert;
+    private Label leaderboard;
+    private Label aiKok;
+    private Label hackerKok;
+    private Label professorKok;
 
+
+
+    private Button gameButton, saveStatsButton, saveOffline;
 
     final StudentLifeGame game;
 
     public StatScreen(final StudentLifeGame game) {
 
         this.game = game;
+        this.game.getStage().clear();
+        Entity player = game.getPlayer();
+        PlayerComponent pc = player.getComponent(PlayerComponent.class);
 
-        game.getStage().clear();
+        kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin()).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
+        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin()).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin()).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(0, "Professor som koker:", game.getSkin()).getTextFieldComponent();
 
-        SCREENHEIGTH = Gdx.graphics.getHeight();
-        SCREENWIDTH = Gdx.graphics.getWidth();
-        BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
-        BUTTONWIDTHGUI = SCREENWIDTH/4f;
-        buttonPadding = 10;
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.defaults().minWidth(500).expandX().minHeight(300).pad(40);
+        table.add(kokCount);
+        table.add(antLevert);
+        table.row();
+        table.add(leaderboard);
+        table.add(aiKok);
+        table.row();
+        table.add(hackerKok);
+        table.add(professorKok);
+
+        gameButton = new TextButton("back",game.getSkin());
+        gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
+        gameButton.setPosition(
+                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
+                0);
+        gameButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+
+                game.setScreen(new StartScreen(game));
+
+                return true;
+            }
+        });
+
+        saveStatsButton = new TextButton("Save Game", game.getSkin());
+        saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
+        saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f);
+        saveStatsButton.addListener(new InputListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+               game.firebase.saveStats(game.getPlayer());
+               return true;
+           }
+       });
 
 
-        Entity homeButton = game.getEngine().createEntity();
-        homeButton.add(new ButtonComponent().create(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/4f)-BUTTONWIDTHGUI/2-buttonPadding,50,
-                "Home",game.getSkin(), new InputListener(){
-                    @Override
-                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new StartScreen(game));
-                        return true;
-                    }}));
-        game.getEngine().addEntity(homeButton);
+        saveOffline = new TextButton("Save offline", game.getSkin());
+        saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
+        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 0);
+        saveOffline.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //game.getUser().saveOffline();
+                return true;
+            }
+        });
 
-        Entity settingsButton = game.getEngine().createEntity();
-        settingsButton.add(new ButtonComponent().create(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI/2,50,
-                "Shop",game.getSkin(), new InputListener(){
-                    @Override
-                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new ShopScreen(game));
-                        return true;
-                    }}));
-        game.getEngine().addEntity(settingsButton);
-
-        Entity ShopButton = game.getEngine().createEntity();
-        ShopButton.add(new ButtonComponent().create(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-BUTTONWIDTHGUI/2+buttonPadding,50,
-                "Stats",game.getSkin(), new InputListener(){
-                    @Override
-                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new StatScreen(game));
-                        return true;
-                    }}));
-        game.getEngine().addEntity(ShopButton);
-
+        game.getStage().addActor(gameButton);
+        game.getStage().addActor(table);
+        game.getStage().addActor(saveStatsButton);
+        game.getStage().addActor(saveOffline);
     }
 
     @Override
@@ -102,10 +129,17 @@ public class StatScreen implements Screen{
         game.getStage().draw();
         //batch tegner vi resten på
         game.getBatch().begin();
+        GlyphLayout layout = new GlyphLayout();
+        Entity player = game.getPlayer();
+        PlayerComponent pc = player.getComponent(PlayerComponent.class);
+
+        layout.setText(game.getFont(), pc.getName());
+        //GlyphLayout layout = new GlyphLayout();
+        //layout.setText(game.getFont(), game.getUser().getName());
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(game.getKokCounter()),
-                Gdx.graphics.getWidth()/3f,
+                pc.getName(),
+                Gdx.graphics.getWidth()/2f - (layout.width/2),
                 Gdx.graphics.getHeight()/1.2f
         );
         game.getBatch().end();
@@ -136,7 +170,6 @@ public class StatScreen implements Screen{
 
     @Override
     public void dispose() {
-
     }
 
 }

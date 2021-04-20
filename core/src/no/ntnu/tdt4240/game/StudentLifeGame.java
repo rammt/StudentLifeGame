@@ -1,5 +1,7 @@
 package no.ntnu.tdt4240.game;
 
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +21,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Date;
+
 import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -39,8 +44,6 @@ public class StudentLifeGame extends Game {
 		this.firebase = firebase;
 	}
 
-	private String user;
-
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private Stage stage;
@@ -50,7 +53,6 @@ public class StudentLifeGame extends Game {
     private ECSengine engine;
     private ShapeRenderer shapeRenderer;
 
-    private int kokCounter;
 
     @Override
     public void create() {
@@ -59,13 +61,12 @@ public class StudentLifeGame extends Game {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        kokCounter = 1000;
 
         shapeRenderer = new ShapeRenderer();
 
-        engine = new ECSengine(shapeRenderer,font,batch,stage);
+        engine = new ECSengine(shapeRenderer, font, batch, stage, firebase);
 
-        this.setScreen(new ShopScreen(this));
+        this.setScreen(new LoginScreen(this));
     }
 
     @Override
@@ -102,19 +103,9 @@ public class StudentLifeGame extends Game {
     public PooledEngine getEngine() {
         return engine.getEngine();
     }
-    public void setKokCounter(int increment){
-        kokCounter = kokCounter + increment;
-    }
-    public int getKokCounter(){
-        return kokCounter;
-    }
-    public String getUser() {
-        return user;
-    }
-    public void setUser(String user) {
-        this.user = user;
-    }
-    public ShapeRenderer getShapeRenderer(){
-        return shapeRenderer;
+
+    public Entity getPlayer() {
+        ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
+        return players.get(0);
     }
 }
