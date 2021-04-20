@@ -39,26 +39,30 @@ public class LoginScreen implements Screen {
         float buttonHeight = Gdx.graphics.getHeight()/8f;
         final OnStartGameSystem startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
 
-        cloudLogInBtn = new ButtonElement(buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
-                Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.firebase.onSignInButtonClicked();
-                startingSystem.onlineStart(game.getEngine());
-                game.setScreen(new StartScreen(game));
-                return true;
+        cloudLogInBtn = new ButtonElement(
+                buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
+            Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            game.firebase.onSignInButtonClicked();
+            startingSystem.onlineStart(game.getEngine());
+            game.setScreen(new StartScreen(game));
+            return true;
             }
         });
 
-        localLogInBtn = new ButtonElement(buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
-                Gdx.graphics.getHeight()/2f - buttonHeight/2, "Local Login", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                startingSystem.offlineStart(game.getEngine());
-                game.setScreen(new StartScreen(game));
-                return true;
-            }
-        });
+        localLogInBtn = new ButtonElement(
+            buttonWidth, buttonHeight,
+                Gdx.graphics.getWidth()/2f - buttonWidth/2, Gdx.graphics.getHeight()/2f - buttonHeight/2,
+                "Local Login", game.getSkin(), new InputListener() {
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            startingSystem.offlineStart(game.getEngine());
+            game.setScreen(new StartScreen(game));
+            return true;
+        }
+        }
+        );
 
 
 
@@ -74,7 +78,6 @@ public class LoginScreen implements Screen {
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
-
 
     }
 
