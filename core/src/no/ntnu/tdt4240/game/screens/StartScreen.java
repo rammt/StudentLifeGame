@@ -1,12 +1,22 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 
@@ -16,43 +26,95 @@ public class StartScreen implements Screen {
 
     final StudentLifeGame game;
 
-    public StartScreen(final StudentLifeGame game) {
+    public StartScreen(final StudentLifeGame game, final Entity onlinePlayer) {
         this.game = game;
+        this.game.getStage().clear();
 
-        float buttonWidth = Gdx.graphics.getWidth()/2f;
-        float buttonHeight = Gdx.graphics.getHeight()/8f;
         final OnStartGameSystem startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
 
-        cloudLogInBtn = new ButtonElement(
-                buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
-            Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            game.firebase.onSignInButtonClicked();
-            startingSystem.onlineStart(game.getEngine());
-            game.setScreen(new GameScreen(game));
-            return true;
+        Table layout = new Table();
+
+
+        final Entity offlinePlayer = startingSystem.getOfflinePlayer(game.getEngine());
+        PlayerComponent offlinePC = offlinePlayer.getComponent(PlayerComponent.class);
+        Label title = new Label("Use Local Data", game.getSkin());
+        title.setFontScale(3);
+        Label lastSave = new Label("Last save: " + new Date(offlinePC.getLastSave()).toString(), game.getSkin());
+        lastSave.setFontScale(2);
+        Label kokCount = new Label("KokCount: " + offlinePC.getKokCount(), game.getSkin());
+        kokCount.setFontScale(2);
+
+        Table localData = new Table();
+        localData.add(title);
+        localData.row();
+        localData.add(lastSave).pad(30, 10, 30, 10);
+        localData.row();
+        localData.add(kokCount).pad(30, 10, 30, 10);
+
+        localData.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                startingSystem.startGameWithPlayer(game.getEngine(), offlinePlayer);
+                game.setScreen(new GameScreen(game));
+                return true;
             }
         });
 
-        localLogInBtn = new ButtonElement(
-            buttonWidth, buttonHeight,
-                Gdx.graphics.getWidth()/2f - buttonWidth/2, Gdx.graphics.getHeight()/2f - buttonHeight/2,
-                "Local Login", game.getSkin(), new InputListener() {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            startingSystem.offlineStart(game.getEngine());
-            game.setScreen(new GameScreen(game));
-            return true;
-        }
-        }
-        );
+        if (onlinePlayer != null) {
+            PlayerComponent onlinePC = onlinePlayer.getComponent(PlayerComponent.class);
 
+            Label cloudTitle = new Label("Use Cloud Data", game.getSkin());
+            cloudTitle.setFontScale(3);
+            Label cloudLastSave = new Label("Last save: " + new Date(onlinePC.getLastSave()).toString(), game.getSkin());
+            cloudLastSave.setFontScale(2);
+            Label cloudKokCount = new Label("KokCount: " + onlinePC.getKokCount(), game.getSkin());
+            cloudKokCount.setFontScale(2);
+
+            Table cloudData = new Table();
+            cloudData.add(cloudTitle);
+            cloudData.row();
+            cloudData.add(cloudLastSave).pad(30, 10, 30, 10);
+            cloudData.row();
+            cloudData.add(cloudKokCount).pad(30, 10, 30, 10);
+
+            cloudData.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    startingSystem.startGameWithPlayer(game.getEngine(), onlinePlayer);
+                    game.setScreen(new GameScreen(game));
+                    return true;
+                }
+            });
+            layout.add(cloudData);
+        } else {
+            //TODO Set new screen after player is found. Create prettier button for login/use label with onClick.
+            float buttonWidth = Gdx.graphics.getWidth()/2f;
+            float buttonHeight = Gdx.graphics.getHeight()/8f;
+
+            cloudLogInBtn = new ButtonElement(
+                    buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
+                    Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.firebase.onSignInButtonClicked();
+                    Entity player = startingSystem.getOnlinePlayer(game.getEngine());
+                    game.setScreen(new StartScreen(game, player));
+                    return true;
+                }
+            });
+
+            layout.add(cloudLogInBtn);
+        }
+        layout.row();
+        layout.add(localData).padTop(100);
+
+        layout.setFillParent(true);
+        layout.setDebug(false);
 
 
         //legger til aktors
-        game.getStage().addActor(cloudLogInBtn);
-        game.getStage().addActor(localLogInBtn);
+        game.getStage().addActor(layout);
+        //game.getStage().addActor(localLogInBtn);
     }
 
     @Override

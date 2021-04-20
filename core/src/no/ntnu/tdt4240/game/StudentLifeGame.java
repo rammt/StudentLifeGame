@@ -47,7 +47,7 @@ public class StudentLifeGame extends Game {
 
         engine = new ECSengine(shapeRenderer, font, batch, stage, firebase);
 
-        this.setScreen(new StartScreen(this));
+        this.setScreen(new StartScreen(this, null));
     }
 
     @Override
