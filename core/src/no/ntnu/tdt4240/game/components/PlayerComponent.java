@@ -24,7 +24,7 @@ public class PlayerComponent implements Component {
         this.lastSave = lastSave;
         this.kokCount = kokCount;
         this.firebaseResourceGainers = firebaseResourceGainers;
-        resourceGainers = new ArrayList<>();
+        this.resourceGainers = new ArrayList<>();
         for(Map<String, Object> map : firebaseResourceGainers) {
             for(Map.Entry<String, Object> innerEntry : map.entrySet()) {
                 this.resourceGainers.add((ResourceGainerComponent) innerEntry.getValue());

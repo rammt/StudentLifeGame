@@ -30,8 +30,11 @@ public class ResourceGainSystem extends EntitySystem {
 
     private float calculateNewResourceGain(float gainIncrement) {
         float addedResources = 0;
+        PlayerComponent pc = pm.get(player.get(0));
+        pc.getResourceGainers();
 
         for (Entity resourceGainer : resourceGainers) {
+
             ResourceGainerComponent rgc = rgm.get(resourceGainer);
             addedResources += rgc.getGainPerSecond() * gainIncrement;
         }
