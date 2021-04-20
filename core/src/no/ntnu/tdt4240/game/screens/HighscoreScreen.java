@@ -13,21 +13,34 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
+import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 
 public class HighscoreScreen implements Screen {
 
     final StudentLifeGame game;
-    private Button gameButton;
+    private Button gameButton, statButton;
 
+    final float BUTTONHEIGHTGUI;
+    final float BUTTONWIDTHGUI;
+    final int SCREENHEIGTH;
+    final int SCREENWIDTH;
+    final int buttonPadding;
 
     public HighscoreScreen(final StudentLifeGame game) {
         this.game = game;
 
         game.getStage().clear();
 
+        SCREENHEIGTH = Gdx.graphics.getHeight();
+        SCREENWIDTH = Gdx.graphics.getWidth();
+        BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
+        BUTTONWIDTHGUI = SCREENWIDTH/4f;
+        buttonPadding = 10;
+
         Label title = new TextFieldComponent().create(null, "Highscores", game.getSkin(), 6, false).getTextFieldComponent();
-        title.setPosition(Gdx.graphics.getWidth()/3f,
+        title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2,
                 Gdx.graphics.getHeight()/1.2f);
+
 
         String[] users = {"holde", "flatner"};
         String[] stats = {"2", "4"};
@@ -47,30 +60,26 @@ public class HighscoreScreen implements Screen {
             table.row();
         }
 
-        gameButton = new TextButton("back",game.getSkin());
-        gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
-        gameButton.setPosition(
-                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                0);
-        gameButton.addListener(new InputListener(){
+        statButton = new ButtonElement(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
+                "BACK", game.getSkin(), new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new StatScreen(game));
-
                 return true;
             }
         });
 
         game.getStage().addActor(title);
         game.getStage().addActor(table);
-        game.getStage().addActor(gameButton);
+        game.getStage().addActor(statButton);
     }
 
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
         game.getStage().act();
         game.getStage().draw();
