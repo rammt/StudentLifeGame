@@ -10,8 +10,9 @@ import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.screens.HighscoreScreen;
 
 public interface FirebaseInterface {
-    void onSignInButtonClicked(Entity emptyPlayer);
-    void saveStats(Entity player);
+    void onSignInButtonClicked();
+    void savePlayerStats(Entity player);
+    void getPlayerStats(Entity player);
     List<Map<String,Object>> getHighscore();
 
     //void getStats(Player user);
