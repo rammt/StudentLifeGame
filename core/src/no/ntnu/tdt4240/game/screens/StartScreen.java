@@ -46,6 +46,7 @@ public class StartScreen implements Screen{
 
 	public StartScreen(final StudentLifeGame game) {
 		this.game = game;
+
 		game.getStage().clear();
 
 		copied = false;
@@ -120,7 +121,7 @@ public class StartScreen implements Screen{
 			}
 		});
 
-		statButton = new TextButton("STATS",game.getSkin());
+		statButton = new TextButton("SHOPS",game.getSkin());
 		statButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
 		statButton.setPosition(
 				Gdx.graphics.getWidth()/2f - deliverButton.getWidth()/2,
@@ -129,7 +130,7 @@ public class StartScreen implements Screen{
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
-				game.setScreen(new StatScreen(game));
+				game.setScreen(new ShopScreen(game));
 
 				return true;
 			}

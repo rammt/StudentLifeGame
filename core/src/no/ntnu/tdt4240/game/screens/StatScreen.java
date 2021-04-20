@@ -29,22 +29,14 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class StatScreen implements Screen{
 
+    final float BUTTONHEIGHTGUI;
+    final float BUTTONWIDTHGUI;
+    final int SCREENHEIGTH;
+    final int SCREENWIDTH;
+    final int buttonPadding;
     private TextButton.TextButtonStyle textButtonStyleDOWN;
     private TextButton.TextButtonStyle textButtonStyleUP;
     private Button copyButton, pasteButton, deliverButton, gameButton;
-    private boolean copied;
-    private boolean pasted;
-    private boolean delivered;
-
-    private int counter;
-
-    /* progressbar trash
-	private TextureRegionDrawable textureRegionDrawable;
-	private ProgressBar.ProgressBarStyle progressBarStyle;
-    private ProgressBar progressBar;
-	private Pixmap pixmap;
-	private BitmapFont buttonFont;
-     */
 
 
     final StudentLifeGame game;
@@ -55,78 +47,49 @@ public class StatScreen implements Screen{
 
         game.getStage().clear();
 
-        //progressbar shit, se bort trash
-		/*
-		pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		game.getSkin().add("white", new Texture(pixmap));
-		textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(
-			new Texture(Gdx.files.internal("skin/glassy-ui.png"))));
-		progressBarStyle = new ProgressBar.ProgressBarStyle(
-			game.getSkin().newDrawable("white", Color.DARK_GRAY), textureRegionDrawable);
-		progressBarStyle.knobBefore = progressBarStyle.knob;
-		 */
+        SCREENHEIGTH = Gdx.graphics.getHeight();
+        SCREENWIDTH = Gdx.graphics.getWidth();
+        BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
+        BUTTONWIDTHGUI = SCREENWIDTH/4f;
+        buttonPadding = 10;
 
 
-        gameButton = new TextButton("back",game.getSkin());
-        gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
-        gameButton.setPosition(
-                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                0);
-        gameButton.addListener(new InputListener(){
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+        Entity homeButton = game.getEngine().createEntity();
+        homeButton.add(new ButtonComponent().create(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/4f)-BUTTONWIDTHGUI/2-buttonPadding,50,
+                "Home",game.getSkin(), new InputListener(){
+                    @Override
+                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                        game.setScreen(new StartScreen(game));
+                        return true;
+                    }}));
+        game.getEngine().addEntity(homeButton);
 
-                game.setScreen(new StartScreen(game));
+        Entity settingsButton = game.getEngine().createEntity();
+        settingsButton.add(new ButtonComponent().create(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI/2,50,
+                "Shop",game.getSkin(), new InputListener(){
+                    @Override
+                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                        game.setScreen(new ShopScreen(game));
+                        return true;
+                    }}));
+        game.getEngine().addEntity(settingsButton);
 
-                return true;
-            }
-        });
+        Entity ShopButton = game.getEngine().createEntity();
+        ShopButton.add(new ButtonComponent().create(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH*3/4f)-BUTTONWIDTHGUI/2+buttonPadding,50,
+                "Stats",game.getSkin(), new InputListener(){
+                    @Override
+                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                        game.setScreen(new StatScreen(game));
+                        return true;
+                    }}));
+        game.getEngine().addEntity(ShopButton);
 
-        textButtonStyleDOWN = new TextButton.TextButtonStyle(
-                gameButton.getStyle().down,
-                gameButton.getStyle().down,
-                gameButton.getStyle().down,
-                game.getFont()
-
-        );
-        textButtonStyleUP = new TextButton.TextButtonStyle(
-                gameButton.getStyle().up,
-                gameButton.getStyle().down,
-                gameButton.getStyle().checked,
-                game.getFont()
-        );
-
-        final Boolean checked = false;
-        InputListener inputListner = new InputListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        };
-
-        Entity testButton = game.getEngine().createEntity();
-        testButton.add(new ButtonComponent().create(
-                Gdx.graphics.getWidth()/2f,
-                Gdx.graphics.getHeight()/8f,
-                Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2f - gameButton.getHeight()/2,
-                "test", game.getSkin(), inputListner));
-        game.getEngine().addEntity(testButton);
-
-		/*
-		//progressbar på hvor langt du har kommet
-		progressBar = new ProgressBar(0, 10, 0.5f, true,
-			game.getSkin(), "default-horizontal");
-		progressBar.setPosition(Gdx.graphics.getWidth()/7f,Gdx.graphics.getWidth()/2f );
-		progressBar.setSize(copyButton.getWidth()/10,copyButton.getHeight()*3);
-		progressBar.setAnimateDuration(2);
-		 */
-
-        //legger til aktors
-        //game.getStage().addActor(progressBar);
-        game.getStage().addActor(gameButton);
     }
 
     @Override

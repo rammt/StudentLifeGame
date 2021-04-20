@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -28,6 +26,9 @@ public class ShopScreen implements Screen {
     public ShopScreen(final StudentLifeGame game) {
 
         this.game = game;
+
+        game.getStage().clear();
+
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
@@ -37,16 +38,15 @@ public class ShopScreen implements Screen {
         final int prisBuy2 = 200;
         final int prisBuy3 = 500;
         final int prisBuy4 = 1000;
-        buy1String = "Betalte kokere ( " + counterEidBuy1 + " ) "+prisBuy1+",-";
-        buy2String = "Studass som koker ( " + counterEidBuy2 + " ) "+prisBuy2+",-";
-        buy3String = "kok scripts ( " + counterEidBuy3 + " ) "+prisBuy3+",-";
-        buy4String = "Kok Hackere ( " + counterEidBuy4 + " ) "+prisBuy4+",-";
+        buy1String = "Betalte kokere "+prisBuy1+",-";
+        buy2String = "Studass som koker "+prisBuy2+",-";
+        buy3String = "kok scripts "+prisBuy3+",-";
+        buy4String = "Kok Hackere "+prisBuy4+",-";
 
-        game.getStage().clear();
 
-        //shop elementer
+        //TODO lmao, burde hente alle resourcecompontene og bygge et listview
 
-        Entity BUY1 = game.getEngine().createEntity();
+        final Entity BUY1 = game.getEngine().createEntity();
         counterEidBuy1 = 0;
         BUY1.add(new ButtonComponent().create(
             BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
@@ -116,7 +116,9 @@ public class ShopScreen implements Screen {
                 }}));
         game.getEngine().addEntity(BUY4);
 
+
         //TODO Meny gui, kanskje ha dette i en egen element klasse?
+
 
         Entity homeButton = game.getEngine().createEntity();
         homeButton.add(new ButtonComponent().create(
@@ -170,6 +172,30 @@ public class ShopScreen implements Screen {
                 "Kokt : " + String.valueOf(game.getKokCounter()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
+        );
+        game.getFont().draw(
+                game.getBatch(),
+                ""+counterEidBuy1,
+                25,
+                SCREENHEIGTH*5/8f+BUTTONHEIGHTGUI/2
+        );
+        game.getFont().draw(
+                game.getBatch(),
+                ""+counterEidBuy2,
+                25,
+                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI+BUTTONHEIGHTGUI/2
+        );
+        game.getFont().draw(
+                game.getBatch(),
+                ""+counterEidBuy3,
+                25,
+                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2+BUTTONHEIGHTGUI/2
+        );
+        game.getFont().draw(
+                game.getBatch(),
+                "" + counterEidBuy4,
+                25,
+                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3+BUTTONHEIGHTGUI/2
         );
         game.getBatch().end();
 

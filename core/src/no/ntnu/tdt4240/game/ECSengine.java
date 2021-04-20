@@ -43,9 +43,21 @@ public class ECSengine{
         game.add(new GameComponent().create());
         engine.addEntity(game);
 
-        Entity resource = engine.createEntity();
-        resource.add(new ResourceComponent().create("Studass",20));
-        engine.addEntity(resource);
+        Entity resourceKok = engine.createEntity();
+        resourceKok.add(new ResourceComponent().create("kokere",10));
+        engine.addEntity(resourceKok);
+
+        Entity resourceStud = engine.createEntity();
+        resourceStud.add(new ResourceComponent().create("kokere",50));
+        engine.addEntity(resourceStud);
+
+        Entity resourceScripter = engine.createEntity();
+        resourceScripter.add(new ResourceComponent().create("kokere",100));
+        engine.addEntity(resourceScripter);
+
+        Entity resourceHacker = engine.createEntity();
+        resourceHacker.add(new ResourceComponent().create("kokere",500));
+        engine.addEntity(resourceHacker);
 
         Entity resourceGainer = engine.createEntity();
         resourceGainer.add(new ResourceGainerComponent().create(3));
