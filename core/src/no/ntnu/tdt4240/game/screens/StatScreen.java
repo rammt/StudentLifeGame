@@ -3,35 +3,23 @@ package no.ntnu.tdt4240.game.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-
-import java.awt.Font;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.components.ButtonComponent;
-import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
+import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class StatScreen implements Screen{
 
@@ -65,7 +53,7 @@ public class StatScreen implements Screen{
 
         Table table = new Table();
         table.setFillParent(true);
-        table.defaults().minWidth(500).expandX().minHeight(300).pad(40);
+        table.defaults().minWidth(500).minHeight(300).pad(40);
         table.add(kokCount);
         table.add(antLevert);
         table.row();
@@ -79,24 +67,22 @@ public class StatScreen implements Screen{
         gameButton.setSize(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/8f);
         gameButton.setPosition(
                 Gdx.graphics.getWidth()/2f - gameButton.getWidth()/2,
-                0);
+                20);
         gameButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-
                 game.setScreen(new StartScreen(game));
-
                 return true;
             }
         });
 
         saveStatsButton = new TextButton("Save Game", game.getSkin());
         saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
-        saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f);
+        saveStatsButton.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, Gdx.graphics.getHeight()/16f+20);
         saveStatsButton.addListener(new InputListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-               game.firebase.saveStats(game.getPlayer());
+               game.firebase.savePlayerStats(game.getPlayer());
                return true;
            }
        });
@@ -104,11 +90,12 @@ public class StatScreen implements Screen{
 
         saveOffline = new TextButton("Save offline", game.getSkin());
         saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/16f);
-        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 0);
+        saveOffline.setPosition(Gdx.graphics.getWidth() - gameButton.getWidth()/2, 20);
         saveOffline.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //game.getUser().saveOffline();
+                SavingSystem savingSystem = game.getEngine().getSystem(SavingSystem.class);
+                savingSystem.saveOffline();
                 return true;
             }
         });
@@ -122,7 +109,7 @@ public class StatScreen implements Screen{
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();

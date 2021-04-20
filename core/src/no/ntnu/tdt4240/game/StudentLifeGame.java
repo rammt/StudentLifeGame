@@ -7,35 +7,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.Date;
-
-import no.ntnu.tdt4240.game.components.ButtonComponent;
-import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.components.ResourceComponent;
-import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.screens.LoginScreen;
-import no.ntnu.tdt4240.game.screens.ShopScreen;
-import no.ntnu.tdt4240.game.systems.AudioSystem;
-import no.ntnu.tdt4240.game.systems.ControlSystem;
-import no.ntnu.tdt4240.game.systems.RenderSystem;
-import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
-import no.ntnu.tdt4240.game.screens.StartScreen;
 
 public class StudentLifeGame extends Game {
 	public FirebaseInterface firebase;
