@@ -17,6 +17,7 @@ import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 public class ShopScreen implements Screen {
 
     private Button statButton, gameButton, shopButton;
+    private Button buy1Button, buy2Button, buy3Button, buy4Button;
     final StudentLifeGame game;
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
@@ -41,88 +42,94 @@ public class ShopScreen implements Screen {
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-        final int prisBuy1 = 100;
-        final int prisBuy2 = 200;
-        final int prisBuy3 = 500;
-        final int prisBuy4 = 1000;
-        buy1String = "Betalte kokere "+prisBuy1+",-";
-        buy2String = "Studass som koker "+prisBuy2+",-";
-        buy3String = "kok scripts "+prisBuy3+",-";
-        buy4String = "Kok Hackere "+prisBuy4+",-";
 
 
         //TODO lmao, burde hente alle resourcecompontene og bygge et listview
 
-        final Entity BUY1 = game.getEngine().createEntity();
         counterEidBuy1 = 0;
-        BUY1.add(new ButtonComponent().create(
-            BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-            (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2,SCREENHEIGTH*5/8f,
-            buy1String,game.getSkin(), new InputListener(){
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(pc.getKokCount() >= prisBuy1){
-                        counterEidBuy1++;
+        final int prisBuy1 = 100;
+        buy1String = "Betalte kokere "+prisBuy1+",-";
 
-                        pc.setKokCount(pc.getKokCount()-prisBuy1);
-                        System.out.println("KJØPTE KOKERE 1");
-                    }
-                    return true;
-                }}));
-        game.getEngine().addEntity(BUY1);
-
-        Entity BUY2 = game.getEngine().createEntity();
-        counterEidBuy2= 0;
-        BUY2.add(new ButtonComponent().create(
-            BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-            (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2,SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-buttonPadding,
-            buy2String,game.getSkin(), new InputListener(){
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(pc.getKokCount() >= prisBuy2){
-                        counterEidBuy2++;
-                        pc.setKokCount(pc.getKokCount()-prisBuy2);
-                        System.out.println("KJØPTE KOKERE 2");
-                    }
-                    return true;
-                }}));
-        game.getEngine().addEntity(BUY2);
-
-
-        Entity BUY3 = game.getEngine().createEntity();
-        counterEidBuy3= 0;
-        BUY3.add(new ButtonComponent().create(
-        BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-        (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2,SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-buttonPadding*2,
-         buy3String,game.getSkin(), new InputListener(){
+        InputListener buy1Listener = new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(pc.getKokCount() >= prisBuy1){
+                    counterEidBuy1++;
+
+                    pc.setKokCount(pc.getKokCount()-prisBuy1);
+                    System.out.println("KJØPTE KOKERE 1");
+                }
+                return true;
+            }
+        };
+        buy1Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
+                buy1String, game.getSkin(), buy1Listener
+        );
+
+        counterEidBuy2= 0;
+        final int prisBuy2 = 200;
+        buy2String = "Studass som koker "+prisBuy2+",-";
+
+        InputListener buy2Listener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(pc.getKokCount() >= prisBuy2){
+                    counterEidBuy2++;
+                    pc.setKokCount(pc.getKokCount()-prisBuy2);
+                    System.out.println("KJØPTE KOKERE 2");
+                }
+                return true;
+            }
+        };
+        buy2Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-buttonPadding,
+                buy2String, game.getSkin(), buy2Listener
+        );
+
+        counterEidBuy3= 0;
+        final int prisBuy3 = 500;
+        buy3String = "kok scripts "+prisBuy3+",-";
+
+        InputListener buy3Listener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(pc.getKokCount() >= prisBuy3){
                     counterEidBuy3++;
                     pc.setKokCount(pc.getKokCount()-prisBuy3);
                     System.out.println("KJØPTE KOKERE 3");
                 }
                 return true;
-            }}));
-        game.getEngine().addEntity(BUY3);
+            }
+        };
+        buy3Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-buttonPadding*2,
+                buy3String, game.getSkin(), buy3Listener
+        );
 
-
-        Entity BUY4 = game.getEngine().createEntity();
         counterEidBuy4 = 0;
-        BUY4.add(new ButtonComponent().create(
-            BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-            (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2,SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-buttonPadding*3,
-            buy4String,game.getSkin(), new InputListener(){
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    if(pc.getKokCount() >= prisBuy4){
-                        counterEidBuy4++;
-                        pc.setKokCount(pc.getKokCount()-prisBuy4);
-                        System.out.println("KJØPTE KOKERE 4");
-                    }
-                    return true;
-                }}));
-        game.getEngine().addEntity(BUY4);
+        final int prisBuy4 = 1000;
+        buy4String = "Kok Hackere "+prisBuy4+",-";
+
+        InputListener buy4Listener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(pc.getKokCount() >= prisBuy4){
+                    counterEidBuy4++;
+                    pc.setKokCount(pc.getKokCount()-prisBuy4);
+                    System.out.println("KJØPTE KOKERE 4");
+                }
+                return true;
+            }
+        };
+        buy4Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-buttonPadding*3,
+                buy4String, game.getSkin(), buy4Listener
+        );
 
         InputListener gameListener = new InputListener() {
             @Override
@@ -160,6 +167,10 @@ public class ShopScreen implements Screen {
         );
 
         //add actors til stagen
+        game.getStage().addActor(buy1Button);
+        game.getStage().addActor(buy2Button);
+        game.getStage().addActor(buy3Button);
+        game.getStage().addActor(buy4Button);
         game.getStage().addActor(statButton);
         game.getStage().addActor(gameButton);
         game.getStage().addActor(shopButton);
