@@ -32,7 +32,7 @@ public class OnStartGameSystem extends EntitySystem {
 
     }
 
-    public void offlineStart(Engine engine) {
+    public Entity getOfflinePlayer(Engine engine) {
         Entity player = engine.createEntity();
         SavingSystem ss = engine.getSystem(SavingSystem.class);
         PlayerComponent pc;
@@ -44,27 +44,26 @@ public class OnStartGameSystem extends EntitySystem {
         }
 
         player.add(pc);
-        engine.addEntity(player);
-        ss.addPlayer(player);
+
+        return player;
     }
 
-    public void onlineStart(Engine engine) {
+    public Entity getOnlinePlayer(Engine engine) {
         Entity player = engine.createEntity();
         player.add(new PlayerComponent().create());
         SavingSystem ss = engine.getSystem(SavingSystem.class);
 
         firebase.getPlayerStats(player);
+
+        return player;
+    }
+
+    public void startGameWithPlayer(Engine engine, Entity player) {
+        SavingSystem ss = engine.getSystem(SavingSystem.class);
+
         engine.addEntity(player);
         ss.addPlayer(player);
     }
-
-
-    /*private boolean isOfflineStart() {
-        Entity player =
-        firebase.getStats(Pla);
-
-        return true;
-    }*/
 
     /*private void addOfflineResources() {
         long secondsSinceSave = (new Date().getTime() - player.getLastSave())/1000;

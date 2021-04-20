@@ -3,206 +3,153 @@ package no.ntnu.tdt4240.game.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 
-public class StartScreen implements Screen{
+public class StartScreen implements Screen {
 
-	private TextButton.TextButtonStyle textButtonStyleDOWN;
-	private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, copyPasteDeliverButton;
-	private Button statButton, gameButton, shopButton;
-    private boolean copied;
-    private boolean pasted;
-    private boolean delivered;
-    private boolean upgraded = false;
-    private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
+    private ButtonElement cloudLogInBtn, localLogInBtn;
 
+    final StudentLifeGame game;
 
-	final StudentLifeGame game;
-	public StartScreen(final StudentLifeGame game) {
+    public StartScreen(final StudentLifeGame game, final Entity onlinePlayer) {
+        this.game = game;
+        this.game.getStage().clear();
 
-		this.game = game;
-		this.game.getStage().clear();
-		copied = false;
-		pasted = false;
-		delivered = false;
+        final OnStartGameSystem startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
 
-		SCREENHEIGHT = Gdx.graphics.getHeight();
-		SCREENWIDTH = Gdx.graphics.getWidth();
-		BUTTONHEIGHTGUI = SCREENHEIGHT/8;
-		BUTTONWIDTHGUI = SCREENWIDTH/4;
-
-		//TODO æsj fiks dette her
-		float width = Gdx.graphics.getWidth()/2f;
-		float height = Gdx.graphics.getHeight()/8f;
-		float x = Gdx.graphics.getWidth()/2f - width/2;
-		float copyY = Gdx.graphics.getHeight()/2f + height/2;
-		float pasteY = Gdx.graphics.getHeight()/2f - height/2;
-		float deliverY = Gdx.graphics.getHeight()/2f - height*1.5f;
-		//kode for knappene pluss logikk når knappen trykkes
-
-		copyButton = new ButtonElement(
-				x, copyY,
-				"COPY", game.getSkin(), new InputListener(){
-			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				if(!copied){
-					copied = true;
-					copyButton.setStyle(textButtonStyleDOWN);
-				}
-				return true;
-			}
-		});
-
-		pasteButton = new ButtonElement(
-				x, pasteY,
-				"PASTEBUTTON", game.getSkin(), new InputListener(){
-			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				if(copied && !pasted){
-					pasted = true;
-					//test
-					pasteButton.setStyle(textButtonStyleDOWN);
-				}
-				return true;
-			}
-		});
-
-		deliverButton = new ButtonElement(
-				x, deliverY,
-				"DELIVER", game.getSkin(), new InputListener(){
-			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				if(copied && pasted && !delivered){
-					copied=false;
-					pasted=false;
-					Entity player = game.getPlayer();
-					PlayerComponent pc = player.getComponent(PlayerComponent.class);
-					pc.setKokCount(pc.getKokCount()+1);
-
-					copyButton.setStyle(textButtonStyleUP);
-					pasteButton.setStyle(textButtonStyleUP);
-				}
-				return true;
-			}
-		});
-
-		gameButton = new ButtonElement(
-				BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-				(SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-				"GAME", game.getSkin(), new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new StartScreen(game));
-				return true;
-			}
-		});
-
-		shopButton = new ButtonElement(
-			BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-			(SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-			"SHOP", game.getSkin(), new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new ShopScreen(game));
-				return true;
-			}
-		});
-
-		statButton = new ButtonElement(
-			BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-			(SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-			"STATS", game.getSkin(), new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new StatScreen(game));
-				return true;
-			}
-		});
+        Table layout = new Table();
 
 
-		textButtonStyleDOWN = new TextButton.TextButtonStyle(
-			copyButton.getStyle().down,
-			copyButton.getStyle().down,
-			copyButton.getStyle().down,
-			game.getFont()
+        final Entity offlinePlayer = startingSystem.getOfflinePlayer(game.getEngine());
+        PlayerComponent offlinePC = offlinePlayer.getComponent(PlayerComponent.class);
+        Label title = new Label("Use Local Data", game.getSkin());
+        title.setFontScale(3);
+        Label lastSave = new Label("Last save: " + new Date(offlinePC.getLastSave()).toString(), game.getSkin());
+        lastSave.setFontScale(2);
+        Label kokCount = new Label("KokCount: " + offlinePC.getKokCount(), game.getSkin());
+        kokCount.setFontScale(2);
 
-		);
-		textButtonStyleUP = new TextButton.TextButtonStyle(
-			copyButton.getStyle().up,
-			copyButton.getStyle().down,
-			copyButton.getStyle().checked,
-			game.getFont()
-		);
+        Table localData = new Table();
+        localData.add(title);
+        localData.row();
+        localData.add(lastSave).pad(30, 10, 30, 10);
+        localData.row();
+        localData.add(kokCount).pad(30, 10, 30, 10);
+
+        localData.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                startingSystem.startGameWithPlayer(game.getEngine(), offlinePlayer);
+                game.setScreen(new GameScreen(game));
+                return true;
+            }
+        });
+
+        if (onlinePlayer != null) {
+            PlayerComponent onlinePC = onlinePlayer.getComponent(PlayerComponent.class);
+
+            Label cloudTitle = new Label("Use Cloud Data", game.getSkin());
+            cloudTitle.setFontScale(3);
+            Label cloudLastSave = new Label("Last save: " + new Date(onlinePC.getLastSave()).toString(), game.getSkin());
+            cloudLastSave.setFontScale(2);
+            Label cloudKokCount = new Label("KokCount: " + onlinePC.getKokCount(), game.getSkin());
+            cloudKokCount.setFontScale(2);
+
+            Table cloudData = new Table();
+            cloudData.add(cloudTitle);
+            cloudData.row();
+            cloudData.add(cloudLastSave).pad(30, 10, 30, 10);
+            cloudData.row();
+            cloudData.add(cloudKokCount).pad(30, 10, 30, 10);
+
+            cloudData.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    startingSystem.startGameWithPlayer(game.getEngine(), onlinePlayer);
+                    game.setScreen(new GameScreen(game));
+                    return true;
+                }
+            });
+            layout.add(cloudData);
+        } else {
+            //TODO Set new screen after player is found. Create prettier button for login/use label with onClick.
+            float buttonWidth = Gdx.graphics.getWidth()/2f;
+            float buttonHeight = Gdx.graphics.getHeight()/8f;
+
+            cloudLogInBtn = new ButtonElement(
+                    buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
+                    Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.firebase.onSignInButtonClicked();
+                    Entity player = startingSystem.getOnlinePlayer(game.getEngine());
+                    game.setScreen(new StartScreen(game, player));
+                    return true;
+                }
+            });
+
+            layout.add(cloudLogInBtn);
+        }
+        layout.row();
+        layout.add(localData).padTop(100);
+
+        layout.setFillParent(true);
+        layout.setDebug(false);
 
 
-		//legger til aktors
-		if(upgraded){
-			game.getStage().addActor(copyPasteDeliverButton);
-		}
-		else{
-			game.getStage().addActor(copyButton);
-			game.getStage().addActor(pasteButton);
-			game.getStage().addActor(deliverButton);
-		}
-		game.getStage().addActor(statButton);
-		game.getStage().addActor(gameButton);
-		game.getStage().addActor(shopButton);
-	}
+        //legger til aktors
+        game.getStage().addActor(layout);
+        //game.getStage().addActor(localLogInBtn);
+    }
 
-	@Override
-	public void render(float delta) {
-
+    @Override
+    public void render(float delta) {
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
         // stage tegner aktorsa
-		game.getStage().act();
-		game.getStage().draw();
-		//batch tegner vi resten på
-		game.getBatch().begin();
-		Entity player = game.getPlayer();
-		PlayerComponent pc = player.getComponent(PlayerComponent.class);
-		game.getFont().draw(
-			game.getBatch(),
-			"Kok : " + pc.getKokCount(),
-			Gdx.graphics.getWidth()/3f,
-			Gdx.graphics.getHeight()/1.2f
-		);
-		game.getBatch().end();
+        game.getStage().act();
+        game.getStage().draw();
 
-		game.getEngine().update(Gdx.graphics.getDeltaTime());
+    }
 
-	}
+    @Override
+    public void resize(int width, int height) {
+    }
 
-	@Override
-	public void resize(int width, int height) {
-	}
+    @Override
+    public void show() {
+    }
 
-	@Override
-	public void show() {
-	}
+    @Override
+    public void hide() {
+    }
 
-	@Override
-	public void hide() {
-	}
+    @Override
+    public void pause() {
+    }
 
-	@Override
-	public void pause() {
-	}
+    @Override
+    public void resume() {
+    }
 
-	@Override
-	public void resume() {
-	}
+    @Override
+    public void dispose() {
 
-	@Override
-	public void dispose() {
-	}
-    
+    }
+
 }

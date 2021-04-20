@@ -6,10 +6,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.utils.Timer;
 
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.components.ResourceComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class ResourceGainSystem extends EntitySystem {

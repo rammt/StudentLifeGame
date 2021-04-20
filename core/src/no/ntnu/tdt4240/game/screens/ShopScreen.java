@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.components.ButtonComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
@@ -145,7 +144,7 @@ public class ShopScreen implements Screen {
                 "GAME", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new StartScreen(game));
+                game.setScreen(new GameScreen(game));
                 return true;
             }
         });
@@ -185,7 +184,7 @@ public class ShopScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();
