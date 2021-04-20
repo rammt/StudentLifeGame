@@ -201,7 +201,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	public List<Map<String, Object>> getHighscore() {
 		CollectionReference colRefPlayers = db.collection("players");
-		colRefPlayers.orderBy("kokCount", Query.Direction.DESCENDING).limit(10).get()
+		colRefPlayers.orderBy("kokCount", Query.Direction.DESCENDING).limit(5).get()
 				.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 					@Override
 					public void onComplete(@NonNull Task<QuerySnapshot> task) {
