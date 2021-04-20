@@ -50,7 +50,10 @@ public class ShopScreen implements Screen {
         final int prisBuy1 = 100;
         buy1String = "Betalte kokere "+prisBuy1+",-";
 
-        InputListener buy1Listener = new InputListener() {
+        buy1Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
+                buy1String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(pc.getKokCount() >= prisBuy1){
@@ -61,18 +64,16 @@ public class ShopScreen implements Screen {
                 }
                 return true;
             }
-        };
-        buy1Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
-                buy1String, game.getSkin(), buy1Listener
-        );
+        });
 
         counterEidBuy2= 0;
         final int prisBuy2 = 200;
         buy2String = "Studass som koker "+prisBuy2+",-";
 
-        InputListener buy2Listener = new InputListener() {
+        buy2Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-buttonPadding,
+                buy2String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(pc.getKokCount() >= prisBuy2){
@@ -82,18 +83,16 @@ public class ShopScreen implements Screen {
                 }
                 return true;
             }
-        };
-        buy2Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-buttonPadding,
-                buy2String, game.getSkin(), buy2Listener
-        );
+        });
 
         counterEidBuy3= 0;
         final int prisBuy3 = 500;
         buy3String = "kok scripts "+prisBuy3+",-";
 
-        InputListener buy3Listener = new InputListener() {
+        buy3Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-buttonPadding*2,
+                buy3String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(pc.getKokCount() >= prisBuy3){
@@ -103,18 +102,16 @@ public class ShopScreen implements Screen {
                 }
                 return true;
             }
-        };
-        buy3Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-buttonPadding*2,
-                buy3String, game.getSkin(), buy3Listener
-        );
+        });
 
         counterEidBuy4 = 0;
         final int prisBuy4 = 1000;
         buy4String = "Kok Hackere "+prisBuy4+",-";
 
-        InputListener buy4Listener = new InputListener() {
+        buy4Button = new ButtonElement(
+                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-buttonPadding*3,
+                buy4String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(pc.getKokCount() >= prisBuy4){
@@ -124,47 +121,40 @@ public class ShopScreen implements Screen {
                 }
                 return true;
             }
-        };
-        buy4Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-buttonPadding*3,
-                buy4String, game.getSkin(), buy4Listener
-        );
+        });
 
-        InputListener gameListener = new InputListener() {
+        gameButton = new ButtonElement(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
+                "GAME", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new StartScreen(game));
                 return true;
             }
-        };
-        gameButton = new ButtonElement(BUTTONWIDTHGUI,BUTTONHEIGHTGUI,(SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50, "GAME", game.getSkin(), gameListener);
+        });
 
-        InputListener shopListener = new InputListener() {
+        shopButton = new ButtonElement(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
+                "SHOP", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new ShopScreen(game));
                 return true;
             }
-        };
-        shopButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                "SHOP", game.getSkin(), shopListener
-        );
+        });
 
-        InputListener statListener = new InputListener() {
+        statButton = new ButtonElement(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
+                "STATS", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new StatScreen(game));
                 return true;
             }
-        };
-        statButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                "STATS", game.getSkin(), statListener
-        );
+        });
 
         //add actors til stagen
         game.getStage().addActor(buy1Button);
