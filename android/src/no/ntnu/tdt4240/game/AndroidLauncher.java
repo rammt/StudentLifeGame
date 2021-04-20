@@ -25,18 +25,25 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.screens.HighscoreScreen;
 
 public class AndroidLauncher extends AndroidApplication implements FirebaseInterface {
 
@@ -50,8 +57,11 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private Entity player;
 
+	private List<Map<String, Object>> highscoreList = new ArrayList<Map<String, Object>>();
+
+
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
@@ -188,6 +198,31 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 			db.collection("players").document(fb_user.getUid()).set(playerMap);
 		}
 	}
+
+	public List<Map<String, Object>> getHighscore() {
+		CollectionReference colRefPlayers = db.collection("players");
+		colRefPlayers.orderBy("kokCount", Query.Direction.DESCENDING).limit(5).get()
+				.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+					@Override
+					public void onComplete(@NonNull Task<QuerySnapshot> task) {
+						if (task.isSuccessful()) {
+							highscoreList.clear();
+							for (QueryDocumentSnapshot document : task.getResult()) {
+						/*Long kokTemp = document.getLong("kokCount");
+						float kokCount = kokTemp.floatValue();*/
+								highscoreList.add(document.getData());
+								Log.d(TAG, document.getId() + " => " + document.getData());
+							}
+
+						} else {
+							Log.d(TAG, "Error getting documents: " + task.getException());
+						}
+					}
+				});
+		return highscoreList;
+	}
+
+
 
 
 	@Override
