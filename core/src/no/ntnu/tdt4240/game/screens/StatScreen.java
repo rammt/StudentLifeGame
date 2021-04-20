@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.awt.Font;
+import java.util.List;
+import java.util.Map;
+
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
@@ -111,7 +115,6 @@ public class StatScreen implements Screen{
         highscoreButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-
                 game.setScreen(new HighscoreScreen(game));
 
                 return true;
