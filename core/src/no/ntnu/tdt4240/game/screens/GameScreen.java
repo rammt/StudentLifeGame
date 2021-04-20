@@ -24,7 +24,6 @@ public class GameScreen implements Screen{
     private boolean upgraded = false;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
 
-
 	final StudentLifeGame game;
 	public GameScreen(final StudentLifeGame game) {
 
@@ -63,7 +62,7 @@ public class GameScreen implements Screen{
 
 		pasteButton = new ButtonElement(
 				x, pasteY,
-				"PASTEBUTTON", game.getSkin(), new InputListener(){
+				"PASTE", game.getSkin(), new InputListener(){
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				if(copied && !pasted){
@@ -90,6 +89,16 @@ public class GameScreen implements Screen{
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
 				}
+				return true;
+			}
+		});
+
+		copyPasteDeliverButton = new ButtonElement(x, pasteY, "KOK", game.getSkin(), new InputListener() {
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				Entity player = game.getPlayer();
+				PlayerComponent pc = player.getComponent(PlayerComponent.class);
+				pc.setKokCount(pc.getKokCount() + 1);
 				return true;
 			}
 		});
