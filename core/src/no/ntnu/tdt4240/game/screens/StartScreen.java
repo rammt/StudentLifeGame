@@ -53,10 +53,7 @@ public class StartScreen implements Screen{
 				return true;
 			}
 		};
-<<<<<<< HEAD
-=======
 
->>>>>>> 55fb4c9ab49084b8866afc6b93cbc020098f5990
 		float copyY = Gdx.graphics.getHeight()/2f + height/2;
 		copyButton = new ButtonElement(x, copyY, "COPY", game.getSkin(), copyListener);
 
@@ -72,11 +69,7 @@ public class StartScreen implements Screen{
 			}
 		};
 		float pasteY = Gdx.graphics.getHeight()/2f - height/2;
-<<<<<<< HEAD
 		pasteButton = new ButtonElement(x, pasteY, "PASTEBUTTON", game.getSkin(), pasteListener);
-=======
-		pasteButton = new ButtonElement(x, pasteY, "PASTE", game.getSkin(), pasteListener);
->>>>>>> 55fb4c9ab49084b8866afc6b93cbc020098f5990
 
 		InputListener deliverListener = new InputListener(){
 			@Override
@@ -97,15 +90,7 @@ public class StartScreen implements Screen{
 
 
 		float deliverY = Gdx.graphics.getHeight()/2f - height*1.5f;
-<<<<<<< HEAD
-		deliverButton = new ButtonElement(x, deliverY, "DELIVERBUTTON", game.getSkin(), deliverListener);
-
-=======
 		deliverButton = new ButtonElement(x, deliverY, "DELIVER", game.getSkin(), deliverListener);
->>>>>>> 55fb4c9ab49084b8866afc6b93cbc020098f5990
-
-
-		float statY = 0;
 
 		InputListener gameListener = new InputListener() {
 			@Override
@@ -116,7 +101,6 @@ public class StartScreen implements Screen{
 		};
 		gameButton = new ButtonElement(BUTTONWIDTHGUI,BUTTONHEIGHTGUI,(SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50, "GAME", game.getSkin(), gameListener);
 
-<<<<<<< HEAD
 		InputListener shopListener = new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -129,9 +113,6 @@ public class StartScreen implements Screen{
 			(SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
 			"SHOP", game.getSkin(), shopListener
 		);
-=======
-		float statY = 20;
->>>>>>> 55fb4c9ab49084b8866afc6b93cbc020098f5990
 
 		InputListener statListener = new InputListener() {
 			@Override
