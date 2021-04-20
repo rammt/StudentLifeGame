@@ -33,7 +33,7 @@ public class StatScreen implements Screen{
     final int SCREENWIDTH;
     final int buttonPadding;
 
-    private Button statButton, gameButton, shopButton;
+    private Button statButton, gameButton, shopButton, highscoreButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -52,12 +52,12 @@ public class StatScreen implements Screen{
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-        kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin()).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin()).getTextFieldComponent();
-        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin()).getTextFieldComponent();
-        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin()).getTextFieldComponent();
-        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin()).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(0, "Professor som koker:", game.getSkin()).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
+        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin(),3, true).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin(),3, true).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin(),3, true).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(0, "Professor som koker:", game.getSkin(),3, true).getTextFieldComponent();
 
 
         Table table = new Table();
@@ -105,6 +105,20 @@ public class StatScreen implements Screen{
             }
         });
 
+        highscoreButton = new TextButton("Highscores",game.getSkin());
+        highscoreButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
+        highscoreButton.setPosition(Gdx.graphics.getWidth()/2f - highscoreButton.getWidth()/2, statButton.getY() + statButton.getHeight() + 50);
+        highscoreButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+
+                game.setScreen(new HighscoreScreen(game));
+
+                return true;
+            }
+        });
+
+
         saveStatsButton = new TextButton("Save Game", game.getSkin());
         saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
         saveStatsButton.setPosition(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f);
@@ -133,6 +147,7 @@ public class StatScreen implements Screen{
         game.getStage().addActor(gameButton);
         game.getStage().addActor(statButton);
         game.getStage().addActor(shopButton);
+        game.getStage().addActor(highscoreButton);
         game.getStage().addActor(table);
         game.getStage().addActor(saveStatsButton);
         game.getStage().addActor(saveOffline);
