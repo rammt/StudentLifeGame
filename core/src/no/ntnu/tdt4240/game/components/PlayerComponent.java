@@ -1,13 +1,10 @@
 package no.ntnu.tdt4240.game.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +13,7 @@ public class PlayerComponent implements Component {
     private long lastSave;
     private float kokCount;
     private List<Map<String, Object>> firebaseResourceGainers;
-    private ArrayList<Object> resourceGainers;
+    private ArrayList<ResourceGainerComponent> resourceGainers;
 
 
     public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> firebaseResourceGainers) {
@@ -72,7 +69,7 @@ public class PlayerComponent implements Component {
         this.firebaseResourceGainers = resourceGainers;
     }
 
-    public List<Object> getResourceGainers() {
+    public ArrayList<ResourceGainerComponent> getResourceGainers() {
         return resourceGainers;
     }
 
