@@ -109,23 +109,22 @@ public class StatScreen implements Screen{
             }
         });
 
-        highscoreButton = new TextButton("Highscores",game.getSkin());
-        highscoreButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
-        highscoreButton.setPosition(Gdx.graphics.getWidth()/2f - highscoreButton.getWidth()/2, statButton.getY() + statButton.getHeight() + 50);
-        highscoreButton.addListener(new InputListener(){
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new HighscoreScreen(game));
 
+        highscoreButton = new ButtonElement(
+                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
+                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/6f, statButton.getY() + statButton.getHeight() + 50,
+                "Highscores", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new HighscoreScreen(game));
                 return true;
             }
         });
 
-
-        saveStatsButton = new TextButton("Save Game", game.getSkin());
-        saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
-        saveStatsButton.setPosition(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f);
-        saveStatsButton.addListener(new InputListener() {
+        saveStatsButton = new ButtonElement(
+                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
+                Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f,
+                "Save game", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.firebase.savePlayerStats(game.getPlayer());
@@ -133,11 +132,10 @@ public class StatScreen implements Screen{
             }
         });
 
-
-        saveOffline = new TextButton("Save offline", game.getSkin());
-        saveOffline.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
-        saveOffline.setPosition((Gdx.graphics.getWidth()/2f) - (saveStatsButton.getWidth()), Gdx.graphics.getHeight()/1.1f);
-        saveOffline.addListener(new InputListener() {
+        saveOffline = new ButtonElement(
+                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
+                (Gdx.graphics.getWidth()/2f) - (saveStatsButton.getWidth()), Gdx.graphics.getHeight()/1.1f,
+                "Save offline", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 SavingSystem savingSystem = game.getEngine().getSystem(SavingSystem.class);
