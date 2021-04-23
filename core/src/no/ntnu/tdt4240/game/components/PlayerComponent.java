@@ -113,7 +113,7 @@ public class PlayerComponent implements Component {
         clickValue = amount;
     }
 
-    public float getClickValue() {
+    public float getClickValue(){
         return clickValue;
     }
 }

@@ -22,12 +22,13 @@ public class ShopElement {
     private StudentLifeGame game;
     private PlayerComponent pc;
     private ArrayList<ResourceGainerComponent> resourceGainers;
-    private final int SCREENWIDTH, SCREENHEIGTH;
-    private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
-    private int currentIndex;
-    boolean hasNext, hasPrev;
     private ResourceGainSystem rgs;
-    private final AudioSystem as;
+    private AudioSystem as;
+    private final int SCREENWIDTH;
+    private final int SCREENHEIGTH;
+    private int currentIndex;
+    private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
+    boolean hasNext, hasPrev;
 
     public ShopElement(
             StudentLifeGame game, ArrayList<ResourceGainerComponent> resourceGainers,
@@ -41,14 +42,12 @@ public class ShopElement {
         BUTTONPADDING = 10;
         SCREENWIDTH = screenwidth;
         SCREENHEIGTH = screenheigth;
-        btnActors = new ArrayList<>();
         BUTTONWIDTHGUI = buttonwidthgui;
-        labelActors = new ArrayList<>();
         BUTTONHEIGHTGUI = buttonheightgui;
+        btnActors = new ArrayList<>();
+        labelActors = new ArrayList<>();
         rgs = game.getEngine().getSystem(ResourceGainSystem.class);
         populateShop();
-        as = game.getEngine().getSystem(AudioSystem.class);
-        as.setSound(game.getEngine(), "music/ka-ching.mp3");
     }
 
    public void populateShop(){
@@ -74,7 +73,6 @@ public class ShopElement {
             new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    as.playSound(game.getEngine());
                     if(hasNext){
                         btnActors = new ArrayList<>();
                         labelActors = new ArrayList<>();
@@ -94,7 +92,6 @@ public class ShopElement {
             new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    as.playSound(game.getEngine());
                     if(hasPrev){
                         btnActors = new ArrayList<>();
                         labelActors = new ArrayList<>();
@@ -116,6 +113,9 @@ public class ShopElement {
 
         int counter = 0;
 
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.setSound("music/ka-ching.mp3");
+
         //for(final ResourceGainerComponent rgc : resourceGainers){
         for(int i = 0; i < 4; i++){
             if(startIndex+i >= resourceGainers.size())break;
@@ -129,8 +129,8 @@ public class ShopElement {
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        as.playSound(game.getEngine());
                         if(pc.getKokCount() >= rgc.getPrice()){
+                            as.playSound();
                             pc.setKokCount(pc.getKokCount() - rgc.getPrice());
                             pc.addResourceGainer(rgc);
                             game.setScreen(new ShopScreen(game,currentIndex));

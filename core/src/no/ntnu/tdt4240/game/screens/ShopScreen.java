@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -62,7 +63,7 @@ public class ShopScreen implements Screen {
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
         as = game.getEngine().getSystem(AudioSystem.class);
-        as.setSound(game.getEngine(), "music/ka-ching.mp3");
+        as.setSound("music/ka-ching.mp3");
 
         for(Entity resourceGainerEntity : resourceGainerEntities){
             resourceGainers.add(rgm.get(resourceGainerEntity));
@@ -91,11 +92,12 @@ public class ShopScreen implements Screen {
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
+        DecimalFormat formatter = new DecimalFormat("#,###");
         //batch tegner vi resten på
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kok: " + String.valueOf(player_pc.getKokCount()),
+                "Kok: " + String.valueOf(formatter.format(player_pc.getKokCount())),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
