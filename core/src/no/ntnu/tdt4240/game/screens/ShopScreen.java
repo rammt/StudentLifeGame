@@ -7,6 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class ShopScreen implements Screen {
     private PlayerComponent pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ComponentMapper<PlayerComponent> pm;
-    private ResourceGainSystem rgs;
     private ArrayList<ResourceGainerComponent> resourceGainers;
 
 
@@ -53,7 +53,6 @@ public class ShopScreen implements Screen {
         rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         pm = ComponentMapper.getFor(PlayerComponent.class);
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
-        rgs = game.getEngine().getSystem(ResourceGainSystem.class);
 
         for(Entity rg : rg){
             resourceGainers.add(rgm.get(rg));
@@ -63,8 +62,11 @@ public class ShopScreen implements Screen {
         ShopElement shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,pc,currentIndex);
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
-        for(Button btn : shop.getActors()){
+        for(Button btn : shop.getButtonActors()){
             game.getStage().addActor(btn);
+        }
+        for(Label label : shop.getLabelActors()){
+            game.getStage().addActor(label);
         }
         for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);
@@ -87,31 +89,7 @@ public class ShopScreen implements Screen {
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
-        //TODO fiks at dette skjer i shopElementet
-        game.getFont().draw(
-                game.getBatch(),
-                ""+rgs.countResourceGainers(resourceGainers.get(0)),
-                25,
-                SCREENHEIGTH*5/8f+BUTTONHEIGHTGUI/2
-        );
-        game.getFont().draw(
-                game.getBatch(),
-                ""+rgs.countResourceGainers(resourceGainers.get(1)),
-                25,
-                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI+BUTTONHEIGHTGUI/2
-        );
-        game.getFont().draw(
-                game.getBatch(),
-                ""+rgs.countResourceGainers(resourceGainers.get(2)),
-                25,
-                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2+BUTTONHEIGHTGUI/2
-        );
-        game.getFont().draw(
-                game.getBatch(),
-                ""+rgs.countResourceGainers(resourceGainers.get(3)),
-                25,
-                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3+BUTTONHEIGHTGUI/2
-        );
+
         game.getBatch().end();
 
         game.getEngine().update(Gdx.graphics.getDeltaTime());
