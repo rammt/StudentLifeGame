@@ -66,7 +66,7 @@ public class StartScreen implements Screen {
         layout.add(localData).padBottom(100);
         layout.row();
 
-        layout.setDebug(true);
+        //layout.setDebug(true);
         layout.setFillParent(true);
 
         if (onlinePlayer == null) {
