@@ -13,15 +13,12 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class ResourceGainSystem extends EntitySystem {
-    private ImmutableArray<Entity> player;
-    private ImmutableArray<Entity> resourceGainers;
 
+    private ImmutableArray<Entity> player;
     private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
-    private ComponentMapper<ResourceGainerComponent> rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
     public void addedToEngine(Engine engine) {
         player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
-        resourceGainers = engine.getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
     }
 
     public void update(float deltaTime) {
@@ -38,7 +35,6 @@ public class ResourceGainSystem extends EntitySystem {
 
         return addedResources;
     }
-
 
     public float addResourcesByTime(float time) {
         PlayerComponent pc = pm.get(player.get(0));
@@ -60,4 +56,5 @@ public class ResourceGainSystem extends EntitySystem {
 
         return resourceGainerCounter;
     }
+
 }
