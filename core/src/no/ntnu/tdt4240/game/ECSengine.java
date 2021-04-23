@@ -7,6 +7,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.List;
+import java.util.Map;
+
 import no.ntnu.tdt4240.game.components.GameComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
@@ -20,13 +23,10 @@ public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
-    private Firebase firebase;
     private Entity gainerKoker, gainerStudass, gainerHacker, gainerScripts, gainerAlien;
 
     public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, Firebase firebase){
         super();
-
-        this.firebase = firebase;
 
         engine = new PooledEngine();
 
@@ -39,6 +39,8 @@ public class ECSengine{
         game = engine.createEntity();
         game.add(new GameComponent().create());
         engine.addEntity(game);
+
+        /*
 
         gainerKoker = engine.createEntity();
         gainerKoker.add(new ResourceGainerComponent().create("Kokere","Random kokere",50,1));
@@ -60,6 +62,9 @@ public class ECSengine{
         gainerAlien.add(new ResourceGainerComponent().create("Romvesen","Romvesen kokere",1000000,1000));
         engine.addEntity(gainerAlien);
 
+
+         */
+
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
 
@@ -69,9 +74,5 @@ public class ECSengine{
 
     public Entity getGame(){
         return game;
-    }
-
-    public Firebase getFirebase() {
-        return firebase;
     }
 }

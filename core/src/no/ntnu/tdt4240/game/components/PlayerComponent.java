@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,19 +14,16 @@ public class PlayerComponent implements Component {
     private long lastSave;
     private float kokCount;
     private Long clickCount;
-    private List<Map<String, Object>> firebaseResourceGainers;
-    private ArrayList<ResourceGainerComponent> resourceGainers;
+    private List<Map<String, Object>> resourceGainers;
     private boolean combinedButtons;
     private float clickValue;
 
 
-    public PlayerComponent create(String name, long lastSave, float kokCount,float clickCount, List<Map<String, Object>> firebaseResourceGainers) {
-
+    public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> resourceGainers) {
         this.name = name;
         this.lastSave = lastSave;
         this.kokCount = kokCount;
-        this.firebaseResourceGainers = firebaseResourceGainers;
-        this.resourceGainers = new ArrayList<>();
+        this.resourceGainers = resourceGainers;
 
         return this;
     }
@@ -36,7 +34,6 @@ public class PlayerComponent implements Component {
         this.kokCount = 0;
         this.clickCount = 0L;
         this.resourceGainers = new ArrayList<>();
-        this.firebaseResourceGainers = Collections.emptyList();
         this.combinedButtons = false;
         this.clickValue = 0.05f;
 
@@ -55,7 +52,9 @@ public class PlayerComponent implements Component {
         return kokCount;
     }
 
-    public Long getClickCount() {return clickCount;}
+    public Long getClickCount() {
+        return clickCount;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -69,29 +68,48 @@ public class PlayerComponent implements Component {
         this.kokCount = kokCount;
     }
 
-    public void setClickCount(Long clickCount) {this.clickCount = clickCount;}
+    public void setClickCount(Long clickCount) {
+        this.clickCount = clickCount;
+    }
 
-    public void setResourceGainers(ArrayList<ResourceGainerComponent> resourceGainers) {
+    public void setResourceGainers(List<Map<String, Object>> resourceGainers) {
         this.resourceGainers = resourceGainers;
     }
 
-    public ArrayList<ResourceGainerComponent> getResourceGainers() {
+    public List<Map<String, Object>> getResourceGainers() {
         return resourceGainers;
     }
 
-    public void addResourceGainers(ResourceGainerComponent resourceGainerComponent) {
-        resourceGainers.add(resourceGainerComponent);
+    public void addResourceGainer(ResourceGainerComponent rgc) {
+        boolean hasAddedGainer = false;
+
+        for (Map<String, Object> gainer : resourceGainers) {
+
+            if (rgc.getId().equals((String) gainer.get("id"))) {
+                gainer.put("amount", (int) gainer.get("amount") + 1);
+                hasAddedGainer = true;
+                break;
+            }
+        }
+
+        if (!hasAddedGainer) {
+            Map<String, Object> newGainer = new HashMap<>();
+            newGainer.put("id", rgc.getId());
+            newGainer.put("amount", 1);
+            newGainer.put("level", 1);
+            resourceGainers.add(newGainer);
+        }
     }
 
-    public void setCombinedButtons(boolean b){
+    public void setCombinedButtons(boolean b) {
         combinedButtons = b;
     }
 
-    public boolean getCombinedButtons(){
+    public boolean getCombinedButtons() {
         return combinedButtons;
     }
 
-    public void setClickValue(float amount){
+    public void setClickValue(float amount) {
         clickValue = amount;
     }
 
@@ -99,13 +117,3 @@ public class PlayerComponent implements Component {
         return clickValue;
     }
 }
-
-
-/*long lastSave = resourcePrefs.getLong("lastSave");
-        int minimumMSSinceEpoch = 10000; //Safe test for time since epoch, if more than 10000ms has gone they probably have a save.
-        if (lastSave > minimumMSSinceEpoch) {
-            this.lastSave =  new Date(resourcePrefs.getLong("lastSave")).getTime();
-        } else {
-            this.lastSave = new Date().getTime();
-        }
- */

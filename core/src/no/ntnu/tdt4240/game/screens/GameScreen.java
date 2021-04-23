@@ -19,6 +19,8 @@ import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class GameScreen implements Screen{
 
@@ -47,6 +49,7 @@ public class GameScreen implements Screen{
 		BUTTONWIDTHGUI = SCREENWIDTH/4;
 		player = game.getPlayer();
 		pc = player.getComponent(PlayerComponent.class);
+
 		copied = false;
 		pasted = false;
 		delivered = false;
@@ -114,10 +117,11 @@ public class GameScreen implements Screen{
 		copyPasteDeliverButton = new ButtonElement(x, pasteY, "KOK", game.getSkin(), new InputListener() {
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-			pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
-			pc.setClickCount(pc.getClickCount() + 1);
-			as.playSound();
-			return true;
+				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
+				pc.setClickCount(pc.getClickCount() + 1);
+				as.playSound();
+				return true;
+
 			}
 		});
 
@@ -135,6 +139,7 @@ public class GameScreen implements Screen{
 			game.getStage().addActor(pasteButton);
 			game.getStage().addActor(deliverButton);
 		}
+
 	}
 
 	private String formatMillions(double num){
@@ -193,11 +198,9 @@ public class GameScreen implements Screen{
 	}
 
 	public float getGainpersecond(){
-		float temp = 0f;
-		for(ResourceGainerComponent rg : pc.getResourceGainers()){
-			temp += rg.getGainPerSecond();
-		}
-		return temp;
+		ResourceGainSystem rgs = game.getEngine().getSystem(ResourceGainSystem.class);
+
+		return rgs.getResourceGainPerSecond();
 	}
 
 	@Override
