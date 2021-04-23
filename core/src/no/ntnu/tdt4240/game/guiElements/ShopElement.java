@@ -23,7 +23,7 @@ public class ShopElement {
     private ArrayList<ResourceGainerComponent> resourceGainers;
     private final int SCREENWIDTH, SCREENHEIGTH;
     private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
-    int currentIndex;
+    private int currentIndex;
     boolean hasNext, hasPrev;
     private ResourceGainSystem rgs;
 
@@ -127,6 +127,7 @@ public class ShopElement {
                         if(pc.getKokCount() >= rgc.getPrice()){
                             pc.setKokCount(pc.getKokCount() - rgc.getPrice());
                             pc.addResourceGainers(rgc);
+                            game.setScreen(new ShopScreen(game,currentIndex));
                         }
                         return true;
                     }

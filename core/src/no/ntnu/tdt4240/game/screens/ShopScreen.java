@@ -29,10 +29,12 @@ public class ShopScreen implements Screen {
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
+    private ShopElement shop;
+    private NavbarElement navbar;
+    private int currentIndex;
 
     private PlayerComponent pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
-    private ComponentMapper<PlayerComponent> pm;
     private ArrayList<ResourceGainerComponent> resourceGainers;
 
 
@@ -41,6 +43,7 @@ public class ShopScreen implements Screen {
         this.game = game;
         this.game.getStage().clear();
         resourceGainers = new ArrayList<>();
+        this.currentIndex = currentIndex;
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -51,7 +54,6 @@ public class ShopScreen implements Screen {
         Entity player = game.getPlayer();
         pc = player.getComponent(PlayerComponent.class);
         rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
-        pm = ComponentMapper.getFor(PlayerComponent.class);
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
         for(Entity rg : rg){
@@ -59,8 +61,8 @@ public class ShopScreen implements Screen {
         }
 
         //builders
-        ShopElement shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,pc,currentIndex);
-        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,pc,currentIndex);
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
         for(Button btn : shop.getButtonActors()){
             game.getStage().addActor(btn);
