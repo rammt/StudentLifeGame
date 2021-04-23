@@ -12,6 +12,7 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.screens.ShopScreen;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class ShopElement {
@@ -23,9 +24,10 @@ public class ShopElement {
     private ArrayList<ResourceGainerComponent> resourceGainers;
     private final int SCREENWIDTH, SCREENHEIGTH;
     private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
-    int currentIndex;
+    private int currentIndex;
     boolean hasNext, hasPrev;
     private ResourceGainSystem rgs;
+    private final AudioSystem as;
 
     public ShopElement(
             StudentLifeGame game, ArrayList<ResourceGainerComponent> resourceGainers,
@@ -45,6 +47,8 @@ public class ShopElement {
         BUTTONHEIGHTGUI = buttonheightgui;
         rgs = game.getEngine().getSystem(ResourceGainSystem.class);
         populateShop();
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.setSound(game.getEngine(), "music/ka-ching.mp3");
     }
 
    public void populateShop(){
@@ -70,6 +74,7 @@ public class ShopElement {
             new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    as.playSound(game.getEngine());
                     if(hasNext){
                         btnActors = new ArrayList<>();
                         labelActors = new ArrayList<>();
@@ -89,6 +94,7 @@ public class ShopElement {
             new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    as.playSound(game.getEngine());
                     if(hasPrev){
                         btnActors = new ArrayList<>();
                         labelActors = new ArrayList<>();
@@ -123,9 +129,11 @@ public class ShopElement {
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        as.playSound(game.getEngine());
                         if(pc.getKokCount() >= rgc.getPrice()){
                             pc.setKokCount(pc.getKokCount() - rgc.getPrice());
                             pc.addResourceGainer(rgc);
+                            game.setScreen(new ShopScreen(game,currentIndex));
                         }
                         return true;
                     }

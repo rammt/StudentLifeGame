@@ -15,6 +15,8 @@ public class PlayerComponent implements Component {
     private float kokCount;
     private Long clickCount;
     private List<Map<String, Object>> resourceGainers;
+    private boolean combinedButtons;
+    private float clickValue;
 
 
     public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> resourceGainers) {
@@ -32,6 +34,8 @@ public class PlayerComponent implements Component {
         this.kokCount = 0;
         this.clickCount = 0L;
         this.resourceGainers = new ArrayList<>();
+        this.combinedButtons = false;
+        this.clickValue = 0.05f;
 
         return this;
     }
@@ -48,7 +52,9 @@ public class PlayerComponent implements Component {
         return kokCount;
     }
 
-    public Long getClickCount() {return clickCount;}
+    public Long getClickCount() {
+        return clickCount;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -62,7 +68,9 @@ public class PlayerComponent implements Component {
         this.kokCount = kokCount;
     }
 
-    public void setClickCount(Long clickCount) {this.clickCount = clickCount;}
+    public void setClickCount(Long clickCount) {
+        this.clickCount = clickCount;
+    }
 
     public void setResourceGainers(List<Map<String, Object>> resourceGainers) {
         this.resourceGainers = resourceGainers;
@@ -93,4 +101,19 @@ public class PlayerComponent implements Component {
         }
     }
 
+    public void setCombinedButtons(boolean b) {
+        combinedButtons = b;
+    }
+
+    public boolean getCombinedButtons() {
+        return combinedButtons;
+    }
+
+    public void setClickValue(float amount) {
+        clickValue = amount;
+    }
+
+    public float getClickValue() {
+        return clickValue;
+    }
 }

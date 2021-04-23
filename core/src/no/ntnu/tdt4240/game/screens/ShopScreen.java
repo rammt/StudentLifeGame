@@ -17,6 +17,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.guiElements.ShopElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 
@@ -29,11 +30,17 @@ public class ShopScreen implements Screen {
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
+    private ShopElement shop;
+    private NavbarElement navbar;
+    private int currentIndex;
 
     private PlayerComponent player_pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
-    private ComponentMapper<PlayerComponent> pm;
     private ArrayList<ResourceGainerComponent> resourceGainers;
+    private ComponentMapper<PlayerComponent> pm;
+    private ResourceGainSystem rgs;
+    private float[] prices;
+    private final AudioSystem as;
 
 
     public ShopScreen(final StudentLifeGame game, int currentIndex) {
@@ -41,6 +48,7 @@ public class ShopScreen implements Screen {
         this.game = game;
         this.game.getStage().clear();
         resourceGainers = new ArrayList<>();
+        this.currentIndex = currentIndex;
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -53,13 +61,16 @@ public class ShopScreen implements Screen {
         resourceGainerEntities = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.setSound(game.getEngine(), "music/ka-ching.mp3");
+
         for(Entity resourceGainerEntity : resourceGainerEntities){
             resourceGainers.add(rgm.get(resourceGainerEntity));
         }
 
         //builders
-        ShopElement shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,player_pc,currentIndex);
-        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,player_pc,currentIndex);
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
         for(Button btn : shop.getButtonActors()){
             game.getStage().addActor(btn);
