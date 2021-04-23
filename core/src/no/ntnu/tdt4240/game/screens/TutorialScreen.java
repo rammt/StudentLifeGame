@@ -24,7 +24,6 @@ public class TutorialScreen implements Screen{
     private Button statButton, gameButton, shopButton;
     private Button previousButton, nextButton;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI,SMALLBUTTONHEIGHTGUI;
-    private SpriteBatch batch = new SpriteBatch();
     private int page;
 
     private List<String> title = Arrays.asList("How to KOK", "Buy upgrade", "Save game", "Need some inspiration?");
@@ -73,7 +72,7 @@ public class TutorialScreen implements Screen{
                 "SHOP", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new ShopScreen(game));
+                game.setScreen(new ShopScreen(game, 0));
                 return true;
             }
         });
@@ -90,8 +89,8 @@ public class TutorialScreen implements Screen{
         });
 
         previousButton = new ButtonElement(
-                BUTTONWIDTHGUI,SMALLBUTTONHEIGHTGUI,
-                (Gdx.graphics.getWidth()/2f) - (BUTTONWIDTHGUI), statButton.getY() + statButton.getHeight() + 50,
+                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
+                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/3f, statButton.getY() + statButton.getHeight() + 50,
                 "PREVIOUS", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -101,7 +100,7 @@ public class TutorialScreen implements Screen{
         });
 
         nextButton = new ButtonElement(
-                BUTTONWIDTHGUI,SMALLBUTTONHEIGHTGUI,
+                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
                 Gdx.graphics.getWidth()/2f, statButton.getY() + statButton.getHeight() + 50,
                 "NEXT", game.getSkin(), new InputListener() {
             @Override

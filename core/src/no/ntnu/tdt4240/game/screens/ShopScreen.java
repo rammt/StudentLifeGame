@@ -1,39 +1,49 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.ArrayList;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.guiElements.ShopElement;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 
 public class ShopScreen implements Screen {
 
-    private Button statButton, gameButton, shopButton;
-    private Button buy1Button, buy2Button, buy3Button, buy4Button;
+    private ImmutableArray<Entity> rg;
     final StudentLifeGame game;
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
-    int counterEidBuy1,counterEidBuy2,counterEidBuy3,counterEidBuy4;
-    String buy1String,buy2String,buy3String,buy4String;
-    PlayerComponent pc;
+    private ShopElement shop;
+    private NavbarElement navbar;
+    private int currentIndex;
+
+    private PlayerComponent pc;
+    private ComponentMapper<ResourceGainerComponent> rgm;
+    private ArrayList<ResourceGainerComponent> resourceGainers;
 
 
-    public ShopScreen(final StudentLifeGame game) {
+    public ShopScreen(final StudentLifeGame game, int currentIndex) {
 
         this.game = game;
         this.game.getStage().clear();
-        Entity player = game.getPlayer();
-        pc = player.getComponent(PlayerComponent.class);
+        resourceGainers = new ArrayList<>();
+        this.currentIndex = currentIndex;
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -41,128 +51,28 @@ public class ShopScreen implements Screen {
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
+        Entity player = game.getPlayer();
+        pc = player.getComponent(PlayerComponent.class);
+        rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
+        rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
+        for(Entity rg : rg){
+            resourceGainers.add(rgm.get(rg));
+        }
 
-        //TODO lmao, burde hente alle resourcecompontene og bygge et listview
+        //builders
+        shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,pc,currentIndex);
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
-        counterEidBuy1 = 0;
-        final int prisBuy1 = 100;
-        buy1String = "Betalte kokere "+prisBuy1+",-";
-
-        buy1Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
-                buy1String, game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy1){
-                    counterEidBuy1++;
-
-                    pc.setKokCount(pc.getKokCount()-prisBuy1);
-                    System.out.println("KJØPTE KOKERE 1");
-                }
-                return true;
-            }
-        });
-
-        counterEidBuy2= 0;
-        final int prisBuy2 = 200;
-        buy2String = "Studass som koker "+prisBuy2+",-";
-
-        buy2Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-buttonPadding,
-                buy2String, game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy2){
-                    counterEidBuy2++;
-                    pc.setKokCount(pc.getKokCount()-prisBuy2);
-                    System.out.println("KJØPTE KOKERE 2");
-                }
-                return true;
-            }
-        });
-
-        counterEidBuy3= 0;
-        final int prisBuy3 = 500;
-        buy3String = "kok scripts "+prisBuy3+",-";
-
-        buy3Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-buttonPadding*2,
-                buy3String, game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy3){
-                    counterEidBuy3++;
-                    pc.setKokCount(pc.getKokCount()-prisBuy3);
-                    System.out.println("KJØPTE KOKERE 3");
-                }
-                return true;
-            }
-        });
-
-        counterEidBuy4 = 0;
-        final int prisBuy4 = 1000;
-        buy4String = "Kok Hackere "+prisBuy4+",-";
-
-        buy4Button = new ButtonElement(
-                BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-buttonPadding*3,
-                buy4String, game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy4){
-                    counterEidBuy4++;
-                    pc.setKokCount(pc.getKokCount()-prisBuy4);
-                    System.out.println("KJØPTE KOKERE 4");
-                }
-                return true;
-            }
-        });
-
-        gameButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-                "GAME", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-                return true;
-            }
-        });
-
-        shopButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                "SHOP", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new ShopScreen(game));
-                return true;
-            }
-        });
-
-        statButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                "STATS", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new StatScreen(game));
-                return true;
-            }
-        });
-
-        //add actors til stagen
-        game.getStage().addActor(buy1Button);
-        game.getStage().addActor(buy2Button);
-        game.getStage().addActor(buy3Button);
-        game.getStage().addActor(buy4Button);
-        game.getStage().addActor(statButton);
-        game.getStage().addActor(gameButton);
-        game.getStage().addActor(shopButton);
+        for(Button btn : shop.getButtonActors()){
+            game.getStage().addActor(btn);
+        }
+        for(Label label : shop.getLabelActors()){
+            game.getStage().addActor(label);
+        }
+        for(Button btn : navbar.getActors()){
+            game.getStage().addActor(btn);
+        }
     }
 
     @Override
@@ -181,30 +91,7 @@ public class ShopScreen implements Screen {
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
-        game.getFont().draw(
-                game.getBatch(),
-                ""+counterEidBuy1,
-                25,
-                SCREENHEIGTH*5/8f+BUTTONHEIGHTGUI/2
-        );
-        game.getFont().draw(
-                game.getBatch(),
-                ""+counterEidBuy2,
-                25,
-                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI+BUTTONHEIGHTGUI/2
-        );
-        game.getFont().draw(
-                game.getBatch(),
-                ""+counterEidBuy3,
-                25,
-                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2+BUTTONHEIGHTGUI/2
-        );
-        game.getFont().draw(
-                game.getBatch(),
-                "" + counterEidBuy4,
-                25,
-                SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3+BUTTONHEIGHTGUI/2
-        );
+
         game.getBatch().end();
 
         game.getEngine().update(Gdx.graphics.getDeltaTime());

@@ -10,11 +10,13 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
-import no.ntnu.tdt4240.game.FirebaseInterface;
+import java.util.Date;
+
+import no.ntnu.tdt4240.game.Firebase;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 
 public class SavingSystem extends EntitySystem {
-    private FirebaseInterface firebase;
+    private Firebase firebase;
     private ImmutableArray<Entity> player;
     private float counter;
     private final Preferences offlinePlayer = Gdx.app.getPreferences("offlineStorage");
@@ -51,6 +53,7 @@ public class SavingSystem extends EntitySystem {
         PlayerComponent player_pc = pcm.get(player.get(0));
 
         if (player_pc != null) {
+            player_pc.setLastSave(new Date().getTime());
             String playerData = json.toJson(player_pc);
 
             offlinePlayer.putString("playerData", playerData);

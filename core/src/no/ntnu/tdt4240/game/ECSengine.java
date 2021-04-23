@@ -8,6 +8,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.tdt4240.game.components.GameComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 import no.ntnu.tdt4240.game.systems.RenderSystem;
@@ -19,9 +20,10 @@ public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
-    private FirebaseInterface firebase;
+    private Firebase firebase;
+    private Entity gainerKoker, gainerStudass, gainerHacker, gainerScripts, gainerAlien;
 
-    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, FirebaseInterface firebase){
+    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, Firebase firebase){
         super();
 
         this.firebase = firebase;
@@ -38,11 +40,25 @@ public class ECSengine{
         game.add(new GameComponent().create());
         engine.addEntity(game);
 
+        gainerKoker = engine.createEntity();
+        gainerKoker.add(new ResourceGainerComponent().create("Kokere","Random kokere",50,1));
+        engine.addEntity(gainerKoker);
 
+        gainerStudass = engine.createEntity();
+        gainerStudass.add(new ResourceGainerComponent().create("Studass","Studass kokere",200,5));
+        engine.addEntity(gainerStudass);
 
-        Entity localPlayer = engine.createEntity();
-        engine.addEntity(localPlayer);
+        gainerScripts = engine.createEntity();
+        gainerScripts.add(new ResourceGainerComponent().create("Scripts","Kok script",500,10));
+        engine.addEntity(gainerScripts);
 
+        gainerHacker = engine.createEntity();
+        gainerHacker.add(new ResourceGainerComponent().create("Hackere","Hacker kokere",1000,25));
+        engine.addEntity(gainerHacker);
+
+        gainerAlien = engine.createEntity();
+        gainerAlien.add(new ResourceGainerComponent().create("Romvesen","Romvesen kokere",1000000,1000));
+        engine.addEntity(gainerAlien);
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
@@ -55,7 +71,7 @@ public class ECSengine{
         return game;
     }
 
-    public FirebaseInterface getFirebase() {
+    public Firebase getFirebase() {
         return firebase;
     }
 }
