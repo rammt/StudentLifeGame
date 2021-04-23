@@ -20,10 +20,10 @@ public class ECSengine{
 
     private PooledEngine engine;
     private Entity game;
-    private FirebaseInterface firebase;
+    private Firebase firebase;
     private Entity gainerKoker, gainerStudass, gainerHacker, gainerScripts, gainerAlien;
 
-    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, FirebaseInterface firebase){
+    public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, Firebase firebase){
         super();
 
         this.firebase = firebase;
@@ -71,7 +71,7 @@ public class ECSengine{
         return game;
     }
 
-    public FirebaseInterface getFirebase() {
+    public Firebase getFirebase() {
         return firebase;
     }
 }

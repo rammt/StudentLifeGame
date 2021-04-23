@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
@@ -23,6 +24,7 @@ public class GameScreen implements Screen{
     private boolean delivered;
     private boolean upgraded = false;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
+    private float gainpersecond;
 
 	final StudentLifeGame game;
 	public GameScreen(final StudentLifeGame game) {
@@ -141,6 +143,14 @@ public class GameScreen implements Screen{
 		for(Button btn : navbar.getActors()){
 			game.getStage().addActor(btn);
 		}
+
+		Entity player = game.getPlayer();
+		PlayerComponent pc = player.getComponent(PlayerComponent.class);
+		float temp = 0f;
+		for(ResourceGainerComponent rg : pc.getResourceGainers()){
+			temp += rg.getGainPerSecond();
+		}
+		gainpersecond = temp;
 	}
 
 	@Override
@@ -160,6 +170,12 @@ public class GameScreen implements Screen{
 			"Kok : " + pc.getKokCount(),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
+		);
+		game.getFont().draw(
+				game.getBatch(),
+				gainpersecond + " kok/s",
+				Gdx.graphics.getWidth()/3f,
+				Gdx.graphics.getHeight()/1.3f
 		);
 		game.getBatch().end();
 
