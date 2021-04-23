@@ -177,7 +177,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		Long lastSave = document.getLong("lastSave");
 		List<Map<String, Object>> firebaseResourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
 		boolean combinedButtons = document.getBoolean("combinedButtons");
-		//float clickValue = document.getDouble("clickValue").floatValue();
+		float clickValue = document.getDouble("clickValue").floatValue();
 		this.resourceGainers = new ArrayList<>();
 		for(Map<String, Object> map : firebaseResourceGainers) {
 			ResourceGainerComponent tmpRgc = new ResourceGainerComponent();
@@ -199,7 +199,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		pc.setResourceGainers(resourceGainers);
 		pc.setClickCount(clickCount);
 		pc.setCombinedButtons(combinedButtons);
-		//pc.setClickValue(clickValue);
+		pc.setClickValue(clickValue);
 	}
 
 

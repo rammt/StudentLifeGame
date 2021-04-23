@@ -102,7 +102,9 @@ public class GameScreen implements Screen{
 					Entity player = game.getPlayer();
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pc.setKokCount(pc.getKokCount()+1);
-					pc.setClickCount(pc.getClickCount()+1);
+					//pc.setClickCount(pc.getClickCount()+1);
+					pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
+
 
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
@@ -117,7 +119,7 @@ public class GameScreen implements Screen{
 				Entity player = game.getPlayer();
 				PlayerComponent pc = player.getComponent(PlayerComponent.class);
 				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
-				System.out.println(1+pc.getClickValue()*gainpersecond);
+				//System.out.println(1+pc.getClickValue()*gainpersecond);
 				pc.setClickCount(pc.getClickCount() + 1);
 				return true;
 			}
