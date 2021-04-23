@@ -51,7 +51,8 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private Button highscoreButton, tutorialButton, musicButton;
+    private Button highscoreButton, musicButton;
+    private Button tutorialButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -72,7 +73,7 @@ public class StatScreen implements Screen{
         rgs = game.getEngine().getSystem(ResourceGainSystem.class);
         rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
-        rgs.countResourceGainers(rgm.get(rg.get(0)));
+        //rgs.countResourceGainers(rgm.get(rg.get(0)));
 
         this.as = game.getEngine().getSystem(AudioSystem.class);
 
@@ -86,31 +87,32 @@ public class StatScreen implements Screen{
         rank = game.firebase.getRank(pc);
 
         // Resourcegainers for the user
+        /*
         kokere = rgs.countResourceGainers(rgm.get(rg.get(0)));
         hackere = rgs.countResourceGainers(rgm.get(rg.get(1)));
         studass = rgs.countResourceGainers(rgm.get(rg.get(2)));
         scripts = rgs.countResourceGainers(rgm.get(rg.get(3)));
-
+*/
         // Labelelements for stats in table
         kokCount = new TextFieldComponent().create((pc.getClickCount().intValue()), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
         antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
-        leaderboard = new TextFieldComponent().create(kokere, "Betalte kokere: ", game.getSkin(),3, true).getTextFieldComponent();
+        /*leaderboard = new TextFieldComponent().create(kokere, "Betalte kokere: ", game.getSkin(),3, true).getTextFieldComponent();
         aiKok = new TextFieldComponent().create(hackere, "Studasser som koker:", game.getSkin(),3, true).getTextFieldComponent();
         hackerKok = new TextFieldComponent().create(studass, "Kokscripts", game.getSkin(),3, true).getTextFieldComponent();
         professorKok = new TextFieldComponent().create(scripts, "Hackere som koker:", game.getSkin(),3, true).getTextFieldComponent();
-
+*/
         // Table
         Table table = new Table();
         table.setFillParent(true);
         table.defaults().minWidth(500).minHeight(300).pad(40);
         table.add(kokCount);
         table.add(antLevert);
-        table.row();
+        /*table.row();
         table.add(leaderboard);
         table.add(aiKok);
         table.row();
         table.add(hackerKok);
-        table.add(professorKok);
+        table.add(professorKok);*/
 
 
 
@@ -120,7 +122,7 @@ public class StatScreen implements Screen{
                 "Music", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                as.startBackgroundMusic(game.getEngine());
+                as.startBackgroundMusic();
                 return true;
             }
         });

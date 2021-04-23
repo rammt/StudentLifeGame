@@ -37,15 +37,15 @@ public class AudioSystem extends EntitySystem {
         engine.addEntity(sound);
     }
 
-    public void setSound(Engine engine, String path){
+    public void setSound(String path){
         sc.get(sound).setSound(path);
     }
 
-    public void startBackgroundMusic(Engine engine){
+    public void startBackgroundMusic(){
         mc.get(backgroundMusic).startMusic();
     }
 
-    public void playSound(Engine engine){
+    public void playSound(){
         sc.get(sound).startSound();
     }
 

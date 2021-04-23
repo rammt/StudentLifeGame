@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -23,7 +24,7 @@ import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class ShopScreen implements Screen {
 
-    private ImmutableArray<Entity> rg;
+    private ImmutableArray<Entity> resourceGainerEntities;
     final StudentLifeGame game;
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
@@ -34,7 +35,7 @@ public class ShopScreen implements Screen {
     private NavbarElement navbar;
     private int currentIndex;
 
-    private PlayerComponent pc;
+    private PlayerComponent player_pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ArrayList<ResourceGainerComponent> resourceGainers;
     private ComponentMapper<PlayerComponent> pm;
@@ -57,19 +58,19 @@ public class ShopScreen implements Screen {
         buttonPadding = 10;
 
         Entity player = game.getPlayer();
-        pc = player.getComponent(PlayerComponent.class);
-        rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
+        player_pc = player.getComponent(PlayerComponent.class);
+        resourceGainerEntities = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
         as = game.getEngine().getSystem(AudioSystem.class);
-        as.setSound(game.getEngine(), "music/ka-ching.mp3");
+        as.setSound("music/ka-ching.mp3");
 
-        for(Entity rg : rg){
-            resourceGainers.add(rgm.get(rg));
+        for(Entity resourceGainerEntity : resourceGainerEntities){
+            resourceGainers.add(rgm.get(resourceGainerEntity));
         }
 
         //builders
-        shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,pc,currentIndex);
+        shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,player_pc,currentIndex);
         navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
         for(Button btn : shop.getButtonActors()){
@@ -83,6 +84,31 @@ public class ShopScreen implements Screen {
         }
     }
 
+    private String formatMillions(double num){
+        String unit = "";
+        if(num >= 1000000000000000f){
+            num = num/1000000000000000f;
+            unit="Quadrillion";
+        }
+        else if(num >= 1000000000000f){
+            num = num/1000000000000f;
+            unit="Trillion";
+        }
+        else if(num>=1000000000f){
+            num = num/1000000000;
+            unit = "Billion";
+        }
+        else if(num >= 1000000f){
+            num = num/1000000;
+            unit = "Million";
+        }
+        else if(num >= 1000){
+            num = num/1000;
+            unit = "K";
+        }
+        return String.format("%.3f", num) + " " + unit;
+    }
+
     @Override
     public void render(float delta) {
 
@@ -91,11 +117,13 @@ public class ShopScreen implements Screen {
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
+        DecimalFormat formatter = new DecimalFormat("#,###");
         //batch tegner vi resten på
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(pc.getKokCount()),
+                //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
+                "Kokt: " + String.valueOf(formatMillions(player_pc.getKokCount())),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
