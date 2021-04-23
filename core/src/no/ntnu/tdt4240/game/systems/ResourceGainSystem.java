@@ -47,7 +47,7 @@ public class ResourceGainSystem extends EntitySystem {
         }
     }
 
-    private int countResourceGainers(ResourceGainerComponent rg) {
+    public int countResourceGainers(ResourceGainerComponent rg) {
 
         int resourceGainerCounter = 0;
         PlayerComponent pc = pm.get(player.get(0));

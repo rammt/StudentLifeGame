@@ -18,13 +18,18 @@ public class PlayerComponent implements Component {
 
     public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> firebaseResourceGainers) {
         this.name = name;
+        System.out.println("YEEEEEEEEEET" + firebaseResourceGainers.size());
         this.lastSave = lastSave;
         this.kokCount = kokCount;
         this.firebaseResourceGainers = firebaseResourceGainers;
         this.resourceGainers = new ArrayList<>();
         for(Map<String, Object> map : firebaseResourceGainers) {
-            for(Map.Entry<String, Object> innerEntry : map.entrySet()) {
-                this.resourceGainers.add((ResourceGainerComponent) innerEntry.getValue());
+            for(Map.Entry<String, Object> entry : map.entrySet()) {
+                if(entry.getValue() instanceof ResourceGainerComponent){
+                    this.resourceGainers.add((ResourceGainerComponent) entry.getValue());
+                } else {
+                    System.out.println("yeet");
+                }
             }
         }
 
@@ -65,8 +70,8 @@ public class PlayerComponent implements Component {
         this.kokCount = kokCount;
     }
 
-    public void setResourceGainers(List<Map<String, Object>> resourceGainers) {
-        this.firebaseResourceGainers = resourceGainers;
+    public void setResourceGainers(ArrayList<ResourceGainerComponent> resourceGainers) {
+        this.resourceGainers = resourceGainers;
     }
 
     public ArrayList<ResourceGainerComponent> getResourceGainers() {
