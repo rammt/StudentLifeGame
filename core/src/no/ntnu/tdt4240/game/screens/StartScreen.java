@@ -17,9 +17,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
+import no.ntnu.tdt4240.game.components.MusicComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
+import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class StartScreen implements Screen {
 
@@ -30,12 +33,17 @@ public class StartScreen implements Screen {
     final StudentLifeGame game;
     private Entity onlinePlayer;
     private final OnStartGameSystem startingSystem;
+    private final AudioSystem audioSystem;
+
     public StartScreen(final StudentLifeGame game, final Entity onlinePlayer) {
         this.game = game;
         this.onlinePlayer = onlinePlayer;
         this.startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
         this.game.getStage().clear();
 
+        audioSystem = game.getEngine().getSystem(AudioSystem.class);
+        audioSystem.createBackgroundMusic(game.getEngine());
+        audioSystem.createSound(game.getEngine());
 
         layout = new Table();
 
@@ -63,9 +71,6 @@ public class StartScreen implements Screen {
                 return true;
             }
         });
-
-
-
 
         layout.add(localData).padBottom(100);
         layout.row();

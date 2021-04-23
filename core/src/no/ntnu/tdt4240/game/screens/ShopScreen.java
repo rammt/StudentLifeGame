@@ -17,6 +17,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 
@@ -38,6 +39,7 @@ public class ShopScreen implements Screen {
     private ComponentMapper<PlayerComponent> pm;
     private ResourceGainSystem rgs;
     private float[] prices;
+    private final AudioSystem as;
 
 
     public ShopScreen(final StudentLifeGame game) {
@@ -59,6 +61,9 @@ public class ShopScreen implements Screen {
         pm = ComponentMapper.getFor(PlayerComponent.class);
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
         rgs = game.getEngine().getSystem(ResourceGainSystem.class);
+
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.setSound(game.getEngine(), "music/ka-ching.mp3");
 
         //TODO iterer????
         prices[0] = rgm.get(rg.get(0)).getPrice();
@@ -82,6 +87,7 @@ public class ShopScreen implements Screen {
 
                     pc.setKokCount(pc.getKokCount()-prices[0]);
                     pc.addResourceGainers(rgm.get(rg.get(0)));
+                    as.playSound(game.getEngine());
                 }
                 return true;
             }
@@ -102,6 +108,7 @@ public class ShopScreen implements Screen {
 
                     pc.setKokCount(pc.getKokCount()-prices[1]);
                     pc.addResourceGainers(rgm.get(rg.get(1)));
+                    as.playSound(game.getEngine());
                 }
                 return true;
             }
@@ -121,6 +128,7 @@ public class ShopScreen implements Screen {
                     counterEidBuy3++;
                     pc.setKokCount(pc.getKokCount()-prices[2]);
                     pc.addResourceGainers(rgm.get(rg.get(2)));
+                    as.playSound(game.getEngine());
                 }
                 return true;
             }
@@ -139,6 +147,7 @@ public class ShopScreen implements Screen {
                     counterEidBuy4++;
                     pc.setKokCount(pc.getKokCount()-prices[3]);
                     pc.addResourceGainers(rgm.get(rg.get(3)));
+                    as.playSound(game.getEngine());
                 }
                 return true;
             }
