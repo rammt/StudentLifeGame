@@ -6,9 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import java.util.ArrayList;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.screens.GameScreen;
-import no.ntnu.tdt4240.game.screens.ShopScreen;
 import no.ntnu.tdt4240.game.screens.StatScreen;
-import no.ntnu.tdt4240.game.screens.UpgradeScreen;
+import no.ntnu.tdt4240.game.screens.ShopSelectScreen;
 
 public class NavbarElement {
 
@@ -47,7 +46,7 @@ public class NavbarElement {
             "SHOP", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new UpgradeScreen(game));
+            game.setScreen(new ShopSelectScreen(game));
             return true;
             }
         });

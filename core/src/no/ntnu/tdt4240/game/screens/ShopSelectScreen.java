@@ -13,7 +13,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 
-public class UpgradeScreen implements Screen {
+public class ShopSelectScreen implements Screen {
     final StudentLifeGame game;
 
     final float BUTTONHEIGHTGUI;
@@ -25,7 +25,7 @@ public class UpgradeScreen implements Screen {
 
     private Button upgradeScreenButton, upgradeRGButton;
 
-    public UpgradeScreen(final StudentLifeGame game){
+    public ShopSelectScreen(final StudentLifeGame game){
         this.game = game;
         game.getStage().clear();
 
