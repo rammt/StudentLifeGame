@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -30,7 +31,12 @@ public class TutorialScreen implements Screen{
     private List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online if you", "Den koker vi");
     private List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "want to continue", "Og den koker vi");
     private List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "on another device", "Ja, den koker vi");
-    private List<Texture> images = Arrays.asList(new Texture("badlogic.jpg"), new Texture("badlogic2.jpg"), new Texture("badlogic.jpg"), new Texture("badlogic2.jpg"));
+    private List<Texture> images = Arrays.asList(
+        new Texture("images/kok.png"),
+        new Texture("images/upgrade.png"),
+        new Texture("images/save.png"),
+        new Texture("images/inspiration.png")
+    );
 
     final StudentLifeGame game;
     public TutorialScreen(final StudentLifeGame game, final int page) {
@@ -162,7 +168,7 @@ public class TutorialScreen implements Screen{
                 statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*4
         );
 
-        game.getBatch().draw(images.get(page), Gdx.graphics.getWidth()/30f, statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*7);
+        game.getBatch().draw(images.get(page), 0, statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*7, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 
         game.getBatch().end();
 
