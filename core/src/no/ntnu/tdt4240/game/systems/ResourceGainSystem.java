@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
@@ -39,12 +40,11 @@ public class ResourceGainSystem extends EntitySystem {
     }
 
 
-    private void addResourcesByTime(float time) {
-        for (Entity player : player) {
-            PlayerComponent pc = pm.get(player);
-
-            pc.setKokCount(pc.getKokCount() + calculateNewResourceGain(time));
-        }
+    public float addResourcesByTime(float time) {
+        PlayerComponent pc = pm.get(player.get(0));
+        float newResources = calculateNewResourceGain(time);
+        pc.setKokCount(pc.getKokCount() + newResources);
+        return newResources;
     }
 
     public int countResourceGainers(ResourceGainerComponent rg) {
@@ -59,9 +59,5 @@ public class ResourceGainSystem extends EntitySystem {
         }
 
         return resourceGainerCounter;
-    }
-
-    public void addOfflineResource(float secondsSinceSave) {
-        addResourcesByTime(secondsSinceSave);
     }
 }

@@ -20,6 +20,8 @@ public class UpgradeScreen implements Screen {
     final float BUTTONWIDTHGUI;
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
+    final int buttonPadding;
+
 
     private Button upgradeScreenButton, upgradeRGButton;
 
@@ -31,11 +33,12 @@ public class UpgradeScreen implements Screen {
         SCREENWIDTH = Gdx.graphics.getWidth();
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
+        buttonPadding = 10;
 
 
 
         upgradeScreenButton = new ButtonElement(
-                BUTTONWIDTHGUI*2, BUTTONHEIGHTGUI,
+                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
                 "Upgrades", game.getSkin(),
                 new InputListener() {
@@ -49,13 +52,13 @@ public class UpgradeScreen implements Screen {
                  );
 
         upgradeRGButton = new ButtonElement(
-                BUTTONWIDTHGUI*2, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI,
+                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-50,
                 "Resource Gainers", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new ShopScreen(game));
+                        game.setScreen(new ShopScreen(game, 0));
                         return true;
                     }
 
@@ -63,10 +66,7 @@ public class UpgradeScreen implements Screen {
         );
 
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
-        Button[] navbarActors = navbar.getActors();
-
-        for(Button btn : navbarActors){
-            System.out.println("add button");
+        for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);
         }
 

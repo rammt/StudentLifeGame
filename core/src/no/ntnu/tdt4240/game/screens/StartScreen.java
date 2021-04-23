@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -29,7 +30,7 @@ public class StartScreen implements Screen {
     final StudentLifeGame game;
     private Entity onlinePlayer;
     private final OnStartGameSystem startingSystem;
-    public StartScreen(final StudentLifeGame game, final Entity onlinePlayer) {
+    public StartScreen(final StudentLifeGame game, Entity onlinePlayer) {
         this.game = game;
         this.onlinePlayer = onlinePlayer;
         this.startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
@@ -57,11 +58,14 @@ public class StartScreen implements Screen {
         localData.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                startingSystem.startGameWithPlayer(game.getEngine(), offlinePlayer);
+                startingSystem.startGameWithPlayer(game, offlinePlayer);
                 game.setScreen(new GameScreen(game));
                 return true;
             }
         });
+
+
+
 
         layout.add(localData).padBottom(100);
         layout.row();
@@ -70,23 +74,29 @@ public class StartScreen implements Screen {
         layout.setFillParent(true);
 
         if (onlinePlayer == null) {
-            //TODO Set new screen after player is found. Create prettier button for login/use label with onClick.
-            float buttonWidth = Gdx.graphics.getWidth()/2f;
-            float buttonHeight = Gdx.graphics.getHeight()/8f;
+            if (game.firebase.isLoggedIn()) {
+                Entity player = startingSystem.getOnlinePlayer(game.getEngine());
+                this.onlinePlayer = player;
+                game.setScreen(new StartScreen(game, player));
+            } else {
+                //TODO Set new screen after player is found. Create prettier button for login/use label with onClick.
+                //TODO Right now you need to click log in twice, dont know how to handle async signinactivity
+                float buttonWidth = Gdx.graphics.getWidth() / 2f;
+                float buttonHeight = Gdx.graphics.getHeight() / 8f;
 
-            cloudLogInBtn = new ButtonElement(
-                    buttonWidth, buttonHeight, Gdx.graphics.getWidth()/2f - buttonWidth/2,
-                    Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.firebase.onSignInButtonClicked();
-                    Entity player = startingSystem.getOnlinePlayer(game.getEngine());
-                    game.setScreen(new StartScreen(game, player));
-                    return true;
-                }
-            });
+                cloudLogInBtn = new ButtonElement(
+                        buttonWidth, buttonHeight, Gdx.graphics.getWidth() / 2f - buttonWidth / 2,
+                        Gdx.graphics.getHeight() / 2f + buttonHeight / 2, "Cloud Login", game.getSkin(), new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        game.firebase.startSignInActivity();
+                        game.setScreen(new StartScreen(game, null));
+                        return true;
+                    }
+                });
 
-            layout.add(cloudLogInBtn);
+                layout.add(cloudLogInBtn);
+            }
         }
     }
 
@@ -119,7 +129,7 @@ public class StartScreen implements Screen {
             cloudData.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    startingSystem.startGameWithPlayer(game.getEngine(), onlinePlayer);
+                    startingSystem.startGameWithPlayer(game, onlinePlayer);
                     game.setScreen(new GameScreen(game));
                     return true;
                 }

@@ -17,9 +17,9 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.StartScreen;
 
 public class StudentLifeGame extends Game {
-	public FirebaseInterface firebase;
+	public Firebase firebase;
 
-	public StudentLifeGame(FirebaseInterface firebase) {
+	public StudentLifeGame(Firebase firebase) {
 		this.firebase = firebase;
 	}
 

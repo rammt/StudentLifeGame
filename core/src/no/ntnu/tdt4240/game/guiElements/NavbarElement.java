@@ -3,7 +3,7 @@ package no.ntnu.tdt4240.game.guiElements;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-
+import java.util.ArrayList;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.screens.GameScreen;
 import no.ntnu.tdt4240.game.screens.ShopScreen;
@@ -13,7 +13,7 @@ import no.ntnu.tdt4240.game.screens.UpgradeScreen;
 public class NavbarElement {
 
     private Button statButton, gameButton, shopButton;
-    private Button[] actors;
+    private ArrayList<Button> actors;
     private StudentLifeGame game;
     private int SCREENWIDTH;
     private float BUTTONWIDTHGUI,BUTTONHEIGHTGUI;
@@ -24,6 +24,7 @@ public class NavbarElement {
         this.BUTTONHEIGHTGUI = BUTTONHEIGHTGUI;
         this.BUTTONWIDTHGUI = BUTTONWIDTHGUI;
         this.SCREENWIDTH = SCREENWIDTH;
+        actors = new ArrayList<>();
         populateActors();
 
     }
@@ -46,7 +47,6 @@ public class NavbarElement {
             "SHOP", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            //game.setScreen(new ShopScreen(game));
             game.setScreen(new UpgradeScreen(game));
             return true;
             }
@@ -63,10 +63,13 @@ public class NavbarElement {
             }
         });
 
-        actors = new Button[]{gameButton, shopButton, statButton};
+        actors.add(statButton);
+        actors.add(shopButton);
+        actors.add(gameButton);
+
     }
 
-    public Button[] getActors() {
+    public ArrayList<Button> getActors() {
         return actors;
     }
 

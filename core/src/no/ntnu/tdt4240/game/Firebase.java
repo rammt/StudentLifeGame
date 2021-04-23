@@ -10,12 +10,13 @@ import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.HighscoreScreen;
 
-public interface FirebaseInterface {
-    void onSignInButtonClicked();
+public interface Firebase {
+    void startSignInActivity();
     void savePlayerStats(Entity player);
     void getPlayerStats(Entity player);
     List<Map<String,Object>> getHighscore();
     int getRank(PlayerComponent pc);
+    boolean isLoggedIn();
 
     //void getStats(Player user);
     /*

@@ -118,16 +118,32 @@ public class StatScreen implements Screen{
             }
         });
 
-        saveStatsButton = new ButtonElement(
-                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f,
-                "Save game", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.firebase.savePlayerStats(game.getPlayer());
-                return true;
-            }
-        });
+        if (game.firebase.isLoggedIn()) {
+            saveStatsButton = new ButtonElement(
+                    Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
+                    Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f,
+                    "Save to cloud", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.firebase.savePlayerStats(game.getPlayer());
+                    return true;
+                }
+            });
+        } else {
+            saveStatsButton = new ButtonElement(
+                    Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
+                    Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f,
+                    "Log in to save to cloud", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.firebase.startSignInActivity();
+                    game.setScreen(new StatScreen(game));
+                    return true;
+                }
+            });
+        }
+
+
 
         saveOffline = new ButtonElement(
                 Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
@@ -143,9 +159,8 @@ public class StatScreen implements Screen{
 
         //navbarkode
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
-        Button[] navbarActors = navbar.getActors();
 
-        for(Button btn : navbarActors){
+        for(Button btn : navbar.getActors()){
             System.out.println("add button");
             game.getStage().addActor(btn);
         }
