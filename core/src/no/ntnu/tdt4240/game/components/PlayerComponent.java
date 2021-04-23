@@ -15,6 +15,8 @@ public class PlayerComponent implements Component {
     private Long clickCount;
     private List<Map<String, Object>> firebaseResourceGainers;
     private ArrayList<ResourceGainerComponent> resourceGainers;
+    private boolean combinedButtons;
+    private float clickValue;
 
 
     public PlayerComponent create(String name, long lastSave, float kokCount,float clickCount, List<Map<String, Object>> firebaseResourceGainers) {
@@ -35,6 +37,8 @@ public class PlayerComponent implements Component {
         this.clickCount = 0L;
         this.resourceGainers = new ArrayList<>();
         this.firebaseResourceGainers = Collections.emptyList();
+        this.combinedButtons = false;
+        this.clickValue = 0.05f;
 
         return this;
     }
@@ -78,7 +82,19 @@ public class PlayerComponent implements Component {
     public void addResourceGainers(ResourceGainerComponent resourceGainerComponent) {
         resourceGainers.add(resourceGainerComponent);
     }
+    public void setCombinedButtons(boolean b){
+        combinedButtons = b;
+    }
+    public boolean getCombinedButtons(){
+        return combinedButtons;
+    }
 
+    public void setClickValue(float amount){
+        clickValue = amount;
+    }
+    public float getClickValue(){
+        return clickValue;
+    }
 }
 
 

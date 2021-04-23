@@ -177,9 +177,8 @@ public class StatScreen implements Screen{
 
         //navbarkode
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
-        Button[] navbarActors = navbar.getActors();
 
-        for(Button btn : navbarActors){
+        for(Button btn : navbar.getActors()){
             System.out.println("add button");
             game.getStage().addActor(btn);
         }
