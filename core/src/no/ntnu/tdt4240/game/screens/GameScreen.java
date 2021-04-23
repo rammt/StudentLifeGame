@@ -3,8 +3,10 @@ package no.ntnu.tdt4240.game.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -18,13 +20,12 @@ public class GameScreen implements Screen{
 
 	private TextButton.TextButtonStyle textButtonStyleDOWN;
 	private TextButton.TextButtonStyle textButtonStyleUP;
-    private Button copyButton, pasteButton, deliverButton, copyPasteDeliverButton;
+    private ButtonElement copyButton, pasteButton, deliverButton, copyPasteDeliverButton;
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
     private boolean upgraded = false;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
-    private float gainpersecond;
 	private NavbarElement navbar;
 	private Entity player;
 	private PlayerComponent pc;
@@ -34,15 +35,15 @@ public class GameScreen implements Screen{
 
 		this.game = game;
 		this.game.getStage().clear();
-		copied = false;
-		pasted = false;
-		delivered = false;
 		SCREENHEIGHT = Gdx.graphics.getHeight();
 		SCREENWIDTH = Gdx.graphics.getWidth();
 		BUTTONHEIGHTGUI = SCREENHEIGHT/8;
 		BUTTONWIDTHGUI = SCREENWIDTH/4;
 		player = game.getPlayer();
 		pc = player.getComponent(PlayerComponent.class);
+		copied = false;
+		pasted = false;
+		delivered = false;
 
 		//TODO æsj fiks dette her
 		float width = Gdx.graphics.getWidth()/2f;
@@ -60,7 +61,7 @@ public class GameScreen implements Screen{
 		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 			if(!copied){
 				copied = true;
-				copyButton.setStyle(textButtonStyleDOWN);
+				copyButton.disableButton(copied);
 				pc.setClickCount(pc.getClickCount()+1);
 			}
 			return true;
@@ -74,7 +75,7 @@ public class GameScreen implements Screen{
 		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 			if(copied && !pasted){
 				pasted = true;
-				pasteButton.setStyle(textButtonStyleDOWN);
+				pasteButton.disableButton(pasted);
 				pc.setClickCount(pc.getClickCount()+1);
 			}
 			return true;
@@ -90,9 +91,9 @@ public class GameScreen implements Screen{
 				copied=false;
 				pasted=false;
 				pc.setClickCount(pc.getClickCount()+1);
-				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
-				copyButton.setStyle(textButtonStyleUP);
-				pasteButton.setStyle(textButtonStyleUP);
+				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
+				copyButton.disableButton(copied);
+				pasteButton.disableButton(pasted);
 			}
 			return true;
 			}
@@ -103,7 +104,7 @@ public class GameScreen implements Screen{
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 			Entity player = game.getPlayer();
-			pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
+			pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
 			pc.setClickCount(pc.getClickCount() + 1);
 			return true;
 			}
@@ -145,13 +146,9 @@ public class GameScreen implements Screen{
 
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
-        // stage tegner aktorsa
 		game.getStage().act();
 		game.getStage().draw();
-		//batch tegner vi resten på
 		game.getBatch().begin();
-		Entity player = game.getPlayer();
-		PlayerComponent pc = player.getComponent(PlayerComponent.class);
 		game.getFont().draw(
 			game.getBatch(),
 			"Kok : " + pc.getKokCount(),
