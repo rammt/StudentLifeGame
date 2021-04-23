@@ -3,6 +3,7 @@ package no.ntnu.tdt4240.game.guiElements;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -11,17 +12,20 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.screens.ShopScreen;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class ShopElement {
 
-    private ArrayList<Button> actors;
+    private ArrayList<Button> btnActors;
+    private ArrayList<Label> labelActors;
     private StudentLifeGame game;
     private PlayerComponent pc;
     private ArrayList<ResourceGainerComponent> resourceGainers;
     private final int SCREENWIDTH, SCREENHEIGTH;
     private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
-    int currentIndex,currentPage;
+    int currentIndex;
     boolean hasNext, hasPrev;
+    private ResourceGainSystem rgs;
 
     public ShopElement(
             StudentLifeGame game, ArrayList<ResourceGainerComponent> resourceGainers,
@@ -30,16 +34,18 @@ public class ShopElement {
     {
         this.pc = pc;
         this.game = game;
+        this.currentIndex = currentIndex;
         this.resourceGainers = resourceGainers;
+        BUTTONPADDING = 10;
         SCREENWIDTH = screenwidth;
         SCREENHEIGTH = screenheigth;
+        btnActors = new ArrayList<>();
         BUTTONWIDTHGUI = buttonwidthgui;
+        labelActors = new ArrayList<>();
         BUTTONHEIGHTGUI = buttonheightgui;
-        BUTTONPADDING = 10;
-        actors = new ArrayList<>();
-        this.currentIndex = currentIndex;
-        currentPage = 1;
+        rgs = game.getEngine().getSystem(ResourceGainSystem.class);
         populateShop();
+
     }
 
    public void populateShop(){
@@ -49,11 +55,11 @@ public class ShopElement {
             shopBuilder(currentIndex);
         } else {
             shopBuilder(currentIndex);
-            shopNavBuilder(currentPage);
+            shopNavBuilder();
         }
     }
 
-    private void shopNavBuilder(final int pageIndex) {
+    private void shopNavBuilder() {
 
         hasNext = (currentIndex<resourceGainers.size()-1);
         hasPrev = (currentIndex>3);
@@ -66,7 +72,8 @@ public class ShopElement {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     if(hasNext){
-                        actors = new ArrayList<>();
+                        btnActors = new ArrayList<>();
+                        labelActors = new ArrayList<>();
                         currentIndex=currentIndex+4;
                         game.setScreen(new ShopScreen(game,currentIndex));
                     } else {
@@ -84,7 +91,8 @@ public class ShopElement {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     if(hasPrev){
-                        actors = new ArrayList<>();
+                        btnActors = new ArrayList<>();
+                        labelActors = new ArrayList<>();
                         currentIndex=currentIndex-4;
                         game.setScreen(new ShopScreen(game,currentIndex));
                     } else {
@@ -94,8 +102,8 @@ public class ShopElement {
                 }
             });
 
-        if(hasNext)actors.add(nextButton);
-        if(hasPrev)actors.add(backButton);
+        if(hasNext)btnActors.add(nextButton);
+        if(hasPrev)btnActors.add(backButton);
     }
 
 
@@ -107,6 +115,7 @@ public class ShopElement {
         for(int i = 0; i < 4; i++){
             if(startIndex+i >= resourceGainers.size())break;
             final ResourceGainerComponent rgc = resourceGainers.get(i+startIndex);
+            shopLabelBuilder(rgs.countResourceGainers(rgc),25,(SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*i+BUTTONHEIGHTGUI/2));
             String description = rgc.getDesc() + " " + rgc.getPrice() + ",-";
             ButtonElement tmpButton = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
@@ -123,12 +132,23 @@ public class ShopElement {
                     }
                 });
             counter++;
-            actors.add(tmpButton);
+            btnActors.add(tmpButton);
         }
     }
 
-    public ArrayList<Button> getActors(){
-        return actors;
+    private void shopLabelBuilder(int count, float x, float y){
+        String text = ""+count;
+        Label ownedCountLabel = new Label(text, game.getSkin());
+        ownedCountLabel.setPosition(x,y);
+        ownedCountLabel.setFontScale(3f);
+        labelActors.add(ownedCountLabel);
+    }
+
+    public ArrayList<Button> getButtonActors(){
+        return btnActors;
+    }
+    public ArrayList<Label> getLabelActors(){
+        return labelActors;
     }
 
 }

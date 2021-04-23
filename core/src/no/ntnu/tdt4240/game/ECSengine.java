@@ -41,23 +41,23 @@ public class ECSengine{
         engine.addEntity(game);
 
         gainerKoker = engine.createEntity();
-        gainerKoker.add(new ResourceGainerComponent().create("Kokere","Random kokere",50,2));
+        gainerKoker.add(new ResourceGainerComponent().create("Kokere","Random kokere",50,1));
         engine.addEntity(gainerKoker);
 
         gainerStudass = engine.createEntity();
-        gainerStudass.add(new ResourceGainerComponent().create("Studass","Studass kokere",200,10));
+        gainerStudass.add(new ResourceGainerComponent().create("Studass","Studass kokere",200,5));
         engine.addEntity(gainerStudass);
 
         gainerScripts = engine.createEntity();
-        gainerScripts.add(new ResourceGainerComponent().create("Scripts","Kok script",500,25));
+        gainerScripts.add(new ResourceGainerComponent().create("Scripts","Kok script",500,10));
         engine.addEntity(gainerScripts);
 
         gainerHacker = engine.createEntity();
-        gainerHacker.add(new ResourceGainerComponent().create("Hackere","Hacker kokere",1000,100));
+        gainerHacker.add(new ResourceGainerComponent().create("Hackere","Hacker kokere",1000,25));
         engine.addEntity(gainerHacker);
 
         gainerAlien = engine.createEntity();
-        gainerAlien.add(new ResourceGainerComponent().create("Romvesen","Romvesen kokere",1000,100));
+        gainerAlien.add(new ResourceGainerComponent().create("Romvesen","Romvesen kokere",1000000,1000));
         engine.addEntity(gainerAlien);
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
