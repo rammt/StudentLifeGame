@@ -14,6 +14,7 @@ public interface FirebaseInterface {
     void savePlayerStats(Entity player);
     void getPlayerStats(Entity player);
     List<Map<String,Object>> getHighscore();
+    int getRank(Entity Player);
 
     //void getStats(Player user);
     /*

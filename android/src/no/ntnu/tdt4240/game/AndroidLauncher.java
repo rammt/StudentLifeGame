@@ -60,6 +60,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private List<Map<String, Object>> highscoreList = new ArrayList<Map<String, Object>>();
 	private ArrayList<ResourceGainerComponent> resourceGainers;
+	private int rank;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -272,4 +273,25 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 			});
 		}
 	}
+
+	public int getRank(Entity Player) {
+		CollectionReference colRefPlayers = db.collection("players");
+		colRefPlayers.orderBy("kokCount", Query.Direction.DESCENDING).get()
+				.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+					@Override
+					public void onComplete(@NonNull Task<QuerySnapshot> task) {
+						if (task.isSuccessful()) {
+							for (QueryDocumentSnapshot document : task.getResult()) {
+
+								Log.d(TAG, document.getId() + " => " + document.getData());
+							}
+
+						} else {
+							Log.d(TAG, "Error getting documents: " + task.getException());
+						}
+					}
+				});
+		return rank;
+	}
+
 }
