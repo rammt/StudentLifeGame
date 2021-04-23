@@ -150,8 +150,6 @@ public class GameScreen implements Screen{
 			copyButton.getStyle().checked,
 			game.getFont()
 		);
-
-
 		//legger til aktors
 		if(upgraded){
 			game.getStage().addActor(copyPasteDeliverButton);
