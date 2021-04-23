@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 
 public class UpgradeShopScreen implements Screen {
     final StudentLifeGame game;
@@ -43,7 +44,7 @@ public class UpgradeShopScreen implements Screen {
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(pc.getKokCount() >= 100000f) {
+                        if(pc.getKokCount() >= 100000f && !pc.getCombinedButtons()) {
                             pc.setKokCount(pc.getKokCount()-100000);
                             pc.setCombinedButtons(true);
                             game.setScreen(new GameScreen(game));
@@ -57,10 +58,15 @@ public class UpgradeShopScreen implements Screen {
         increaseClickValueButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI,
-                "Increase Click Value", game.getSkin(),
+                "Increase Click Value by 5%: 50 000,-", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        if(pc.getKokCount() >= 50000f){
+                            pc.setKokCount(pc.getKokCount()-50000f);
+                            pc.setClickValue(pc.getClickValue()+0.05f);
+                            System.out.println(pc.getClickValue());
+                        }
 
                         return true;
                     }
@@ -70,6 +76,17 @@ public class UpgradeShopScreen implements Screen {
 
         game.getStage().addActor(combineButton);
         game.getStage().addActor(increaseClickValueButton);
+
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        Button[] navbarActors = navbar.getActors();
+
+        for(Button btn : navbarActors){
+            System.out.println("add button");
+            game.getStage().addActor(btn);
+        }
+
+
+
     }
 
 
