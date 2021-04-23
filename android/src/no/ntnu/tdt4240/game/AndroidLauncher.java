@@ -176,6 +176,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		String name = (String) document.get("name");
 		Long lastSave = document.getLong("lastSave");
 		List<Map<String, Object>> firebaseResourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
+		boolean combinedButtons = document.getBoolean("combinedButtons");
 		this.resourceGainers = new ArrayList<>();
 		for(Map<String, Object> map : firebaseResourceGainers) {
 			ResourceGainerComponent tmpRgc = new ResourceGainerComponent();
@@ -196,6 +197,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		pc.setLastSave(lastSave);
 		pc.setResourceGainers(resourceGainers);
 		pc.setClickCount(clickCount);
+		pc.setCombinedButtons(combinedButtons);
 	}
 
 
@@ -213,6 +215,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 			playerMap.put("lastSave", new Date().getTime());
 			playerMap.put("resourceGainers", pc.getResourceGainers());
 			playerMap.put("clickCount", pc.getClickCount());
+			playerMap.put("combinedButtons", pc.getCombinedButtons());
 
 			db.collection("players").document(fb_user.getUid()).set(playerMap);
 		}
@@ -264,6 +267,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 							player.put("lastSave", pc.getLastSave());
 							player.put("resourceGainers", pc.getResourceGainers());
 							player.put("clickCount",pc.getClickCount());
+							player.put("combinedButtons", pc.getCombinedButtons());
 
 							db.collection("players").document(fb_user.getUid()).set(player);
 							Log.d(TAG, "No such document");

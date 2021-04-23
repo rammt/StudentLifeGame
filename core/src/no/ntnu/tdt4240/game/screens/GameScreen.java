@@ -129,7 +129,10 @@ public class GameScreen implements Screen{
 			game.getFont()
 		);
 		//legger til aktors
-		if(upgraded){
+		Entity player = game.getPlayer();
+		PlayerComponent pc = player.getComponent(PlayerComponent.class);
+
+		if(pc.getCombinedButtons()){
 			game.getStage().addActor(copyPasteDeliverButton);
 		}
 		else{
@@ -145,8 +148,6 @@ public class GameScreen implements Screen{
 			game.getStage().addActor(btn);
 		}
 
-		Entity player = game.getPlayer();
-		PlayerComponent pc = player.getComponent(PlayerComponent.class);
 		float temp = 0f;
 		for(ResourceGainerComponent rg : pc.getResourceGainers()){
 			temp += rg.getGainPerSecond();

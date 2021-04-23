@@ -8,6 +8,7 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.screens.GameScreen;
 import no.ntnu.tdt4240.game.screens.ShopScreen;
 import no.ntnu.tdt4240.game.screens.StatScreen;
+import no.ntnu.tdt4240.game.screens.UpgradeScreen;
 
 public class NavbarElement {
 
@@ -45,7 +46,8 @@ public class NavbarElement {
             "SHOP", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new ShopScreen(game));
+            //game.setScreen(new ShopScreen(game));
+            game.setScreen(new UpgradeScreen(game));
             return true;
             }
         });
