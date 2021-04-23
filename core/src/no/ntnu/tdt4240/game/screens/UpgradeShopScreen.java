@@ -57,7 +57,7 @@ public class UpgradeShopScreen implements Screen {
 
         increaseClickValueButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI - 50,
                 "Increase Click Value by 5%: 50 000,-", game.getSkin(),
                 new InputListener() {
                     @Override
