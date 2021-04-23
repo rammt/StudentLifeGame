@@ -25,6 +25,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.SavingSystem;
@@ -50,7 +51,7 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private Button statButton, gameButton, shopButton, highscoreButton, tutorialButton;
+    private Button highscoreButton, tutorialButton, musicButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -59,6 +60,8 @@ public class StatScreen implements Screen{
     private ImmutableArray<Entity> rg;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ResourceGainSystem rgs;
+
+    private AudioSystem as;
 
     public StatScreen(final StudentLifeGame game) {
 
@@ -70,6 +73,8 @@ public class StatScreen implements Screen{
         rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
         rgs.countResourceGainers(rgm.get(rg.get(0)));
+
+        this.as = game.getEngine().getSystem(AudioSystem.class);
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -106,6 +111,19 @@ public class StatScreen implements Screen{
         table.row();
         table.add(hackerKok);
         table.add(professorKok);
+
+
+
+        musicButton = new ButtonElement(
+                Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
+                Gdx.graphics.getWidth() - Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
+                "Music", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                as.startBackgroundMusic(game.getEngine());
+                return true;
+            }
+        });
 
         highscoreButton = new ButtonElement(
                 Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
@@ -176,6 +194,7 @@ public class StatScreen implements Screen{
             game.getStage().addActor(btn);
         }
 
+        game.getStage().addActor(musicButton);
         game.getStage().addActor(highscoreButton);
         game.getStage().addActor(tutorialButton);
         game.getStage().addActor(table);

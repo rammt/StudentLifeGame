@@ -13,6 +13,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class GameScreen implements Screen{
 
@@ -26,6 +27,8 @@ public class GameScreen implements Screen{
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
     private float gainpersecond;
 
+    private final AudioSystem as;
+
 	final StudentLifeGame game;
 	public GameScreen(final StudentLifeGame game) {
 
@@ -34,6 +37,9 @@ public class GameScreen implements Screen{
 		copied = false;
 		pasted = false;
 		delivered = false;
+
+		this.as = game.getEngine().getSystem(AudioSystem.class);
+		as.setSound(game.getEngine(), "music/Whoo.mp3");
 
 		SCREENHEIGHT = Gdx.graphics.getHeight();
 		SCREENWIDTH = Gdx.graphics.getWidth();
@@ -101,13 +107,14 @@ public class GameScreen implements Screen{
 					pasted=false;
 					Entity player = game.getPlayer();
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
-					pc.setKokCount(pc.getKokCount()+1);
-					//pc.setClickCount(pc.getClickCount()+1);
+					//pc.setKokCount(pc.getKokCount()+1);
+					pc.setClickCount(pc.getClickCount()+1);
 					pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
 
 
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
+					as.playSound(game.getEngine());
 				}
 				return true;
 			}
