@@ -108,8 +108,8 @@ public class HighscoreScreen implements Screen {
 
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
-        if(task.isDone() && !updated && !hl.isEmpty()){
-            for(int i = 0; i<users.length; i++){
+        if(task.isDone() && !updated && hl.size()>2){
+            for(int i = 0; i<hl.size(); i++){
                 users[i] = String.valueOf(hl.get(i).get("name"));
                 stats[i] = String.valueOf(hl.get(i).get("kokCount"));
             }
