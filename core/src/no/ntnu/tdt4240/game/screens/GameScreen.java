@@ -18,6 +18,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class GameScreen implements Screen{
 
@@ -29,9 +30,11 @@ public class GameScreen implements Screen{
     private boolean delivered;
     private boolean upgraded = false;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI;
+    private float gainpersecond;
 	private NavbarElement navbar;
 	private Entity player;
 	private PlayerComponent pc;
+    private final AudioSystem as;
 
 	final StudentLifeGame game;
 	public GameScreen(final StudentLifeGame game) {
@@ -47,6 +50,9 @@ public class GameScreen implements Screen{
 		copied = false;
 		pasted = false;
 		delivered = false;
+
+		this.as = game.getEngine().getSystem(AudioSystem.class);
+		as.setSound("music/Whoo.mp3");
 
 		//TODO æsj fiks dette her
 		float width = Gdx.graphics.getWidth()/2f;
@@ -80,6 +86,7 @@ public class GameScreen implements Screen{
 				pasted = true;
 				pasteButton.disableButton(pasted);
 				pc.setClickCount(pc.getClickCount()+1);
+				as.setSound("music/Whoo.mp3");
 			}
 			return true;
 			}
@@ -97,6 +104,7 @@ public class GameScreen implements Screen{
 				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
 				copyButton.disableButton(copied);
 				pasteButton.disableButton(pasted);
+				as.playSound();
 			}
 			return true;
 			}
@@ -108,6 +116,7 @@ public class GameScreen implements Screen{
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 			pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
 			pc.setClickCount(pc.getClickCount() + 1);
+			as.playSound();
 			return true;
 			}
 		});

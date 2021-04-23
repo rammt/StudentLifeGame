@@ -63,7 +63,7 @@ public class ShopScreen implements Screen {
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
         as = game.getEngine().getSystem(AudioSystem.class);
-        as.setSound(game.getEngine(), "music/ka-ching.mp3");
+        as.setSound("music/ka-ching.mp3");
 
         for(Entity rg : rg){
             resourceGainers.add(rgm.get(rg));

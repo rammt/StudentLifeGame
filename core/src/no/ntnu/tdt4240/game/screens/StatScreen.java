@@ -51,7 +51,8 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private Button highscoreButton, tutorialButton, musicButton;
+    private Button highscoreButton, musicButton;
+    private Button tutorialButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -120,7 +121,7 @@ public class StatScreen implements Screen{
                 "Music", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                as.startBackgroundMusic(game.getEngine());
+                as.startBackgroundMusic();
                 return true;
             }
         });
