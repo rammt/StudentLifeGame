@@ -101,8 +101,8 @@ public class GameScreen implements Screen{
 					pasted=false;
 					Entity player = game.getPlayer();
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
-					pc.setKokCount(pc.getKokCount()+1);
-					//pc.setClickCount(pc.getClickCount()+1);
+					//pc.setKokCount(pc.getKokCount()+1);
+					pc.setClickCount(pc.getClickCount()+1);
 					pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
 
 

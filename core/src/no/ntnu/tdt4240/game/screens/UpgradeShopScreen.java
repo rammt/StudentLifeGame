@@ -40,7 +40,7 @@ public class UpgradeShopScreen implements Screen {
         combineButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
-                "Combine Buttons 100 000,-", game.getSkin(),
+                "Combine Buttons: 100 000,-", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -58,7 +58,7 @@ public class UpgradeShopScreen implements Screen {
         increaseClickValueButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI - 50,
-                "Increase Click Value by 5%: 50 000,-", game.getSkin(),
+                "Increase Click Value: 50 000,-", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
