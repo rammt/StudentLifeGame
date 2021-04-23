@@ -22,12 +22,13 @@ public class ShopElement {
     private StudentLifeGame game;
     private PlayerComponent pc;
     private ArrayList<ResourceGainerComponent> resourceGainers;
-    private final int SCREENWIDTH, SCREENHEIGTH;
-    private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
-    private int currentIndex;
-    boolean hasNext, hasPrev;
     private ResourceGainSystem rgs;
     private AudioSystem as;
+    private final int SCREENWIDTH;
+    private final int SCREENHEIGTH;
+    private int currentIndex;
+    private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
+    boolean hasNext, hasPrev;
 
     public ShopElement(
             StudentLifeGame game, ArrayList<ResourceGainerComponent> resourceGainers,
@@ -41,10 +42,10 @@ public class ShopElement {
         BUTTONPADDING = 10;
         SCREENWIDTH = screenwidth;
         SCREENHEIGTH = screenheigth;
-        btnActors = new ArrayList<>();
         BUTTONWIDTHGUI = buttonwidthgui;
-        labelActors = new ArrayList<>();
         BUTTONHEIGHTGUI = buttonheightgui;
+        btnActors = new ArrayList<>();
+        labelActors = new ArrayList<>();
         rgs = game.getEngine().getSystem(ResourceGainSystem.class);
         populateShop();
     }
