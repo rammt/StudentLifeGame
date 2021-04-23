@@ -17,6 +17,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.guiElements.ShopElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 
@@ -36,6 +37,10 @@ public class ShopScreen implements Screen {
     private PlayerComponent pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ArrayList<ResourceGainerComponent> resourceGainers;
+    private ComponentMapper<PlayerComponent> pm;
+    private ResourceGainSystem rgs;
+    private float[] prices;
+    private final AudioSystem as;
 
 
     public ShopScreen(final StudentLifeGame game, int currentIndex) {
@@ -55,6 +60,9 @@ public class ShopScreen implements Screen {
         pc = player.getComponent(PlayerComponent.class);
         rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
+
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.setSound(game.getEngine(), "music/ka-ching.mp3");
 
         for(Entity rg : rg){
             resourceGainers.add(rgm.get(rg));
