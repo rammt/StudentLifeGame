@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -57,11 +58,14 @@ public class StartScreen implements Screen {
         localData.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                startingSystem.startGameWithPlayer(game.getEngine(), offlinePlayer);
+                startingSystem.startGameWithPlayer(game, offlinePlayer);
                 game.setScreen(new GameScreen(game));
                 return true;
             }
         });
+
+
+
 
         layout.add(localData).padBottom(100);
         layout.row();
@@ -79,7 +83,7 @@ public class StartScreen implements Screen {
                     Gdx.graphics.getHeight()/2f + buttonHeight/2, "Cloud Login", game.getSkin(), new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.firebase.onSignInButtonClicked();
+                    game.firebase.startSignInActivity();
                     Entity player = startingSystem.getOnlinePlayer(game.getEngine());
                     game.setScreen(new StartScreen(game, player));
                     return true;
@@ -119,7 +123,7 @@ public class StartScreen implements Screen {
             cloudData.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    startingSystem.startGameWithPlayer(game.getEngine(), onlinePlayer);
+                    startingSystem.startGameWithPlayer(game, onlinePlayer);
                     game.setScreen(new GameScreen(game));
                     return true;
                 }

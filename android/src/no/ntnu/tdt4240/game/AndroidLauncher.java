@@ -81,7 +81,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	}
 
 	@Override
-	public void onSignInButtonClicked() {
+	public void startSignInActivity() {
 		Intent signInIntent = mSignInClient.getSignInIntent();
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -198,6 +198,11 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		pc.setClickCount(clickCount);
 	}
 
+	public boolean isLoggedIn() {
+		FirebaseUser fb_user = mAuth.getCurrentUser();
+
+		return fb_user != null;
+	}
 
 	@Override
 	public void savePlayerStats(Entity player) {

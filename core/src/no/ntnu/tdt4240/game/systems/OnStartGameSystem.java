@@ -5,8 +5,12 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+
+import java.util.Date;
 
 import no.ntnu.tdt4240.game.FirebaseInterface;
+import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
@@ -58,20 +62,20 @@ public class OnStartGameSystem extends EntitySystem {
         return player;
     }
 
-    public void startGameWithPlayer(Engine engine, Entity player) {
-        SavingSystem ss = engine.getSystem(SavingSystem.class);
-
-        engine.addEntity(player);
+    public void startGameWithPlayer(StudentLifeGame game, Entity player) {
+        SavingSystem ss = game.getEngine().getSystem(SavingSystem.class);
+        game.getEngine().addEntity(player);
         ss.addPlayer(player);
+        addOfflineResources(player.getComponent(PlayerComponent.class), game.getEngine());
     }
 
-    /*private void addOfflineResources() {
-        long secondsSinceSave = (new Date().getTime() - player.getLastSave())/1000;
+    private void addOfflineResources(PlayerComponent player_pc, Engine engine) {
+        long secondsSinceSave = (new Date().getTime() - player_pc.getLastSave())/1000;
 
         if (secondsSinceSave > 10) {
-            engine.getSystem(ResourceGainSystem.class).addOfflineResource(secondsSinceSave);
+            engine.getSystem(ResourceGainSystem.class).addResourcesByTime(secondsSinceSave);
         }
-    }*/
+    }
 }
 
 
