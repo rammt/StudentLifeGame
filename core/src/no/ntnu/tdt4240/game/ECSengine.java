@@ -21,7 +21,7 @@ public class ECSengine{
     private PooledEngine engine;
     private Entity game;
     private FirebaseInterface firebase;
-    private Entity gainerKoker, gainerStudass, gainerHacker, gainerScripts;
+    private Entity gainerKoker, gainerStudass, gainerHacker, gainerScripts, gainerAlien;
 
     public ECSengine(ShapeRenderer shapeRenderer, BitmapFont font, SpriteBatch batch, Stage stage, FirebaseInterface firebase){
         super();
@@ -55,6 +55,10 @@ public class ECSengine{
         gainerHacker = engine.createEntity();
         gainerHacker.add(new ResourceGainerComponent().create("Hackere","Hacker kokere",1000,100));
         engine.addEntity(gainerHacker);
+
+        gainerAlien = engine.createEntity();
+        gainerAlien.add(new ResourceGainerComponent().create("Romvesen","Romvesen kokere",1000,100));
+        engine.addEntity(gainerAlien);
 
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
