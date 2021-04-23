@@ -37,6 +37,7 @@ import org.w3c.dom.Document;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,11 +58,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private GoogleSignInClient mSignInClient;
 
-	private Entity player;
-
 	private List<Map<String, Object>> highscoreList = new ArrayList<Map<String, Object>>();
 	private ArrayList<ResourceGainerComponent> resourceGainers;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +209,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 			playerMap.put("kokCount", pc.getKokCount());
 			playerMap.put("name", fb_user.getDisplayName());
-			playerMap.put("lastSave", pc.getLastSave());
+			playerMap.put("lastSave", new Date().getTime());
 			playerMap.put("resourceGainers", pc.getResourceGainers());
 
 			db.collection("players").document(fb_user.getUid()).set(playerMap);
@@ -227,8 +225,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 						if (task.isSuccessful()) {
 							highscoreList.clear();
 							for (QueryDocumentSnapshot document : task.getResult()) {
-						/*Long kokTemp = document.getLong("kokCount");
-						float kokCount = kokTemp.floatValue();*/
 								highscoreList.add(document.getData());
 								Log.d(TAG, document.getId() + " => " + document.getData());
 							}
@@ -240,8 +236,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 				});
 		return highscoreList;
 	}
-
-
 
 
 	@Override
