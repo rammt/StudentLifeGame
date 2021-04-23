@@ -1,6 +1,9 @@
 package no.ntnu.tdt4240.game.screens;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -22,6 +25,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class StatScreen implements Screen{
@@ -45,20 +49,26 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private List<Map<String,Object>> hl = new ArrayList<Map<String,Object>>();
-
     private Button statButton, gameButton, shopButton, highscoreButton;
 
     private Button saveStatsButton, saveOffline;
 
     final StudentLifeGame game;
+    private PlayerComponent pc;
+    private ImmutableArray<Entity> rg;
+    private ComponentMapper<ResourceGainerComponent> rgm;
+    private ResourceGainSystem rgs;
 
     public StatScreen(final StudentLifeGame game) {
 
         this.game = game;
         this.game.getStage().clear();
         Entity player = game.getPlayer();
-        PlayerComponent pc = player.getComponent(PlayerComponent.class);
+        pc = player.getComponent(PlayerComponent.class);
+        rgs = game.getEngine().getSystem(ResourceGainSystem.class);
+        rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
+        rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
+        rgs.countResourceGainers(rgm.get(rg.get(0)));
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -66,40 +76,19 @@ public class StatScreen implements Screen{
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-        // Updates amount of resourcegainers for the player
-        ArrayList<ResourceGainerComponent> rg = pc.getResourceGainers();
-        for(int i = 0; i < rg.size(); i++) {
-            System.out.println(rg.get(i).getName());
-            if(rg.get(i).getName() == "Kokere"){
-                kokere += 1;
-            }
-            else if(rg.get(i).getName() == "Hackere"){
-                hackere += 1;
-            }
-            else if(rg.get(i).getName() == "Studass"){
-                studass += 1;
-            }
-            else{
-                scripts += 1;
-            }
-        }
-
-       // String.valueOf(hl.get(i).get("name");
-        hl = game.firebase.getHighscore();
-
-        for(int i = 0; i < hl.size(); i++){
-            if(pc.getName() == String.valueOf(hl.get(i).get("name"))){
-                rank = i+1;
-            }
-        }
+        // Resourcegainers for the user
+        kokere = rgs.countResourceGainers(rgm.get(rg.get(0)));
+        hackere = rgs.countResourceGainers(rgm.get(rg.get(1)));
+        studass = rgs.countResourceGainers(rgm.get(rg.get(2)));
+        scripts = rgs.countResourceGainers(rgm.get(rg.get(3)));
 
         // Labelelements for stats in table
         kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
         antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
         leaderboard = new TextFieldComponent().create(kokere, "Betalte kokere: ", game.getSkin(),3, true).getTextFieldComponent();
-        aiKok = new TextFieldComponent().create(hackere, "Hackere som koker:", game.getSkin(),3, true).getTextFieldComponent();
-        hackerKok = new TextFieldComponent().create(studass, "Studasser som koker", game.getSkin(),3, true).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(scripts, "Kokescripts:", game.getSkin(),3, true).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(hackere, "Studasser som koker:", game.getSkin(),3, true).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(studass, "Kokscripts", game.getSkin(),3, true).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(scripts, "Hackere som koker:", game.getSkin(),3, true).getTextFieldComponent();
 
         // Table
         Table table = new Table();
