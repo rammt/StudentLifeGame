@@ -50,11 +50,24 @@ public class UpgradeShopScreen implements Screen {
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
                         if(pc.getKokCount() >= 100000f && !pc.getCombinedButtons()) {
                             pc.setKokCount(pc.getKokCount()-100000);
                             pc.setCombinedButtons(true);
-                            game.setScreen(new GameScreen(game));
                             as.playSound();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    long time = System.currentTimeMillis();
+                                    while (System.currentTimeMillis() < time + 4000){}
+                                    Gdx.app.postRunnable(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            game.setScreen(new GameScreen(game));
+                                        }
+                                    });
+                                }
+                            }).start();
                         }
                         return true;
                     }
