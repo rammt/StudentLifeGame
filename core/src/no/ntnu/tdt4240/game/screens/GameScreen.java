@@ -103,27 +103,11 @@ public class GameScreen implements Screen{
 		copyPasteDeliverButton = new ButtonElement(x, pasteY, "KOK", game.getSkin(), new InputListener() {
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-			Entity player = game.getPlayer();
 			pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
 			pc.setClickCount(pc.getClickCount() + 1);
 			return true;
 			}
 		});
-
-		textButtonStyleDOWN = new TextButton.TextButtonStyle(
-			copyButton.getStyle().down,
-			copyButton.getStyle().down,
-			copyButton.getStyle().down,
-			game.getFont()
-
-		);
-
-		textButtonStyleUP = new TextButton.TextButtonStyle(
-			copyButton.getStyle().up,
-			copyButton.getStyle().down,
-			copyButton.getStyle().checked,
-			game.getFont()
-		);
 
 		//legger til aktors
 
