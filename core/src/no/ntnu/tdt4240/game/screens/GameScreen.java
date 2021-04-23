@@ -40,6 +40,15 @@ public class GameScreen implements Screen{
 		BUTTONHEIGHTGUI = SCREENHEIGHT/8;
 		BUTTONWIDTHGUI = SCREENWIDTH/4;
 
+		Entity player = game.getPlayer();
+		PlayerComponent pc = player.getComponent(PlayerComponent.class);
+
+		float temp = 0f;
+		for(ResourceGainerComponent rg : pc.getResourceGainers()){
+			temp += rg.getGainPerSecond();
+		}
+		gainpersecond = temp;
+
 		//TODO æsj fiks dette her
 		float width = Gdx.graphics.getWidth()/2f;
 		float height = Gdx.graphics.getHeight()/8f;
@@ -93,7 +102,9 @@ public class GameScreen implements Screen{
 					Entity player = game.getPlayer();
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pc.setKokCount(pc.getKokCount()+1);
-					pc.setClickCount(pc.getClickCount()+1);
+					//pc.setClickCount(pc.getClickCount()+1);
+					pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
+
 
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
@@ -107,7 +118,8 @@ public class GameScreen implements Screen{
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				Entity player = game.getPlayer();
 				PlayerComponent pc = player.getComponent(PlayerComponent.class);
-				pc.setKokCount(pc.getKokCount() + 1);
+				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
+				//System.out.println(1+pc.getClickValue()*gainpersecond);
 				pc.setClickCount(pc.getClickCount() + 1);
 				return true;
 			}
@@ -129,7 +141,9 @@ public class GameScreen implements Screen{
 			game.getFont()
 		);
 		//legger til aktors
-		if(upgraded){
+
+
+		if(pc.getCombinedButtons()){
 			game.getStage().addActor(copyPasteDeliverButton);
 		}
 		else{
@@ -144,13 +158,7 @@ public class GameScreen implements Screen{
 			game.getStage().addActor(btn);
 		}
 
-		Entity player = game.getPlayer();
-		PlayerComponent pc = player.getComponent(PlayerComponent.class);
-		float temp = 0f;
-		for(ResourceGainerComponent rg : pc.getResourceGainers()){
-			temp += rg.getGainPerSecond();
-		}
-		gainpersecond = temp;
+
 	}
 
 	@Override
