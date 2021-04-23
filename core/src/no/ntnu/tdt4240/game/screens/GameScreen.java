@@ -11,13 +11,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 
 public class GameScreen implements Screen{
 
 	private TextButton.TextButtonStyle textButtonStyleDOWN;
 	private TextButton.TextButtonStyle textButtonStyleUP;
     private Button copyButton, pasteButton, deliverButton, copyPasteDeliverButton;
-	private Button statButton, gameButton, shopButton;
     private boolean copied;
     private boolean pasted;
     private boolean delivered;
@@ -55,6 +55,9 @@ public class GameScreen implements Screen{
 				if(!copied){
 					copied = true;
 					copyButton.setStyle(textButtonStyleDOWN);
+					Entity player = game.getPlayer();
+					PlayerComponent pc = player.getComponent(PlayerComponent.class);
+					pc.setClickCount(pc.getClickCount()+1);
 				}
 				return true;
 			}
@@ -68,7 +71,10 @@ public class GameScreen implements Screen{
 				if(copied && !pasted){
 					pasted = true;
 					//test
+					Entity player = game.getPlayer();
+					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pasteButton.setStyle(textButtonStyleDOWN);
+					pc.setClickCount(pc.getClickCount()+1);
 				}
 				return true;
 			}
@@ -85,6 +91,7 @@ public class GameScreen implements Screen{
 					Entity player = game.getPlayer();
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pc.setKokCount(pc.getKokCount()+1);
+					pc.setClickCount(pc.getClickCount()+1);
 
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
@@ -99,42 +106,11 @@ public class GameScreen implements Screen{
 				Entity player = game.getPlayer();
 				PlayerComponent pc = player.getComponent(PlayerComponent.class);
 				pc.setKokCount(pc.getKokCount() + 1);
+				pc.setClickCount(pc.getClickCount() + 1);
 				return true;
 			}
 		});
 
-		gameButton = new ButtonElement(
-				BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-				(SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-				"GAME", game.getSkin(), new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new GameScreen(game));
-				return true;
-			}
-		});
-
-		shopButton = new ButtonElement(
-			BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-			(SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-			"SHOP", game.getSkin(), new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new ShopScreen(game));
-				return true;
-			}
-		});
-
-		statButton = new ButtonElement(
-			BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-			(SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-			"STATS", game.getSkin(), new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new StatScreen(game));
-				return true;
-			}
-		});
 
 
 		textButtonStyleDOWN = new TextButton.TextButtonStyle(
@@ -159,9 +135,13 @@ public class GameScreen implements Screen{
 			game.getStage().addActor(pasteButton);
 			game.getStage().addActor(deliverButton);
 		}
-		game.getStage().addActor(statButton);
-		game.getStage().addActor(gameButton);
-		game.getStage().addActor(shopButton);
+
+		NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+		Button[] navbarActors = navbar.getActors();
+
+		for(Button btn : navbarActors){
+			game.getStage().addActor(btn);
+		}
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class StatScreen implements Screen{
@@ -49,7 +50,7 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private Button statButton, gameButton, shopButton, highscoreButton;
+    private Button highscoreButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -86,7 +87,7 @@ public class StatScreen implements Screen{
         scripts = rgs.countResourceGainers(rgm.get(rg.get(3)));
 
         // Labelelements for stats in table
-        kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create((pc.getClickCount().intValue()), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
         antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
         leaderboard = new TextFieldComponent().create(kokere, "Betalte kokere: ", game.getSkin(),3, true).getTextFieldComponent();
         aiKok = new TextFieldComponent().create(hackere, "Studasser som koker:", game.getSkin(),3, true).getTextFieldComponent();
@@ -106,44 +107,9 @@ public class StatScreen implements Screen{
         table.add(hackerKok);
         table.add(professorKok);
 
-        // Buttons
-        gameButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-                "GAME", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-                return true;
-            }
-        });
-
-        shopButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                "SHOP", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new ShopScreen(game));
-                return true;
-            }
-        });
-
-        statButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                "STATS", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new StatScreen(game));
-                return true;
-            }
-        });
-
-
         highscoreButton = new ButtonElement(
                 Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/6f, statButton.getY() + statButton.getHeight() + 50,
+                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/6f, 50 + BUTTONHEIGHTGUI + 50,
                 "Highscores", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -175,10 +141,15 @@ public class StatScreen implements Screen{
             }
         });
 
-        // Add actors to stage
-        game.getStage().addActor(gameButton);
-        game.getStage().addActor(statButton);
-        game.getStage().addActor(shopButton);
+        //navbarkode
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        Button[] navbarActors = navbar.getActors();
+
+        for(Button btn : navbarActors){
+            System.out.println("add button");
+            game.getStage().addActor(btn);
+        }
+
         game.getStage().addActor(highscoreButton);
         game.getStage().addActor(table);
         game.getStage().addActor(saveStatsButton);
@@ -200,7 +171,6 @@ public class StatScreen implements Screen{
         PlayerComponent pc = player.getComponent(PlayerComponent.class);
 
         layout.setText(game.getFont(), pc.getName());
-
         game.getFont().draw(
                 game.getBatch(),
                 pc.getName() + "\n Rank: " + rank,
