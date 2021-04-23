@@ -82,9 +82,11 @@ public class PlayerComponent implements Component {
     public void addResourceGainers(ResourceGainerComponent resourceGainerComponent) {
         resourceGainers.add(resourceGainerComponent);
     }
+
     public void setCombinedButtons(boolean b){
         combinedButtons = b;
     }
+
     public boolean getCombinedButtons(){
         return combinedButtons;
     }
@@ -92,6 +94,7 @@ public class PlayerComponent implements Component {
     public void setClickValue(float amount){
         clickValue = amount;
     }
+
     public float getClickValue(){
         return clickValue;
     }
