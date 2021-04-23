@@ -170,6 +170,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 	private void setStatsOnPlayerComponent(PlayerComponent pc, DocumentSnapshot document) {
 		Long kokTemp = document.getLong("kokCount");
 		float kokCount = kokTemp.floatValue();
+		Long clickCount = document.getLong("clickCount");
 		String name = (String) document.get("name");
 		Long lastSave = document.getLong("lastSave");
 		List<Map<String, Object>> resourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
@@ -178,6 +179,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		pc.setName(name);
 		pc.setLastSave(lastSave);
 		pc.setResourceGainers(resourceGainers);
+		pc.setClickCount(clickCount);
 	}
 
 
@@ -194,6 +196,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 			playerMap.put("name", fb_user.getDisplayName());
 			playerMap.put("lastSave", pc.getLastSave());
 			playerMap.put("resourceGainers", pc.getResourceGainers());
+			playerMap.put("clickCount", pc.getClickCount());
 
 			db.collection("players").document(fb_user.getUid()).set(playerMap);
 		}
@@ -248,6 +251,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 							pc.setName(displayName);
 							player.put("lastSave", pc.getLastSave());
 							player.put("resourceGainers", pc.getResourceGainers());
+							player.put("clickCount",pc.getClickCount());
 
 							db.collection("players").document(fb_user.getUid()).set(player);
 							Log.d(TAG, "No such document");

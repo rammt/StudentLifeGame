@@ -55,6 +55,9 @@ public class GameScreen implements Screen{
 				if(!copied){
 					copied = true;
 					copyButton.setStyle(textButtonStyleDOWN);
+					Entity player = game.getPlayer();
+					PlayerComponent pc = player.getComponent(PlayerComponent.class);
+					pc.setClickCount(pc.getClickCount()+1);
 				}
 				return true;
 			}
@@ -68,7 +71,10 @@ public class GameScreen implements Screen{
 				if(copied && !pasted){
 					pasted = true;
 					//test
+					Entity player = game.getPlayer();
+					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pasteButton.setStyle(textButtonStyleDOWN);
+					pc.setClickCount(pc.getClickCount()+1);
 				}
 				return true;
 			}
@@ -85,6 +91,7 @@ public class GameScreen implements Screen{
 					Entity player = game.getPlayer();
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pc.setKokCount(pc.getKokCount()+1);
+					pc.setClickCount(pc.getClickCount()+1);
 
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
