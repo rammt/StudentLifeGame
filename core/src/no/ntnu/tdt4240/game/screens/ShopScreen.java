@@ -66,7 +66,7 @@ public class ShopScreen implements Screen {
         //TODO lmao, burde hente alle resourcecompontene og bygge dem
 
         //TODO counters er vanskelig
-        counterEidBuy1 = 0;
+        counterEidBuy1 = game.getEngine().getSystem();
         buy1String = "Betalte kokere "+ prices[0] +",-";
 
         buy1Button = new ButtonElement(
