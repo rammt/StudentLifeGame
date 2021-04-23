@@ -39,8 +39,7 @@ public class GameScreen implements Screen{
 		delivered = false;
 
 		this.as = game.getEngine().getSystem(AudioSystem.class);
-		as.setSound(game.getEngine(), "music/Whoo.mp3");
-
+		as.setSound("music/Whoo.mp3");
 		SCREENHEIGHT = Gdx.graphics.getHeight();
 		SCREENWIDTH = Gdx.graphics.getWidth();
 		BUTTONHEIGHTGUI = SCREENHEIGHT/8;
@@ -92,6 +91,7 @@ public class GameScreen implements Screen{
 					PlayerComponent pc = player.getComponent(PlayerComponent.class);
 					pasteButton.setStyle(textButtonStyleDOWN);
 					pc.setClickCount(pc.getClickCount()+1);
+					as.setSound("music/Whoo.mp3");
 				}
 				return true;
 			}
@@ -114,7 +114,7 @@ public class GameScreen implements Screen{
 
 					copyButton.setStyle(textButtonStyleUP);
 					pasteButton.setStyle(textButtonStyleUP);
-					as.playSound(game.getEngine());
+					as.playSound();
 				}
 				return true;
 			}
@@ -128,6 +128,7 @@ public class GameScreen implements Screen{
 				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
 				//System.out.println(1+pc.getClickValue()*gainpersecond);
 				pc.setClickCount(pc.getClickCount() + 1);
+				as.playSound();
 				return true;
 			}
 		});

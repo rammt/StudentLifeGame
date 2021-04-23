@@ -13,6 +13,7 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class UpgradeShopScreen implements Screen {
     final StudentLifeGame game;
@@ -25,12 +26,17 @@ public class UpgradeShopScreen implements Screen {
     final Button combineButton, increaseClickValueButton;
     private PlayerComponent pc;
 
+    private AudioSystem as;
+
     public UpgradeShopScreen(final StudentLifeGame game){
         this.game = game;
         game.getStage().clear();
 
         Entity player = game.getPlayer();
         pc = player.getComponent(PlayerComponent.class);
+
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.setSound("music/combine_buttons.mp3");
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -48,6 +54,7 @@ public class UpgradeShopScreen implements Screen {
                             pc.setKokCount(pc.getKokCount()-100000);
                             pc.setCombinedButtons(true);
                             game.setScreen(new GameScreen(game));
+                            as.playSound();
                         }
                         return true;
                     }
@@ -66,8 +73,8 @@ public class UpgradeShopScreen implements Screen {
                             pc.setKokCount(pc.getKokCount()-50000f);
                             pc.setClickValue(pc.getClickValue()+0.05f);
                             System.out.println(pc.getClickValue());
+                            as.playSound();
                         }
-
                         return true;
                     }
 
