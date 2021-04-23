@@ -39,7 +39,7 @@ public class ShopSelectScreen implements Screen {
 
         upgradeScreenButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-50,
                 "Upgrades", game.getSkin(),
                 new InputListener() {
                     @Override
@@ -53,7 +53,7 @@ public class ShopSelectScreen implements Screen {
 
         upgradeRGButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-50,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
                 "Resource Gainers", game.getSkin(),
                 new InputListener() {
                     @Override
