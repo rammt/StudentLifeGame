@@ -15,23 +15,12 @@ public class PlayerComponent implements Component {
     private List<Map<String, Object>> firebaseResourceGainers;
     private ArrayList<ResourceGainerComponent> resourceGainers;
 
-
     public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> firebaseResourceGainers) {
         this.name = name;
-        System.out.println("YEEEEEEEEEET" + firebaseResourceGainers.size());
         this.lastSave = lastSave;
         this.kokCount = kokCount;
         this.firebaseResourceGainers = firebaseResourceGainers;
         this.resourceGainers = new ArrayList<>();
-        for(Map<String, Object> map : firebaseResourceGainers) {
-            for(Map.Entry<String, Object> entry : map.entrySet()) {
-                if(entry.getValue() instanceof ResourceGainerComponent){
-                    this.resourceGainers.add((ResourceGainerComponent) entry.getValue());
-                } else {
-                    System.out.println("yeet");
-                }
-            }
-        }
 
         return this;
     }

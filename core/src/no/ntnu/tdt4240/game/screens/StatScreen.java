@@ -20,6 +20,7 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class StatScreen implements Screen{
@@ -37,7 +38,7 @@ public class StatScreen implements Screen{
     final int SCREENWIDTH;
     final int buttonPadding;
 
-    private Button statButton, gameButton, shopButton, highscoreButton;
+    private Button highscoreButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -76,43 +77,9 @@ public class StatScreen implements Screen{
         table.add(hackerKok);
         table.add(professorKok);
 
-        gameButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-                "GAME", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-                return true;
-            }
-        });
-
-        shopButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                "SHOP", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new ShopScreen(game));
-                return true;
-            }
-        });
-
-        statButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                "STATS", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new StatScreen(game));
-                return true;
-            }
-        });
-
-
         highscoreButton = new ButtonElement(
                 Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/6f, statButton.getY() + statButton.getHeight() + 50,
+                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/6f, 50 + BUTTONHEIGHTGUI + 50,
                 "Highscores", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -144,10 +111,15 @@ public class StatScreen implements Screen{
             }
         });
 
+        //navbarkode
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        Button[] navbarActors = navbar.getActors();
 
-        game.getStage().addActor(gameButton);
-        game.getStage().addActor(statButton);
-        game.getStage().addActor(shopButton);
+        for(Button btn : navbarActors){
+            System.out.println("add button");
+            game.getStage().addActor(btn);
+        }
+
         game.getStage().addActor(highscoreButton);
         game.getStage().addActor(table);
         game.getStage().addActor(saveStatsButton);

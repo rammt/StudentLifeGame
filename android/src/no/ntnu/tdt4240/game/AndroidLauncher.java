@@ -188,8 +188,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 			);
 			resourceGainers.add(tmpRgc);
 		}
-		System.out.println("yeet "+firebaseResourceGainers.size());
-		System.out.println("yeetyeet "+resourceGainers.size());
 
 		pc.setKokCount(kokCount);
 		pc.setName(name);

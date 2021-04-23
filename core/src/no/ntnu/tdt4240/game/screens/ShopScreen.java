@@ -16,12 +16,12 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 
 public class ShopScreen implements Screen {
 
-    private Button statButton, gameButton, shopButton;
     private Button buy1Button, buy2Button, buy3Button, buy4Button;
     private ImmutableArray<Entity> rg;
     final StudentLifeGame game;
@@ -68,7 +68,6 @@ public class ShopScreen implements Screen {
 
         //TODO lmao, burde hente alle resourcecompontene og bygge dem
 
-        //TODO counters er vanskelig
         counterEidBuy1 = rgs.countResourceGainers(rgm.get(rg.get(0)));
         buy1String = "Betalte kokere "+ prices[0] +",-";
 
@@ -83,7 +82,6 @@ public class ShopScreen implements Screen {
 
                     pc.setKokCount(pc.getKokCount()-prices[0]);
                     pc.addResourceGainers(rgm.get(rg.get(0)));
-                    System.out.println("KJØPTE KOKERE 1");
                 }
                 return true;
             }
@@ -104,7 +102,6 @@ public class ShopScreen implements Screen {
 
                     pc.setKokCount(pc.getKokCount()-prices[1]);
                     pc.addResourceGainers(rgm.get(rg.get(1)));
-                    System.out.println("KJØPTE KOKERE 2");
                 }
                 return true;
             }
@@ -124,7 +121,6 @@ public class ShopScreen implements Screen {
                     counterEidBuy3++;
                     pc.setKokCount(pc.getKokCount()-prices[2]);
                     pc.addResourceGainers(rgm.get(rg.get(2)));
-                    System.out.println("KJØPTE KOKERE 3");
                 }
                 return true;
             }
@@ -143,53 +139,23 @@ public class ShopScreen implements Screen {
                     counterEidBuy4++;
                     pc.setKokCount(pc.getKokCount()-prices[3]);
                     pc.addResourceGainers(rgm.get(rg.get(3)));
-                    System.out.println("KJØPTE KOKERE 4");
                 }
                 return true;
             }
         });
 
-        gameButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-                "GAME", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-                return true;
-            }
-        });
+        //navbarkode
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        Button[] navbarActors = navbar.getActors();
 
-        shopButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                "SHOP", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new ShopScreen(game));
-                return true;
-            }
-        });
-
-        statButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                "STATS", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new StatScreen(game));
-                return true;
-            }
-        });
-
-        //add actors til stagen
+        for(Button btn : navbarActors){
+            System.out.println("add button");
+            game.getStage().addActor(btn);
+        }
         game.getStage().addActor(buy1Button);
         game.getStage().addActor(buy2Button);
         game.getStage().addActor(buy3Button);
         game.getStage().addActor(buy4Button);
-        game.getStage().addActor(statButton);
-        game.getStage().addActor(gameButton);
-        game.getStage().addActor(shopButton);
     }
 
     @Override
