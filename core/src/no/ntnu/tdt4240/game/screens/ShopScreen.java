@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -91,11 +92,13 @@ public class ShopScreen implements Screen {
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
+        float amount = pc.getKokCount();
+        DecimalFormat formatter = new DecimalFormat("#,###");
         //batch tegner vi resten på
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(pc.getKokCount()),
+                "Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

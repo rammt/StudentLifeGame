@@ -10,6 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.text.DecimalFormat;
+
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
@@ -125,6 +128,31 @@ public class GameScreen implements Screen{
 		}
 	}
 
+	private String formatMillions(double num){
+		String unit = "";
+		if(num >= 1000000000000000f){
+			num = num/1000000000000000f;
+			unit="Quadrillion";
+		}
+		else if(num >= 1000000000000f){
+			num = num/1000000000000f;
+			unit="Trillion";
+		}
+		else if(num>=1000000000f){
+			num = num/1000000000;
+			unit = "Billion";
+		}
+		else if(num >= 1000000f){
+			num = num/1000000;
+			unit = "Million";
+		}
+		else if(num >= 1000){
+			num = num/1000;
+			unit = "K";
+		}
+		return String.format("%.3f", num) + " " + unit;
+	}
+
 	@Override
 	public void render(float delta) {
 
@@ -133,9 +161,13 @@ public class GameScreen implements Screen{
 		game.getStage().act();
 		game.getStage().draw();
 		game.getBatch().begin();
+		Entity player = game.getPlayer();
+		PlayerComponent pc = player.getComponent(PlayerComponent.class);
+		//DecimalFormat formatter = new DecimalFormat("#,###");
 		game.getFont().draw(
 			game.getBatch(),
-			"Kok : " + pc.getKokCount(),
+			//"Kok : " + formatter.format(pc.getKokCount()),
+				"Kok : " + formatMillions(pc.getKokCount()),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
