@@ -13,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.systems.SavingSystem;
@@ -36,6 +38,14 @@ public class StatScreen implements Screen{
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
+
+    private int kokere = 0;
+    private int hackere = 0;
+    private int studass = 0;
+    private int scripts = 0;
+    private int rank;
+
+    private List<Map<String,Object>> hl = new ArrayList<Map<String,Object>>();
 
     private Button statButton, gameButton, shopButton, highscoreButton;
 
@@ -56,14 +66,42 @@ public class StatScreen implements Screen{
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
+        // Updates amount of resourcegainers for the player
+        ArrayList<ResourceGainerComponent> rg = pc.getResourceGainers();
+        for(int i = 0; i < rg.size(); i++) {
+            System.out.println(rg.get(i).getName());
+            if(rg.get(i).getName() == "Kokere"){
+                kokere += 1;
+            }
+            else if(rg.get(i).getName() == "Hackere"){
+                hackere += 1;
+            }
+            else if(rg.get(i).getName() == "Studass"){
+                studass += 1;
+            }
+            else{
+                scripts += 1;
+            }
+        }
+
+       // String.valueOf(hl.get(i).get("name");
+        hl = game.firebase.getHighscore();
+
+        for(int i = 0; i < hl.size(); i++){
+            if(pc.getName() == String.valueOf(hl.get(i).get("name"))){
+                rank = i+1;
+            }
+        }
+
+        // Labelelements for stats in table
         kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
         antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
-        leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin(),3, true).getTextFieldComponent();
-        aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin(),3, true).getTextFieldComponent();
-        hackerKok = new TextFieldComponent().create(0, "Hacker som koker:", game.getSkin(),3, true).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(0, "Professor som koker:", game.getSkin(),3, true).getTextFieldComponent();
+        leaderboard = new TextFieldComponent().create(kokere, "Betalte kokere: ", game.getSkin(),3, true).getTextFieldComponent();
+        aiKok = new TextFieldComponent().create(hackere, "Hackere som koker:", game.getSkin(),3, true).getTextFieldComponent();
+        hackerKok = new TextFieldComponent().create(studass, "Studasser som koker", game.getSkin(),3, true).getTextFieldComponent();
+        professorKok = new TextFieldComponent().create(scripts, "Kokescripts:", game.getSkin(),3, true).getTextFieldComponent();
 
-
+        // Table
         Table table = new Table();
         table.setFillParent(true);
         table.defaults().minWidth(500).minHeight(300).pad(40);
@@ -76,6 +114,7 @@ public class StatScreen implements Screen{
         table.add(hackerKok);
         table.add(professorKok);
 
+        // Buttons
         gameButton = new ButtonElement(
                 BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
                 (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
@@ -144,7 +183,7 @@ public class StatScreen implements Screen{
             }
         });
 
-
+        // Add actors to stage
         game.getStage().addActor(gameButton);
         game.getStage().addActor(statButton);
         game.getStage().addActor(shopButton);
@@ -171,7 +210,7 @@ public class StatScreen implements Screen{
         layout.setText(game.getFont(), pc.getName());
         game.getFont().draw(
                 game.getBatch(),
-                pc.getName(),
+                pc.getName() + "\n Rank: " + rank,
                 Gdx.graphics.getWidth()/2f - (layout.width/2),
                 Gdx.graphics.getHeight()/1.15f
         );
