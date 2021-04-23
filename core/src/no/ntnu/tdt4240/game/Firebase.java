@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
@@ -17,6 +18,7 @@ public interface Firebase {
     List<Map<String,Object>> getHighscore();
     int getRank(PlayerComponent pc);
     boolean isLoggedIn();
+    void getResourceGainers(List<Map<String, Object>> resourceGainers);
 
     //void getStats(Player user);
     /*

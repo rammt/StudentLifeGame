@@ -22,7 +22,7 @@ import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class ShopScreen implements Screen {
 
-    private ImmutableArray<Entity> rg;
+    private ImmutableArray<Entity> resourceGainerEntities;
     final StudentLifeGame game;
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
@@ -30,7 +30,7 @@ public class ShopScreen implements Screen {
     final int SCREENWIDTH;
     final int buttonPadding;
 
-    private PlayerComponent pc;
+    private PlayerComponent player_pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ComponentMapper<PlayerComponent> pm;
     private ArrayList<ResourceGainerComponent> resourceGainers;
@@ -49,17 +49,16 @@ public class ShopScreen implements Screen {
         buttonPadding = 10;
 
         Entity player = game.getPlayer();
-        pc = player.getComponent(PlayerComponent.class);
-        rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
-        pm = ComponentMapper.getFor(PlayerComponent.class);
+        player_pc = player.getComponent(PlayerComponent.class);
+        resourceGainerEntities = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
-        for(Entity rg : rg){
-            resourceGainers.add(rgm.get(rg));
+        for(Entity resourceGainerEntity : resourceGainerEntities){
+            resourceGainers.add(rgm.get(resourceGainerEntity));
         }
 
         //builders
-        ShopElement shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,pc,currentIndex);
+        ShopElement shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,player_pc,currentIndex);
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
         for(Button btn : shop.getButtonActors()){
@@ -85,7 +84,7 @@ public class ShopScreen implements Screen {
         game.getBatch().begin();
         game.getFont().draw(
                 game.getBatch(),
-                "Kokt : " + String.valueOf(pc.getKokCount()),
+                "Kok: " + String.valueOf(player_pc.getKokCount()),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

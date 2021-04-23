@@ -13,6 +13,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class GameScreen implements Screen{
 
@@ -144,13 +145,9 @@ public class GameScreen implements Screen{
 			game.getStage().addActor(btn);
 		}
 
-		Entity player = game.getPlayer();
-		PlayerComponent pc = player.getComponent(PlayerComponent.class);
-		float temp = 0f;
-		for(ResourceGainerComponent rg : pc.getResourceGainers()){
-			temp += rg.getGainPerSecond();
-		}
-		gainpersecond = temp;
+		ResourceGainSystem rgs = game.getEngine().getSystem(ResourceGainSystem.class);
+
+		gainpersecond = rgs.getResourceGainPerSecond();
 	}
 
 	@Override

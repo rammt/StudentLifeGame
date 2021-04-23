@@ -27,10 +27,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
@@ -41,8 +43,8 @@ public class AndroidFirebase implements Firebase {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private List<Map<String, Object>> highscoreList = new ArrayList<Map<String, Object>>();
-    private ArrayList<ResourceGainerComponent> resourceGainers;
+    private List<Map<String, Object>> highscoreList = new ArrayList<>();
+    //private List<Map<String, Object>> resourceGainers = new ArrayList<>();
     private int rank;
 
     private static final AndroidFirebase androidFirebase = new AndroidFirebase();
@@ -86,21 +88,7 @@ public class AndroidFirebase implements Firebase {
         Long clickCount = document.getLong("clickCount");
         String name = (String) document.get("name");
         Long lastSave = document.getLong("lastSave");
-        List<Map<String, Object>> firebaseResourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
-        this.resourceGainers = new ArrayList<>();
-        for(Map<String, Object> map : firebaseResourceGainers) {
-            ResourceGainerComponent tmpRgc = new ResourceGainerComponent();
-
-            Long tmpPrice = (Long)map.get("price");
-            Double tmpGain = (Double) map.get("gainPerSecond");
-            tmpRgc.create(
-                    (String)map.get("name"),
-                    (String)map.get("desc"),
-                    tmpPrice.intValue(),
-                    tmpGain.floatValue()
-            );
-            resourceGainers.add(tmpRgc);
-        }
+        List<Map<String, Object>> resourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
 
         pc.setKokCount(kokCount);
         pc.setName(name);
@@ -168,6 +156,26 @@ public class AndroidFirebase implements Firebase {
         return highscoreList;
     }
 
+    public void getResourceGainers(final List<Map<String, Object>> resourceGainers) {
+        CollectionReference resourceGainersReference = db.collection("resource_gainers");
+        resourceGainersReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            resourceGainers.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                resourceGainers.add(document.getData());
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                System.out.println("RGsize in snapshop: " + resourceGainers.size());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: " + task.getException());
+                        }
+                    }
+                });
+    }
+
 
     @Override
     public void getPlayerStats(final Entity player) {
@@ -204,6 +212,7 @@ public class AndroidFirebase implements Firebase {
             });
         }
     }
+
 
     public int getRank(PlayerComponent pc) {
         CollectionReference colRefPlayers = db.collection("players");

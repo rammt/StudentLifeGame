@@ -45,7 +45,6 @@ public class ShopElement {
         BUTTONHEIGHTGUI = buttonheightgui;
         rgs = game.getEngine().getSystem(ResourceGainSystem.class);
         populateShop();
-
     }
 
    public void populateShop(){
@@ -116,7 +115,7 @@ public class ShopElement {
             if(startIndex+i >= resourceGainers.size())break;
             final ResourceGainerComponent rgc = resourceGainers.get(i+startIndex);
             shopLabelBuilder(rgs.countResourceGainers(rgc),25,(SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*i+BUTTONHEIGHTGUI/2));
-            String description = rgc.getDesc() + " " + rgc.getPrice() + ",-";
+            String description = rgc.getName() + " " + rgc.getPrice() + ",-";
             ButtonElement tmpButton = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
                 (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*counter-BUTTONPADDING*counter,
@@ -126,7 +125,7 @@ public class ShopElement {
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         if(pc.getKokCount() >= rgc.getPrice()){
                             pc.setKokCount(pc.getKokCount() - rgc.getPrice());
-                            pc.addResourceGainers(rgc);
+                            pc.addResourceGainer(rgc);
                         }
                         return true;
                     }
