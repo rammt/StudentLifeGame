@@ -37,7 +37,7 @@ public class StatScreen implements Screen{
     final int SCREENWIDTH;
     final int buttonPadding;
 
-    private Button statButton, gameButton, shopButton, highscoreButton;
+    private Button statButton, gameButton, shopButton, highscoreButton, tutorialButton;
 
     private Button saveStatsButton, saveOffline;
 
@@ -109,18 +109,6 @@ public class StatScreen implements Screen{
             }
         });
 
-        highscoreButton = new TextButton("Highscores",game.getSkin());
-        highscoreButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
-        highscoreButton.setPosition(Gdx.graphics.getWidth()/2f - highscoreButton.getWidth()/2, statButton.getY() + statButton.getHeight() + 50);
-        highscoreButton.addListener(new InputListener(){
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new HighscoreScreen(game));
-
-                return true;
-            }
-        });
-
 
         saveStatsButton = new TextButton("Save Game", game.getSkin());
         saveStatsButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
@@ -146,11 +134,36 @@ public class StatScreen implements Screen{
             }
         });
 
+        tutorialButton = new TextButton("Tutorial",game.getSkin());
+        tutorialButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
+        tutorialButton.setPosition(Gdx.graphics.getWidth()/2f, statButton.getY() + statButton.getHeight() + 50);
+        tutorialButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new TutorialScreen(game, 0));
+
+                return true;
+            }
+        });
+
+        highscoreButton = new TextButton("Highscores",game.getSkin());
+        highscoreButton.setSize(Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight()/18f);
+        highscoreButton.setPosition((Gdx.graphics.getWidth()/2f) - (saveStatsButton.getWidth()), statButton.getY() + statButton.getHeight() + 50);
+        highscoreButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new HighscoreScreen(game));
+
+                return true;
+            }
+        });
+
 
         game.getStage().addActor(gameButton);
         game.getStage().addActor(statButton);
         game.getStage().addActor(shopButton);
         game.getStage().addActor(highscoreButton);
+        game.getStage().addActor(tutorialButton);
         game.getStage().addActor(table);
         game.getStage().addActor(saveStatsButton);
         game.getStage().addActor(saveOffline);
