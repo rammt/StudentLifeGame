@@ -76,6 +76,9 @@ public class StatScreen implements Screen{
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
+        // Get rank of player
+        rank = game.firebase.getRank(pc);
+
         // Resourcegainers for the user
         kokere = rgs.countResourceGainers(rgm.get(rg.get(0)));
         hackere = rgs.countResourceGainers(rgm.get(rg.get(1)));
@@ -197,6 +200,7 @@ public class StatScreen implements Screen{
         PlayerComponent pc = player.getComponent(PlayerComponent.class);
 
         layout.setText(game.getFont(), pc.getName());
+
         game.getFont().draw(
                 game.getBatch(),
                 pc.getName() + "\n Rank: " + rank,
