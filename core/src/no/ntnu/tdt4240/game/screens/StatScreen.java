@@ -57,7 +57,7 @@ public class StatScreen implements Screen{
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-        kokCount = new TextFieldComponent().create((int) (pc.getKokCount()*3), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create((pc.getClickCount().intValue()), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
         antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
         leaderboard = new TextFieldComponent().create(1, "Leaderboard: ", game.getSkin(),3, true).getTextFieldComponent();
         aiKok = new TextFieldComponent().create(0, "AI som koker:", game.getSkin(),3, true).getTextFieldComponent();

@@ -12,10 +12,13 @@ public class PlayerComponent implements Component {
     private String name;
     private long lastSave;
     private float kokCount;
+    private Long clickCount;
     private List<Map<String, Object>> firebaseResourceGainers;
     private ArrayList<ResourceGainerComponent> resourceGainers;
 
-    public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> firebaseResourceGainers) {
+
+    public PlayerComponent create(String name, long lastSave, float kokCount,float clickCount, List<Map<String, Object>> firebaseResourceGainers) {
+
         this.name = name;
         this.lastSave = lastSave;
         this.kokCount = kokCount;
@@ -29,6 +32,7 @@ public class PlayerComponent implements Component {
         this.name = "NoName";
         this.lastSave = new Date().getTime();
         this.kokCount = 0;
+        this.clickCount = 0L;
         this.resourceGainers = new ArrayList<>();
         this.firebaseResourceGainers = Collections.emptyList();
 
@@ -47,6 +51,8 @@ public class PlayerComponent implements Component {
         return kokCount;
     }
 
+    public Long getClickCount() {return clickCount;}
+
     public void setName(String name) {
         this.name = name;
     }
@@ -58,6 +64,8 @@ public class PlayerComponent implements Component {
     public void setKokCount(float kokCount) {
         this.kokCount = kokCount;
     }
+
+    public void setClickCount(Long clickCount) {this.clickCount = clickCount;}
 
     public void setResourceGainers(ArrayList<ResourceGainerComponent> resourceGainers) {
         this.resourceGainers = resourceGainers;
