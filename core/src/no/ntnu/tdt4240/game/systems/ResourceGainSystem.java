@@ -47,6 +47,19 @@ public class ResourceGainSystem extends EntitySystem {
         }
     }
 
+    public int countResourceGainers(ResourceGainerComponent rg) {
+
+        int resourceGainerCounter = 0;
+        PlayerComponent pc = pm.get(player.get(0));
+
+        for (ResourceGainerComponent p_rg : pc.getResourceGainers()) {
+            if (p_rg.getName().equals(rg.getName())) {
+                resourceGainerCounter++;
+            }
+        }
+
+        return resourceGainerCounter;
+    }
 
     public void addOfflineResource(float secondsSinceSave) {
         addResourcesByTime(secondsSinceSave);

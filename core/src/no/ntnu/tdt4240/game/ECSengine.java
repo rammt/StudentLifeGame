@@ -56,10 +56,6 @@ public class ECSengine{
         gainerHacker.add(new ResourceGainerComponent().create("Hackere","Hacker kokere",1000,100));
         engine.addEntity(gainerHacker);
 
-        Entity localPlayer = engine.createEntity();
-        engine.addEntity(localPlayer);
-
-
         game.getComponent(GameComponent.class).setState(GameComponent.GameState.GAME_PLAYING);
     }
 

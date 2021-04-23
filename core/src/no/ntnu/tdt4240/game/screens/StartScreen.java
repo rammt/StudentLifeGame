@@ -23,17 +23,20 @@ import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 public class StartScreen implements Screen {
 
     private ButtonElement cloudLogInBtn, localLogInBtn;
+    private Table layout, localData, cloudData;
+    private Label cloudTitle, cloudLastSave, cloudKokCount;
 
     final StudentLifeGame game;
-
+    private Entity onlinePlayer;
+    private final OnStartGameSystem startingSystem;
     public StartScreen(final StudentLifeGame game, final Entity onlinePlayer) {
         this.game = game;
+        this.onlinePlayer = onlinePlayer;
+        this.startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
         this.game.getStage().clear();
 
-        final OnStartGameSystem startingSystem = game.getEngine().getSystem(OnStartGameSystem.class);
 
-        Table layout = new Table();
-
+        layout = new Table();
 
         final Entity offlinePlayer = startingSystem.getOfflinePlayer(game.getEngine());
         PlayerComponent offlinePC = offlinePlayer.getComponent(PlayerComponent.class);
@@ -44,7 +47,7 @@ public class StartScreen implements Screen {
         Label kokCount = new Label("KokCount: " + offlinePC.getKokCount(), game.getSkin());
         kokCount.setFontScale(2);
 
-        Table localData = new Table();
+        localData = new Table();
         localData.add(title);
         localData.row();
         localData.add(lastSave).pad(30, 10, 30, 10);
@@ -60,33 +63,13 @@ public class StartScreen implements Screen {
             }
         });
 
-        if (onlinePlayer != null) {
-            PlayerComponent onlinePC = onlinePlayer.getComponent(PlayerComponent.class);
+        layout.add(localData).padBottom(100);
+        layout.row();
 
-            Label cloudTitle = new Label("Use Cloud Data", game.getSkin());
-            cloudTitle.setFontScale(3);
-            Label cloudLastSave = new Label("Last save: " + new Date(onlinePC.getLastSave()).toString(), game.getSkin());
-            cloudLastSave.setFontScale(2);
-            Label cloudKokCount = new Label("KokCount: " + onlinePC.getKokCount(), game.getSkin());
-            cloudKokCount.setFontScale(2);
+        //layout.setDebug(true);
+        layout.setFillParent(true);
 
-            Table cloudData = new Table();
-            cloudData.add(cloudTitle);
-            cloudData.row();
-            cloudData.add(cloudLastSave).pad(30, 10, 30, 10);
-            cloudData.row();
-            cloudData.add(cloudKokCount).pad(30, 10, 30, 10);
-
-            cloudData.addListener(new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    startingSystem.startGameWithPlayer(game.getEngine(), onlinePlayer);
-                    game.setScreen(new GameScreen(game));
-                    return true;
-                }
-            });
-            layout.add(cloudData);
-        } else {
+        if (onlinePlayer == null) {
             //TODO Set new screen after player is found. Create prettier button for login/use label with onClick.
             float buttonWidth = Gdx.graphics.getWidth()/2f;
             float buttonHeight = Gdx.graphics.getHeight()/8f;
@@ -105,26 +88,51 @@ public class StartScreen implements Screen {
 
             layout.add(cloudLogInBtn);
         }
-        layout.row();
-        layout.add(localData).padTop(100);
-
-        layout.setFillParent(true);
-        layout.setDebug(false);
-
-
-        //legger til aktors
-        game.getStage().addActor(layout);
-        //game.getStage().addActor(localLogInBtn);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
+
+
+        if (onlinePlayer != null) {
+            PlayerComponent onlinePC = onlinePlayer.getComponent(PlayerComponent.class);
+
+            layout.removeActor(cloudLogInBtn);
+            layout.removeActor(cloudData);
+
+            cloudTitle = new Label("Use Cloud Data", game.getSkin());
+            cloudTitle.setFontScale(3);
+            cloudLastSave = new Label("Last save: " + new Date(onlinePC.getLastSave()).toString(), game.getSkin());
+            cloudLastSave.setFontScale(2);
+            cloudKokCount = new Label("KokCount: " + onlinePC.getKokCount(), game.getSkin());
+            cloudKokCount.setFontScale(2);
+
+            cloudData = new Table();
+            cloudData.add(cloudTitle);
+            cloudData.row();
+            cloudData.add(cloudLastSave).pad(30, 10, 30, 10);
+            cloudData.row();
+            cloudData.add(cloudKokCount).pad(30, 10, 30, 10);
+
+            cloudData.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    startingSystem.startGameWithPlayer(game.getEngine(), onlinePlayer);
+                    game.setScreen(new GameScreen(game));
+                    return true;
+                }
+            });
+
+            layout.row();
+            layout.add(cloudData);
+        }
+
         // stage tegner aktorsa
+        game.getStage().addActor(layout);
         game.getStage().act();
         game.getStage().draw();
-
     }
 
     @Override

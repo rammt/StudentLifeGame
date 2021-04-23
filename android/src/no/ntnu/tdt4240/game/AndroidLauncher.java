@@ -35,7 +35,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,7 @@ import java.util.Map;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.screens.HighscoreScreen;
 
 public class AndroidLauncher extends AndroidApplication implements FirebaseInterface {
@@ -55,10 +58,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 	private GoogleSignInClient mSignInClient;
 
-	private Entity player;
-
 	private List<Map<String, Object>> highscoreList = new ArrayList<Map<String, Object>>();
-
+	private ArrayList<ResourceGainerComponent> resourceGainers;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +174,23 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 		Long clickCount = document.getLong("clickCount");
 		String name = (String) document.get("name");
 		Long lastSave = document.getLong("lastSave");
-		List<Map<String, Object>> resourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
+		List<Map<String, Object>> firebaseResourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
+		this.resourceGainers = new ArrayList<>();
+		for(Map<String, Object> map : firebaseResourceGainers) {
+			ResourceGainerComponent tmpRgc = new ResourceGainerComponent();
+
+			Long tmpPrice = (Long)map.get("price");
+			Double tmpGain = (Double) map.get("gainPerSecond");
+			tmpRgc.create(
+					(String)map.get("name"),
+					(String)map.get("desc"),
+					tmpPrice.intValue(),
+					tmpGain.floatValue()
+			);
+			resourceGainers.add(tmpRgc);
+		}
+		System.out.println("yeet "+firebaseResourceGainers.size());
+		System.out.println("yeetyeet "+resourceGainers.size());
 
 		pc.setKokCount(kokCount);
 		pc.setName(name);
@@ -194,7 +211,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 
 			playerMap.put("kokCount", pc.getKokCount());
 			playerMap.put("name", fb_user.getDisplayName());
-			playerMap.put("lastSave", pc.getLastSave());
+			playerMap.put("lastSave", new Date().getTime());
 			playerMap.put("resourceGainers", pc.getResourceGainers());
 			playerMap.put("clickCount", pc.getClickCount());
 
@@ -211,8 +228,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 						if (task.isSuccessful()) {
 							highscoreList.clear();
 							for (QueryDocumentSnapshot document : task.getResult()) {
-						/*Long kokTemp = document.getLong("kokCount");
-						float kokCount = kokTemp.floatValue();*/
 								highscoreList.add(document.getData());
 								Log.d(TAG, document.getId() + " => " + document.getData());
 							}
@@ -224,8 +239,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseInter
 				});
 		return highscoreList;
 	}
-
-
 
 
 	@Override

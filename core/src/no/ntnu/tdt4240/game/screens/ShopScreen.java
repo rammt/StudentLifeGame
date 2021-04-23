@@ -16,6 +16,7 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 
 public class ShopScreen implements Screen {
@@ -35,6 +36,7 @@ public class ShopScreen implements Screen {
     private PlayerComponent pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ComponentMapper<PlayerComponent> pm;
+    private ResourceGainSystem rgs;
     private float[] prices;
 
 
@@ -56,6 +58,7 @@ public class ShopScreen implements Screen {
         rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         pm = ComponentMapper.getFor(PlayerComponent.class);
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
+        rgs = game.getEngine().getSystem(ResourceGainSystem.class);
 
         //TODO iterer????
         prices[0] = rgm.get(rg.get(0)).getPrice();
@@ -66,7 +69,7 @@ public class ShopScreen implements Screen {
         //TODO lmao, burde hente alle resourcecompontene og bygge dem
 
         //TODO counters er vanskelig
-        counterEidBuy1 = 0;
+        counterEidBuy1 = rgs.countResourceGainers(rgm.get(rg.get(0)));
         buy1String = "Betalte kokere "+ prices[0] +",-";
 
         buy1Button = new ButtonElement(
@@ -86,8 +89,7 @@ public class ShopScreen implements Screen {
             }
         });
 
-        counterEidBuy2= 0;
-        final int prisBuy2 = 200;
+        counterEidBuy2= rgs.countResourceGainers(rgm.get(rg.get(1)));
 
         buy2String = "Studass som koker "+prices[1] +",-";
 
@@ -97,7 +99,7 @@ public class ShopScreen implements Screen {
                 buy2String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy2){
+                if(pc.getKokCount() >= prices[3]){
                     counterEidBuy2++;
 
                     pc.setKokCount(pc.getKokCount()-prices[1]);
@@ -108,8 +110,7 @@ public class ShopScreen implements Screen {
             }
         });
 
-        counterEidBuy3= 0;
-        final int prisBuy3 = 500;
+        counterEidBuy3= rgs.countResourceGainers(rgm.get(rg.get(2)));
 
         buy3String = "kok scripts "+prices[2] +",-";
 
@@ -119,7 +120,7 @@ public class ShopScreen implements Screen {
                 buy3String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy3){
+                if(pc.getKokCount() >= prices[2]){
                     counterEidBuy3++;
                     pc.setKokCount(pc.getKokCount()-prices[2]);
                     pc.addResourceGainers(rgm.get(rg.get(2)));
@@ -129,9 +130,7 @@ public class ShopScreen implements Screen {
             }
         });
 
-        counterEidBuy4 = 0;
-        final int prisBuy4 = 1000;
-
+        counterEidBuy4 = rgs.countResourceGainers(rgm.get(rg.get(3)));
         buy4String = "Kok Hackere "+prices[3] +",-";
 
         buy4Button = new ButtonElement(
@@ -140,7 +139,7 @@ public class ShopScreen implements Screen {
                 buy4String, game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(pc.getKokCount() >= prisBuy4){
+                if(pc.getKokCount() >= prices[3]){
                     counterEidBuy4++;
                     pc.setKokCount(pc.getKokCount()-prices[3]);
                     pc.addResourceGainers(rgm.get(rg.get(3)));
