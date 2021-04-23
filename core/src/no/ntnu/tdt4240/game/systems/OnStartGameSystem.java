@@ -70,7 +70,8 @@ public class OnStartGameSystem extends EntitySystem {
     }
 
     public void startGameWithPlayer(final StudentLifeGame game, Entity player) {
-        final List<Map<String, Object>> resourceGainers = new ArrayList<>();
+        //TODO make the commented code work instead
+        /*final List<Map<String, Object>> resourceGainers = new ArrayList<>();
 
         firebase.getResourceGainers(resourceGainers);
 
@@ -79,7 +80,35 @@ public class OnStartGameSystem extends EntitySystem {
             Entity newGainer = game.getEngine().createEntity();
             newGainer.add(new ResourceGainerComponent().create((String) gainer.get("id"), (String) gainer.get("name"), (int) gainer.get("price"), (float) gainer.get("gain_per_second")));
             game.getEngine().addEntity(newGainer);
-        }
+        }*/
+
+        Entity studass = game.getEngine().createEntity();
+        studass.add(new ResourceGainerComponent().create("rg_studass", "Koking Student Assistant", 50, 1));
+        game.getEngine().addEntity(studass);
+
+        Entity professor = game.getEngine().createEntity();
+        professor.add(new ResourceGainerComponent().create("rg_prof", "Professor Koker", 250, 10));
+        game.getEngine().addEntity(professor);
+
+        Entity script = game.getEngine().createEntity();
+        script.add(new ResourceGainerComponent().create("rg_script", "Kok-generating Script", 1000, 50));
+        game.getEngine().addEntity(script);
+
+        Entity ai = game.getEngine().createEntity();
+        ai.add(new ResourceGainerComponent().create("rg_ai", "Kok-generating AI", 10000, 200));
+        game.getEngine().addEntity(ai);
+
+        Entity alien = game.getEngine().createEntity();
+        alien.add(new ResourceGainerComponent().create("rg_alien", "Alien Koking Lifeform", 50000, 1000));
+        game.getEngine().addEntity(alien);
+
+        Entity nuclear = game.getEngine().createEntity();
+        nuclear.add(new ResourceGainerComponent().create("rg_nuclear", "Nuclear Powered Koking Plant", 250000, 2500));
+        game.getEngine().addEntity(nuclear);
+
+        Entity dyson = game.getEngine().createEntity();
+        dyson.add(new ResourceGainerComponent().create("rg_dyson", "Kok-generating Dyson Sphere", 1000000000, 50000));
+        game.getEngine().addEntity(dyson);
 
         SavingSystem ss = game.getEngine().getSystem(SavingSystem.class);
         game.getEngine().addEntity(player);

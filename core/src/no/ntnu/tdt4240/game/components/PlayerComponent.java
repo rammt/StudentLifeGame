@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ public class PlayerComponent implements Component {
         }
 
         if (!hasAddedGainer) {
-            Map<String, Object> newGainer = Collections.emptyMap();
+            Map<String, Object> newGainer = new HashMap<>();
             newGainer.put("id", rgc.getId());
             newGainer.put("amount", 1);
             newGainer.put("level", 1);
