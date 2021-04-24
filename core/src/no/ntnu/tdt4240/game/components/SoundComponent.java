@@ -14,8 +14,8 @@ public class SoundComponent implements Component {
             return this;
         }
 
-        public void startSound(){
-                sound.play();
+        public void startSound(int volume){
+                sound.play(volume);
         }
 
         public void setSound(String path) {
