@@ -111,6 +111,7 @@ public class HighscoreScreen implements Screen {
         if(task.isDone() && !updated && hl.size()>2){
             for(int i = 0; i<hl.size(); i++){
                 users[i] = String.valueOf(hl.get(i).get("name"));
+                //stats[i] = game.formatMillions(Double.valueOf((Long)hl.get(i).get("kokCount")));
                 stats[i] = String.valueOf(hl.get(i).get("kokCount"));
             }
             users[0] = String.valueOf(hl.get(0).get("name"));
