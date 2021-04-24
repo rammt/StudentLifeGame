@@ -15,6 +15,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.StartScreen;
+import no.ntnu.tdt4240.game.screens.TutorialScreen;
 
 public class StudentLifeGame extends Game {
 	public Firebase firebase;
@@ -28,10 +29,19 @@ public class StudentLifeGame extends Game {
 	private Stage stage;
 	private Skin skin;
 	private TextureAtlas textureAtlas;
+    private boolean showTutorial = true;
 
     private ECSengine engine;
     private ShapeRenderer shapeRenderer;
 
+    // Show tutorial on first launch
+    public boolean showTutorialFirstLaunch() {
+        if (showTutorial) {
+            this.showTutorial = false;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void create() {
