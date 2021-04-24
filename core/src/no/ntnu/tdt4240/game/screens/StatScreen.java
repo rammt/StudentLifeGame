@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -51,7 +52,7 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private Button highscoreButton, musicButton;
+    private Button highscoreButton, musicButton, skipButton, muteButton;
     private Button tutorialButton;
 
     private Button saveStatsButton, saveOffline;
@@ -116,10 +117,32 @@ public class StatScreen implements Screen{
 
 
 
+        muteButton = new ButtonElement(
+                Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
+                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
+                "Mute", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                as.mute();
+                return true;
+            }
+        });
+
+        skipButton = new ButtonElement(
+                Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
+                Gdx.graphics.getWidth()/2f + muteButton.getWidth()/2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
+                "Skip", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                as.skipBackroundMusic();
+                return true;
+            }
+        });
+
         musicButton = new ButtonElement(
                 Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
-                Gdx.graphics.getWidth() - Gdx.graphics.getWidth()/6f, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
-                "Music", game.getSkin(), new InputListener() {
+                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
+                "Play", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 as.startBackgroundMusic();
@@ -196,6 +219,8 @@ public class StatScreen implements Screen{
             game.getStage().addActor(btn);
         }
 
+        game.getStage().addActor(skipButton);
+        game.getStage().addActor(muteButton);
         game.getStage().addActor(musicButton);
         game.getStage().addActor(highscoreButton);
         game.getStage().addActor(tutorialButton);
