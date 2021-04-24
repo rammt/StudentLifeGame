@@ -29,9 +29,9 @@ public class TutorialScreen implements Screen{
     private boolean showMenu;
 
     private List<String> title = Arrays.asList("TUTORIAL: How to KOK", "Buy upgrade", "Save game", "Need some inspiration?");
-    private List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online if you", "Den koker vi");
-    private List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "want to continue", "Og den koker vi");
-    private List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "on another device", "Ja, den koker vi");
+    private List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online to use", "Den koker vi");
+    private List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "on another device", "Og den koker vi");
+    private List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "Lacal save every 60 sec", "Ja, den koker vi");
     private List<Texture> images = Arrays.asList(
         new Texture("images/kok.png"),
         new Texture("images/upgrade.png"),
