@@ -41,11 +41,12 @@ public class ResourceGainSystem extends EntitySystem {
 
 
         for (Map<String, Object> resourceGainer : playerGainers) {
+            Long rg_amount = (Long) resourceGainer.get("amount");
             String playerGainerId = (String) resourceGainer.get("id");
             for (Entity gameGainer : gameGainers) {
                 ResourceGainerComponent gameGainer_rgc = gameGainer.getComponent(ResourceGainerComponent.class);
                 if (gameGainer_rgc.getId().equals(playerGainerId)) {
-                    addedResources += (gameGainer_rgc.getGainPerSecond() * gainIncrement) * (int) resourceGainer.get("amount");
+                    addedResources += (gameGainer_rgc.getGainPerSecond() * gainIncrement) * rg_amount.intValue();
                 }
             }
         }
@@ -60,11 +61,12 @@ public class ResourceGainSystem extends EntitySystem {
         List<Map<String, Object>> playerGainers = pc.getResourceGainers();
 
         for (Map<String, Object> resourceGainer : playerGainers) {
+            Long rg_amount = (Long) resourceGainer.get("amount");
             String playerGainerId = (String) resourceGainer.get("id");
             for (Entity gameGainer : gameGainers) {
                 ResourceGainerComponent gameGainer_rgc = gameGainer.getComponent(ResourceGainerComponent.class);
                 if (gameGainer_rgc.getId().equals(playerGainerId)) {
-                    addedResources += gameGainer_rgc.getGainPerSecond() * (int) resourceGainer.get("amount");
+                    addedResources += gameGainer_rgc.getGainPerSecond() * rg_amount.intValue();
                 }
             }
         }
@@ -88,8 +90,9 @@ public class ResourceGainSystem extends EntitySystem {
         List<Map<String, Object>> playerGainers = pc.getResourceGainers();
 
         for (Map<String, Object> playerGainer : playerGainers) {
+            Long rg_amount = (Long) playerGainer.get("amount");
             if (playerGainer.get("id").equals(rg.getId())) {
-                resourceGainerCounter += (int) playerGainer.get("amount");
+                resourceGainerCounter += rg_amount;
             }
         }
 
