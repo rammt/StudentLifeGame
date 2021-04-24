@@ -167,7 +167,7 @@ public class StatScreen implements Screen{
                 "Tutorial", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new TutorialScreen(game, 0));
+                game.setScreen(new TutorialScreen(game, 0, true));
                 return true;
             }
         });

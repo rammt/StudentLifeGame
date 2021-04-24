@@ -26,11 +26,12 @@ public class TutorialScreen implements Screen{
     private Button previousButton, nextButton;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI,SMALLBUTTONHEIGHTGUI;
     private int page;
+    private boolean showMenu;
 
-    private List<String> title = Arrays.asList("How to KOK", "Buy upgrade", "Save game", "Need some inspiration?");
-    private List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online if you", "Den koker vi");
-    private List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "want to continue", "Og den koker vi");
-    private List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "on another device", "Ja, den koker vi");
+    private List<String> title = Arrays.asList("TUTORIAL: How to KOK", "Buy upgrade", "Save game", "Need some inspiration?");
+    private List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online to use", "Den koker vi");
+    private List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "on another device", "Og den koker vi");
+    private List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "Lacal save every 60 sec", "Ja, den koker vi");
     private List<Texture> images = Arrays.asList(
         new Texture("images/kok.png"),
         new Texture("images/upgrade.png"),
@@ -39,87 +40,123 @@ public class TutorialScreen implements Screen{
     );
 
     final StudentLifeGame game;
-    public TutorialScreen(final StudentLifeGame game, final int page) {
+    public TutorialScreen(final StudentLifeGame game, final int page, final boolean showMenu) {
 
         this.game = game;
         this.game.getStage().clear();
         this.page = page;
+        this.showMenu = showMenu;
 
         SCREENHEIGHT = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
-        BUTTONHEIGHTGUI = SCREENHEIGHT/8;
-        BUTTONWIDTHGUI = SCREENWIDTH/4;
-        SMALLBUTTONHEIGHTGUI = SCREENHEIGHT/18;
+        BUTTONHEIGHTGUI = SCREENHEIGHT / 8;
+        BUTTONWIDTHGUI = SCREENWIDTH / 4;
+        SMALLBUTTONHEIGHTGUI = SCREENHEIGHT / 18;
 
         //TODO æsj fiks dette her
-        float width = Gdx.graphics.getWidth()/2f;
-        float height = Gdx.graphics.getHeight()/8f;
-        float x = Gdx.graphics.getWidth()/2f - width/2;
-        float copyY = Gdx.graphics.getHeight()/2f + height/2;
-        float pasteY = Gdx.graphics.getHeight()/2f - height/2;
-        float deliverY = Gdx.graphics.getHeight()/2f - height*1.5f;
+        float width = Gdx.graphics.getWidth() / 2f;
+        float height = Gdx.graphics.getHeight() / 8f;
+        float x = Gdx.graphics.getWidth() / 2f - width / 2;
+        float copyY = Gdx.graphics.getHeight() / 2f + height / 2;
+        float pasteY = Gdx.graphics.getHeight() / 2f - height / 2;
+        float deliverY = Gdx.graphics.getHeight() / 2f - height * 1.5f;
         //kode for knappene pluss logikk når knappen trykkes
 
+        // Show menu on last tutorial page
+        if ((page == title.size()-1)) {
+            this.showMenu = true;
+        }
 
-        gameButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-                "GAME", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-                return true;
-            }
-        });
+        // TODO: Eneste forskjellen er om showMenu settes i setScreen. Fikse en bedre løsning hvor ikke hele kodeblokken kopieres
+        if (this.showMenu) {
+            previousButton = new ButtonElement(
+                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                    Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() / 3f, 50 + BUTTONHEIGHTGUI + 50,
+                    "PREVIOUS", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new TutorialScreen(game, page - 1, true));
+                    return true;
+                }
+            });
 
-        shopButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                "SHOP", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new ShopScreen(game, 0));
-                return true;
-            }
-        });
+            nextButton = new ButtonElement(
+                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                    Gdx.graphics.getWidth() / 2f, 50 + BUTTONHEIGHTGUI + 50,
+                    "NEXT", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new TutorialScreen(game, page + 1, true));
+                    return true;
+                }
+            });
+        }
+        else {
+            previousButton = new ButtonElement(
+                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                    Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() / 3f, 50 + BUTTONHEIGHTGUI + 50,
+                    "PREVIOUS", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new TutorialScreen(game, page - 1, false));
+                    return true;
+                }
+            });
 
-        statButton = new ButtonElement(
-                BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                "STATS", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new StatScreen(game));
-                return true;
-            }
-        });
+            nextButton = new ButtonElement(
+                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                    Gdx.graphics.getWidth() / 2f, 50 + BUTTONHEIGHTGUI + 50,
+                    "NEXT", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new TutorialScreen(game, page + 1, false));
+                    return true;
+                }
+            });
+        }
 
-        previousButton = new ButtonElement(
-                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/3f, statButton.getY() + statButton.getHeight() + 50,
-                "PREVIOUS", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new TutorialScreen(game, page - 1));
-                return true;
-            }
-        });
+        // Shows menu if showMenu is specified
+        if (this.showMenu) {
+            gameButton = new ButtonElement(
+                    BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                    (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
+                    "GAME", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new GameScreen(game));
+                    return true;
+                }
+            });
 
-        nextButton = new ButtonElement(
-                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f, statButton.getY() + statButton.getHeight() + 50,
-                "NEXT", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new TutorialScreen(game, page + 1));
-                return true;
-            }
-        });
+            shopButton = new ButtonElement(
+                    BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                    (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
+                    "SHOP", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new ShopScreen(game, 0));
+                    return true;
+                }
+            });
+
+            statButton = new ButtonElement(
+                    BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
+                    (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
+                    "STATS", game.getSkin(), new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new StatScreen(game));
+                    return true;
+                }
+            });
+
+            // Add actors
+            game.getStage().addActor(statButton);
+            game.getStage().addActor(gameButton);
+            game.getStage().addActor(shopButton);
+        }
 
 
-        game.getStage().addActor(statButton);
-        game.getStage().addActor(gameButton);
-        game.getStage().addActor(shopButton);
         // Has previous page
         if (page > 0) {
             game.getStage().addActor(previousButton);
@@ -153,22 +190,22 @@ public class TutorialScreen implements Screen{
                 game.getBatch(),
                 description1.get(page),
                 Gdx.graphics.getWidth()/3.5f,
-                statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*6
+                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*6
         );
         game.getFont().draw(
                 game.getBatch(),
                 description2.get(page),
                 Gdx.graphics.getWidth()/3.5f,
-                statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*5
+                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*5
         );
         game.getFont().draw(
                 game.getBatch(),
                 description3.get(page),
                 Gdx.graphics.getWidth()/3.5f,
-                statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*4
+                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*4
         );
 
-        game.getBatch().draw(images.get(page), 0, statButton.getY() + statButton.getHeight() + (Gdx.graphics.getHeight()/30f)*7, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+        game.getBatch().draw(images.get(page), 0, 50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*7, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 
         game.getBatch().end();
 

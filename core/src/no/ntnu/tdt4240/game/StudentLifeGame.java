@@ -15,6 +15,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.StartScreen;
+import no.ntnu.tdt4240.game.screens.TutorialScreen;
 
 public class StudentLifeGame extends Game {
 	public Firebase firebase;
@@ -28,10 +29,19 @@ public class StudentLifeGame extends Game {
 	private Stage stage;
 	private Skin skin;
 	private TextureAtlas textureAtlas;
+    private boolean showTutorial = true;
 
     private ECSengine engine;
     private ShapeRenderer shapeRenderer;
 
+    // Show tutorial on first launch
+    public boolean showTutorialFirstLaunch() {
+        if (showTutorial) {
+            this.showTutorial = false;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void create() {
@@ -86,5 +96,33 @@ public class StudentLifeGame extends Game {
     public Entity getPlayer() {
         ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
         return players.get(0);
+    }
+
+    public String formatMillions(double num){
+        String unit = "";
+        if(num >= 1000000000000000f){
+            num = num/1000000000000000f;
+            unit="Quadrillion";
+        }
+        else if(num >= 1000000000000f){
+            num = num/1000000000000f;
+            unit="Trillion";
+        }
+        else if(num>=1000000000f){
+            num = num/1000000000;
+            unit = "Billion";
+        }
+        else if(num >= 1000000f){
+            num = num/1000000;
+            unit = "Million";
+        }
+		/*else if(num >= 1000){
+			num = num/1000;
+			unit = "K";
+		}*/
+        else {
+            return String.format("%.0f", num) + " " + unit;
+        }
+        return String.format("%.3f", num) + " " + unit;
     }
 }

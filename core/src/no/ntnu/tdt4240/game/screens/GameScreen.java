@@ -36,17 +36,19 @@ public class GameScreen implements Screen{
 	private NavbarElement navbar;
 	private Entity player;
 	private PlayerComponent pc;
-    private final AudioSystem as;
+    private AudioSystem as;
+    private boolean tutorialMode = false;
 
 	final StudentLifeGame game;
 	public GameScreen(final StudentLifeGame game) {
-
 		this.game = game;
 		this.game.getStage().clear();
+		this.tutorialMode = true;
 		SCREENHEIGHT = Gdx.graphics.getHeight();
 		SCREENWIDTH = Gdx.graphics.getWidth();
 		BUTTONHEIGHTGUI = SCREENHEIGHT/8;
 		BUTTONWIDTHGUI = SCREENWIDTH/4;
+
 		player = game.getPlayer();
 		pc = player.getComponent(PlayerComponent.class);
 
@@ -67,49 +69,49 @@ public class GameScreen implements Screen{
 		//kode for knappene pluss logikk når knappen trykkes
 
 		copyButton = new ButtonElement(
-			x, copyY,
-			"COPY", game.getSkin(), new InputListener(){
-		@Override
-		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-			if(!copied){
-				copied = true;
-				copyButton.disableButton(copied);
-				pc.setClickCount(pc.getClickCount()+1);
-			}
-			return true;
+				x, copyY,
+				"COPY", game.getSkin(), new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if(!copied){
+					copied = true;
+					copyButton.disableButton(copied);
+					pc.setClickCount(pc.getClickCount()+1);
+				}
+				return true;
 			}
 		});
 
 		pasteButton = new ButtonElement(
-			x, pasteY,
-			"PASTE", game.getSkin(), new InputListener(){
-		@Override
-		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-			if(copied && !pasted){
-				pasted = true;
-				pasteButton.disableButton(pasted);
-				pc.setClickCount(pc.getClickCount()+1);
-				as.setSound("music/Whoo.mp3");
-			}
-			return true;
+				x, pasteY,
+				"PASTE", game.getSkin(), new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if(copied && !pasted){
+					pasted = true;
+					pasteButton.disableButton(pasted);
+					pc.setClickCount(pc.getClickCount()+1);
+					as.setSound("music/Whoo.mp3");
+				}
+				return true;
 			}
 		});
 
 		deliverButton = new ButtonElement(
-			x, deliverY,
-			"DELIVER", game.getSkin(), new InputListener(){
-		@Override
-		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-			if(copied && pasted && !delivered){
-				copied=false;
-				pasted=false;
-				pc.setClickCount(pc.getClickCount()+1);
-				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
-				copyButton.disableButton(copied);
-				pasteButton.disableButton(pasted);
-				as.playSound();
-			}
-			return true;
+				x, deliverY,
+				"DELIVER", game.getSkin(), new InputListener(){
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if(copied && pasted && !delivered){
+					copied=false;
+					pasted=false;
+					pc.setClickCount(pc.getClickCount()+1);
+					pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
+					copyButton.disableButton(copied);
+					pasteButton.disableButton(pasted);
+					as.playSound();
+				}
+				return true;
 			}
 		});
 
@@ -124,6 +126,7 @@ public class GameScreen implements Screen{
 
 			}
 		});
+
 
 		//legger til aktors
 
@@ -142,54 +145,38 @@ public class GameScreen implements Screen{
 
 	}
 
-	private String formatMillions(double num){
-		String unit = "";
-		if(num >= 1000000000000000f){
-			num = num/1000000000000000f;
-			unit="Quadrillion";
-		}
-		else if(num >= 1000000000000f){
-			num = num/1000000000000f;
-			unit="Trillion";
-		}
-		else if(num>=1000000000f){
-			num = num/1000000000;
-			unit = "Billion";
-		}
-		else if(num >= 1000000f){
-			num = num/1000000;
-			unit = "Million";
-		}
-		else if(num >= 1000){
-			num = num/1000;
-			unit = "K";
-		}
-		return String.format("%.3f", num) + " " + unit;
-	}
+
 
 	@Override
 	public void render(float delta) {
 
-        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
+		ScreenUtils.clear(57 / 255f, 72f / 255f, 85f / 255f, 1);
+
+		// Show tutorial on first launch and kok count is zero
+		if (game.showTutorialFirstLaunch() && pc.getKokCount() == 0) {
+			this.tutorialMode = false;
+			game.setScreen(new TutorialScreen(game, 0, false));
+		}
 
 		game.getStage().act();
 		game.getStage().draw();
 		game.getBatch().begin();
+
 		Entity player = game.getPlayer();
 		PlayerComponent pc = player.getComponent(PlayerComponent.class);
 		//DecimalFormat formatter = new DecimalFormat("#,###");
 		game.getFont().draw(
 			game.getBatch(),
 			//"Kok : " + formatter.format(pc.getKokCount()),
-				"Kok : " + formatMillions(pc.getKokCount()),
+				"Kok : " + game.formatMillions(pc.getKokCount()),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);
 		game.getFont().draw(
 				game.getBatch(),
 				getGainpersecond() + " kok/s",
-				Gdx.graphics.getWidth()/3f,
-				Gdx.graphics.getHeight()/1.3f
+				Gdx.graphics.getWidth() / 3f,
+				Gdx.graphics.getHeight() / 1.3f
 		);
 		game.getBatch().end();
 
