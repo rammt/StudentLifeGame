@@ -97,4 +97,32 @@ public class StudentLifeGame extends Game {
         ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
         return players.get(0);
     }
+
+    public String formatMillions(double num){
+        String unit = "";
+        if(num >= 1000000000000000f){
+            num = num/1000000000000000f;
+            unit="Quadrillion";
+        }
+        else if(num >= 1000000000000f){
+            num = num/1000000000000f;
+            unit="Trillion";
+        }
+        else if(num>=1000000000f){
+            num = num/1000000000;
+            unit = "Billion";
+        }
+        else if(num >= 1000000f){
+            num = num/1000000;
+            unit = "Million";
+        }
+		/*else if(num >= 1000){
+			num = num/1000;
+			unit = "K";
+		}*/
+        else {
+            return String.format("%.0f", num) + " " + unit;
+        }
+        return String.format("%.3f", num) + " " + unit;
+    }
 }

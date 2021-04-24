@@ -84,31 +84,6 @@ public class ShopScreen implements Screen {
         }
     }
 
-    private String formatMillions(double num){
-        String unit = "";
-        if(num >= 1000000000000000f){
-            num = num/1000000000000000f;
-            unit="Quadrillion";
-        }
-        else if(num >= 1000000000000f){
-            num = num/1000000000000f;
-            unit="Trillion";
-        }
-        else if(num>=1000000000f){
-            num = num/1000000000;
-            unit = "Billion";
-        }
-        else if(num >= 1000000f){
-            num = num/1000000;
-            unit = "Million";
-        }
-        else if(num >= 1000){
-            num = num/1000;
-            unit = "K";
-        }
-        return String.format("%.3f", num) + " " + unit;
-    }
-
     @Override
     public void render(float delta) {
 
@@ -123,7 +98,7 @@ public class ShopScreen implements Screen {
         game.getFont().draw(
                 game.getBatch(),
                 //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
-                "Kokt: " + String.valueOf(formatMillions(player_pc.getKokCount())),
+                "Kokt: " + String.valueOf(game.formatMillions(player_pc.getKokCount())),
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
