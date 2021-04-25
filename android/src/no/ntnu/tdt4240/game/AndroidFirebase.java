@@ -89,6 +89,9 @@ public class AndroidFirebase implements Firebase {
         String name = (String) document.get("name");
         Long lastSave = document.getLong("lastSave");
         List<Map<String, Object>> resourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
+        for (Map<String, Object> gainer: resourceGainers) {
+            gainer.put("amount", ((Long) gainer.get("amount")).intValue());
+        }
 
         pc.setKokCount(kokCount);
         pc.setName(name);
@@ -234,5 +237,9 @@ public class AndroidFirebase implements Firebase {
                     }
                 });
         return rank;
+    }
+
+    public void logOut() {
+        mAuth.signOut();
     }
 }

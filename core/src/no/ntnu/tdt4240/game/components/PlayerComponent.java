@@ -85,7 +85,7 @@ public class PlayerComponent implements Component {
 
         for (Map<String, Object> gainer : resourceGainers) {
 
-            Long rg_amount = (Long) gainer.get("amount");
+            int rg_amount = (int) gainer.get("amount");
 
             if (rgc.getId().equals((String) gainer.get("id"))) {
                 gainer.put("amount", rg_amount + 1);

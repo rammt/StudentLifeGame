@@ -52,7 +52,7 @@ public class StatScreen implements Screen{
     private int scripts = 0;
     private int rank;
 
-    private Button highscoreButton, musicButton, skipButton, muteButton;
+    private Button highscoreButton, musicButton, skipButton, muteButton, logOutbutton;
     private Button tutorialButton;
 
     private Button saveStatsButton, saveOffline;
@@ -116,6 +116,17 @@ public class StatScreen implements Screen{
         table.add(professorKok);*/
 
 
+        logOutbutton = new ButtonElement(
+                Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/5f,
+                Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f - Gdx.graphics.getHeight()/5f,
+                "Log out", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.firebase.logOut();
+                game.setScreen(new StatScreen(game));
+                return true;
+            }
+        });
 
         muteButton = new ButtonElement(
                 Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
@@ -227,6 +238,7 @@ public class StatScreen implements Screen{
         game.getStage().addActor(table);
         game.getStage().addActor(saveStatsButton);
         game.getStage().addActor(saveOffline);
+        game.getStage().addActor(logOutbutton);
     }
 
     @Override
