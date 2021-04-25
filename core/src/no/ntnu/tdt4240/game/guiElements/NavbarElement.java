@@ -77,6 +77,7 @@ public class NavbarElement {
 
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(settings));
         ImageButton playButton = new ImageButton(drawable);
+        playButton.setBounds((SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50, BUTTONWIDTHGUI/1.5f, BUTTONHEIGHTGUI/1.5f);
 
         actors.add(statButton);
         actors.add(shopButton);
