@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ListIterator;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -121,17 +122,21 @@ public class ShopElement {
             if(startIndex+i >= resourceGainers.size())break;
             final ResourceGainerComponent rgc = resourceGainers.get(i+startIndex);
             shopLabelBuilder(rgs.countResourceGainers(rgc),25,(SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*i+BUTTONHEIGHTGUI/2));
+            final float gainerPrice = (float) (rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc)-1));
             String description = rgc.getName();
-            ButtonElement tmpButton = new ButtonElement(
+            String price = "Price: " + gainerPrice + " kok";
+            String kokPerSec = "Kok gain: " + rgc.getGainPerSecond() + "/s";
+            ArrayList<String> buttonText = new ArrayList<>(Arrays.asList(description, price, kokPerSec));
+                    ButtonElement tmpButton = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
                 (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*counter-BUTTONPADDING*counter,
-                description, "Price: " + rgc.getPrice() + " kok", game.getSkin(),
+                buttonText, game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(pc.getKokCount() >= rgc.getPrice()){
+                        if(pc.getKokCount() >= gainerPrice){
                             as.playSound();
-                            pc.setKokCount(pc.getKokCount() - rgc.getPrice());
+                            pc.setKokCount(pc.getKokCount() - gainerPrice);
                             pc.addResourceGainer(rgc);
                             game.setScreen(new ShopScreen(game,currentIndex));
                         }

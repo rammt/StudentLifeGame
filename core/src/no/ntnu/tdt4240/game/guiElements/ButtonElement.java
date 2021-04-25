@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import java.util.ArrayList;
+
 public class ButtonElement extends Button {
     private Boolean checked = false;
 
@@ -26,15 +28,16 @@ public class ButtonElement extends Button {
         super.setColor(Color.valueOf("#ecf0f1"));
     }
 
-    public ButtonElement(float width, float height, float x, float y, String text, String textBottom, Skin skin, InputListener listener) {
+    public ButtonElement(float width, float height, float x, float y, ArrayList<String> textList, Skin skin, InputListener listener) {
         super(skin);
-        Label topText = new Label(text, skin);
-        topText.setFontScale(3);
-        super.add(topText);
-        super.row();
-        Label botText = new Label(textBottom, skin);
-        botText.setFontScale(3);
-        super.add(botText);
+
+        for (String text : textList) {
+            Label textLabel = new Label(text, skin);
+            textLabel.setFontScale(3);
+            super.add(textLabel);
+            super.row();
+        }
+
         super.setSize(width,height);
         super.setPosition(x, y);
         super.addListener(listener);
