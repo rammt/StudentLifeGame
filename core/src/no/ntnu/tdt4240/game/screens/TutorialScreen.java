@@ -19,6 +19,7 @@ import java.util.List;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 
 public class TutorialScreen implements Screen{
 
@@ -117,43 +118,14 @@ public class TutorialScreen implements Screen{
 
         // Shows menu if showMenu is specified
         if (this.showMenu) {
-            gameButton = new ButtonElement(
-                    BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                    (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-                    "GAME", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new GameScreen(game));
-                    return true;
-                }
-            });
 
-            shopButton = new ButtonElement(
-                    BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                    (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-                    "SHOP", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new ShopScreen(game, 0));
-                    return true;
-                }
-            });
+            NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
-            statButton = new ButtonElement(
-                    BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-                    (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
-                    "STATS", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new StatScreen(game));
-                    return true;
-                }
-            });
+            for(Button btn : navbar.getActors()){
+                System.out.println("add button");
+                game.getStage().addActor(btn);
+            }
 
-            // Add actors
-            game.getStage().addActor(statButton);
-            game.getStage().addActor(gameButton);
-            game.getStage().addActor(shopButton);
         }
 
 

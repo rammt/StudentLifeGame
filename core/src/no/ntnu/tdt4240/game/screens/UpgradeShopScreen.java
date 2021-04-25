@@ -16,6 +16,7 @@ import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class UpgradeShopScreen implements Screen {
+
     final StudentLifeGame game;
 
     final float BUTTONHEIGHTGUI;
@@ -25,16 +26,15 @@ public class UpgradeShopScreen implements Screen {
 
     final Button combineButton, increaseClickValueButton;
     private PlayerComponent pc;
-
     private AudioSystem as;
+    private NavbarElement navbar;
 
     public UpgradeShopScreen(final StudentLifeGame game){
+
         this.game = game;
         game.getStage().clear();
 
-        Entity player = game.getPlayer();
-        pc = player.getComponent(PlayerComponent.class);
-
+        pc = game.getPlayer().getComponent(PlayerComponent.class);
         as = game.getEngine().getSystem(AudioSystem.class);
         as.setSound("music/combine_buttons.mp3");
 
@@ -97,13 +97,10 @@ public class UpgradeShopScreen implements Screen {
         game.getStage().addActor(combineButton);
         game.getStage().addActor(increaseClickValueButton);
 
-        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
         for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);
         }
-
-
-
     }
 
 

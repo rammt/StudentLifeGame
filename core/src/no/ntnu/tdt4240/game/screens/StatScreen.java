@@ -197,8 +197,6 @@ public class StatScreen implements Screen{
             });
         }
 
-
-
         saveOffline = new ButtonElement(
                 Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
                 (Gdx.graphics.getWidth()/2f) - (saveStatsButton.getWidth()), Gdx.graphics.getHeight()/1.1f,
@@ -222,11 +220,11 @@ public class StatScreen implements Screen{
         game.getStage().addActor(skipButton);
         game.getStage().addActor(muteButton);
         game.getStage().addActor(musicButton);
-        game.getStage().addActor(highscoreButton);
-        game.getStage().addActor(tutorialButton);
+        //game.getStage().addActor(highscoreButton);
+        //game.getStage().addActor(tutorialButton);
         game.getStage().addActor(table);
-        game.getStage().addActor(saveStatsButton);
-        game.getStage().addActor(saveOffline);
+        //game.getStage().addActor(saveStatsButton);
+        //game.getStage().addActor(saveOffline);
     }
 
     @Override

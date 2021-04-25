@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import java.util.ArrayList;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.screens.GameScreen;
+import no.ntnu.tdt4240.game.screens.SettingScreen;
 import no.ntnu.tdt4240.game.screens.StatScreen;
 import no.ntnu.tdt4240.game.screens.ShopSelectScreen;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class NavbarElement {
 
@@ -16,6 +18,7 @@ public class NavbarElement {
     private StudentLifeGame game;
     private int SCREENWIDTH;
     private float BUTTONWIDTHGUI,BUTTONHEIGHTGUI;
+    private AudioSystem as;
 
     public NavbarElement(StudentLifeGame game, float BUTTONWIDTHGUI, float BUTTONHEIGHTGUI, int SCREENWIDTH){
 
@@ -23,7 +26,7 @@ public class NavbarElement {
         this.BUTTONHEIGHTGUI = BUTTONHEIGHTGUI;
         this.BUTTONWIDTHGUI = BUTTONWIDTHGUI;
         this.SCREENWIDTH = SCREENWIDTH;
-        actors = new ArrayList<>();
+        this.actors = new ArrayList<>();
         populateActors();
 
     }
@@ -35,30 +38,30 @@ public class NavbarElement {
             "GAME", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new GameScreen(game));
-            return true;
+                game.setScreen(new GameScreen(game));
+                return true;
             }
         });
 
         this.shopButton = new ButtonElement(
             BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-            (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
+        (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
             "SHOP", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new ShopSelectScreen(game));
-            return true;
+                game.setScreen(new ShopSelectScreen(game));
+                return true;
             }
         });
 
         this.statButton = new ButtonElement(
             BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
-            (SCREENWIDTH/2f)-SCREENWIDTH/4f/2, 50,
+            (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
             "STATS", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new StatScreen(game));
-            return true;
+                game.setScreen(new SettingScreen(game));
+                return true;
             }
         });
 

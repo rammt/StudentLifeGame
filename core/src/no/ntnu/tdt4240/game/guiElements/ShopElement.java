@@ -63,7 +63,7 @@ public class ShopElement {
 
     private void shopNavBuilder() {
 
-        hasNext = (currentIndex<resourceGainers.size()-1);
+        hasNext = (currentIndex+4<resourceGainers.size()-1);
         hasPrev = (currentIndex>3);
 
         ButtonElement nextButton = new ButtonElement(
