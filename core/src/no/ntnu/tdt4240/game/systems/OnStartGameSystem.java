@@ -83,7 +83,7 @@ public class OnStartGameSystem extends EntitySystem {
         }*/
 
         Entity studass = game.getEngine().createEntity();
-        studass.add(new ResourceGainerComponent().create("rg_studass", "Koking Student Assistant", 50, 1));
+        studass.add(new ResourceGainerComponent().create("rg_studass", "Koking Student Assistant", 20, 1));
         game.getEngine().addEntity(studass);
 
         Entity professor = game.getEngine().createEntity();
@@ -118,10 +118,13 @@ public class OnStartGameSystem extends EntitySystem {
     }
 
     private void addOfflineResources(PlayerComponent player_pc, Engine engine) {
-        long secondsSinceSave = (new Date().getTime() - player_pc.getLastSave())/1000;
+        long playerLastSave = player_pc.getLastSave();
+        if (playerLastSave > 10000) { //Not first startup, avoids new players getting a lot of kok
+            long secondsSinceSave = (new Date().getTime() - playerLastSave) / 1000;
 
-        if (secondsSinceSave > 10) {
-            engine.getSystem(ResourceGainSystem.class).addResourcesByTime(secondsSinceSave);
+            if (secondsSinceSave > 10) {
+                engine.getSystem(ResourceGainSystem.class).addResourcesByTime(secondsSinceSave);
+            }
         }
     }
 }

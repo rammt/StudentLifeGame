@@ -18,6 +18,7 @@ public interface Firebase {
     List<Map<String,Object>> getHighscore();
     int getRank(PlayerComponent pc);
     boolean isLoggedIn();
+    void logOut();
     void getResourceGainers(List<Map<String, Object>> resourceGainers);
 
     //void getStats(Player user);

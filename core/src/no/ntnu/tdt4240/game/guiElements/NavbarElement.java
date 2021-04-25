@@ -1,8 +1,14 @@
 package no.ntnu.tdt4240.game.guiElements;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import java.util.ArrayList;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.screens.GameScreen;
@@ -19,9 +25,11 @@ public class NavbarElement {
     private int SCREENWIDTH;
     private float BUTTONWIDTHGUI,BUTTONHEIGHTGUI;
     private AudioSystem as;
+    private Texture settings;
 
     public NavbarElement(StudentLifeGame game, float BUTTONWIDTHGUI, float BUTTONHEIGHTGUI, int SCREENWIDTH){
 
+        this.settings = new Texture("images/iconfinder_ic_settings_48px_3669250.png");
         this.game = game;
         this.BUTTONHEIGHTGUI = BUTTONHEIGHTGUI;
         this.BUTTONWIDTHGUI = BUTTONWIDTHGUI;
@@ -54,10 +62,12 @@ public class NavbarElement {
             }
         });
 
+
+
         this.statButton = new ButtonElement(
             BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
             (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-            "STATS", game.getSkin(), new InputListener() {
+            "", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new SettingScreen(game));
@@ -65,9 +75,13 @@ public class NavbarElement {
             }
         });
 
+        Drawable drawable = new TextureRegionDrawable(new TextureRegion(settings));
+        ImageButton playButton = new ImageButton(drawable);
+
         actors.add(statButton);
         actors.add(shopButton);
         actors.add(gameButton);
+        actors.add(playButton);
 
     }
 
