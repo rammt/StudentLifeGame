@@ -82,23 +82,23 @@ public class OnStartGameSystem extends EntitySystem {
         game.getEngine().addEntity(professor);
 
         Entity script = game.getEngine().createEntity();
-        script.add(new ResourceGainerComponent().create("rg_script", "Kok-generating Script", 1000, 50));
+        script.add(new ResourceGainerComponent().create("rg_script", "Kok-generating Script", 3000, 125));
         game.getEngine().addEntity(script);
 
         Entity ai = game.getEngine().createEntity();
-        ai.add(new ResourceGainerComponent().create("rg_ai", "Kok-generating AI", 10000, 200));
+        ai.add(new ResourceGainerComponent().create("rg_ai", "Kok-generating AI", 32500, 1000));
         game.getEngine().addEntity(ai);
 
         Entity alien = game.getEngine().createEntity();
-        alien.add(new ResourceGainerComponent().create("rg_alien", "Alien Koking Lifeform", 50000, 1000));
+        alien.add(new ResourceGainerComponent().create("rg_alien", "Alien Koking Lifeform", 300000, 9000));
         game.getEngine().addEntity(alien);
 
         Entity nuclear = game.getEngine().createEntity();
-        nuclear.add(new ResourceGainerComponent().create("rg_nuclear", "Nuclear Powered Koking Plant", 250000, 2500));
+        nuclear.add(new ResourceGainerComponent().create("rg_nuclear", "Nuclear Powered Koking Plant", 2500000, 30000));
         game.getEngine().addEntity(nuclear);
 
         Entity dyson = game.getEngine().createEntity();
-        dyson.add(new ResourceGainerComponent().create("rg_dyson", "Kok-generating Dyson Sphere", 1000000000, 50000));
+        dyson.add(new ResourceGainerComponent().create("rg_dyson", "Kok-generating Dyson Sphere", 1000000000, 500000));
         game.getEngine().addEntity(dyson);
 
         SavingSystem ss = game.getEngine().getSystem(SavingSystem.class);
