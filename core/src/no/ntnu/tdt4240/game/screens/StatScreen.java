@@ -120,39 +120,6 @@ public class StatScreen implements Screen{
             }
         });
 
-        muteButton = new ButtonElement(
-                Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
-                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/4f, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
-                "Mute", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                as.mute();
-                return true;
-            }
-        });
-
-        skipButton = new ButtonElement(
-                Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
-                Gdx.graphics.getWidth()/2f + muteButton.getWidth()/2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
-                "Skip", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                as.skipBackroundMusic();
-                return true;
-            }
-        });
-
-        musicButton = new ButtonElement(
-                Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/25f,
-                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/12f, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/25f,
-                "Play", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                as.startBackgroundMusic();
-                return true;
-            }
-        });
-
         highscoreButton = new ButtonElement(
                 Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
                 Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/3f, 50 + BUTTONHEIGHTGUI + 50,
@@ -220,9 +187,6 @@ public class StatScreen implements Screen{
             game.getStage().addActor(btn);
         }
 
-        game.getStage().addActor(skipButton);
-        game.getStage().addActor(muteButton);
-        game.getStage().addActor(musicButton);
         //game.getStage().addActor(highscoreButton);
         //game.getStage().addActor(tutorialButton);
         game.getStage().addActor(table);

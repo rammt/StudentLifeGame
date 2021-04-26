@@ -29,7 +29,8 @@ public class AudioSystem extends EntitySystem {
     private Entity backgroundMusic3;
     private Entity sound;
     private Entity playingMusic;
-    private int volume = 1;
+    private int volumeMusic = 1;
+    private int volumeSound = 1;
 
     public void createBackgroundMusic(Engine engine){
         backgroundMusic = engine.createEntity();
@@ -44,7 +45,7 @@ public class AudioSystem extends EntitySystem {
         backgroundMusic3.add(new MusicComponent().create("music/music.mp3"));
         engine.addEntity(backgroundMusic3);
 
-        playingMusic = backgroundMusic;
+        playingMusic = backgroundMusic2;
     }
 
     public void createSound(Engine engine){
@@ -60,15 +61,15 @@ public class AudioSystem extends EntitySystem {
     public void skipBackroundMusic(){
         if(mc.get(backgroundMusic).isPlaying()){
             mc.get(backgroundMusic).stopMusic();
-            mc.get(backgroundMusic2).startMusic(volume);
+            mc.get(backgroundMusic2).startMusic(volumeMusic);
         }
         else if(mc.get(backgroundMusic2).isPlaying()){
             mc.get(backgroundMusic2).stopMusic();
-            mc.get(backgroundMusic3).startMusic(volume);
+            mc.get(backgroundMusic3).startMusic(volumeMusic);
         }
         else{
             mc.get(backgroundMusic3).stopMusic();
-            mc.get(backgroundMusic).startMusic(volume);
+            mc.get(backgroundMusic).startMusic(volumeMusic);
         }
 
         // TODO: Fix this dynamic method.
@@ -96,12 +97,14 @@ public class AudioSystem extends EntitySystem {
         sc.get(sound).setSound(path);
     }
 
-    public void mute() {
-        volume = (volume == 0) ? 1 : 0;
-        for (Entity m : music) {
-            m.getComponent(MusicComponent.class).getMusic().stop();
-        }
+    public void muteMusic() {
+        stopBackgroundMusic();
+        volumeMusic = (volumeMusic == 0) ? 1 : 0;
+        startBackgroundMusic();
+    }
 
+    public void muteSound(){
+        volumeSound = (volumeSound == 0) ? 1 : 0;
     }
 
     public void startBackgroundMusic() {
@@ -110,11 +113,33 @@ public class AudioSystem extends EntitySystem {
                 playingMusic = m;
             }
         }
-        mc.get(playingMusic).startMusic(volume);
+        mc.get(playingMusic).startMusic(volumeMusic);
+    }
+
+    public void stopBackgroundMusic(){
+        for (Entity m : music) {
+            if (m.getComponent(MusicComponent.class).getMusic().isPlaying()) {
+                playingMusic = m;
+            }
+        }
+        mc.get(playingMusic).stopMusic();
+    }
+    public void startShopMusic(){
+        if(!mc.get(backgroundMusic).isPlaying()){
+            stopBackgroundMusic();
+            mc.get(backgroundMusic).startMusic(volumeMusic);
+        }
+    }
+
+    public void startGameMusic(){
+        if(!mc.get(backgroundMusic2).isPlaying()){
+            stopBackgroundMusic();
+            mc.get(backgroundMusic2).startMusic(volumeMusic);
+        }
     }
 
     public void playSound(){
-        sc.get(sound).startSound(volume);
+        sc.get(sound).startSound(volumeSound);
     }
 
     @Override

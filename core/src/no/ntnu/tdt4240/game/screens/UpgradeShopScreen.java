@@ -24,7 +24,7 @@ public class UpgradeShopScreen implements Screen {
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
 
-    final Button combineButton, increaseClickValueButton;
+    final ButtonElement combineButton, increaseClickValueButton;
     private PlayerComponent pc;
     private AudioSystem as;
     private NavbarElement navbar;
@@ -93,6 +93,9 @@ public class UpgradeShopScreen implements Screen {
 
                 }
         );
+
+        combineButton.disableButton(pc.getCombinedButtons());
+
 
         game.getStage().addActor(combineButton);
         game.getStage().addActor(increaseClickValueButton);
