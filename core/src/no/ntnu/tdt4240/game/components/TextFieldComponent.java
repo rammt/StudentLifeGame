@@ -21,7 +21,7 @@ public class TextFieldComponent extends Actor implements Component {
     private Label label;
     private TextureRegionDrawable textureRegionDrawableBg;
 
-    public TextFieldComponent create(Integer value, String text, Skin skin, int size, boolean isColor) {
+    public TextFieldComponent create(String value, String text, Skin skin, int size, boolean isColor) {
 
         if(value != null){
             textField = new Label(text + "\n " + value, skin);
@@ -47,14 +47,6 @@ public class TextFieldComponent extends Actor implements Component {
         }
 
         return this;
-    }
-
-    public Boolean getChecked() {
-        return checked;
-    }
-
-    public void setChecked(Boolean checked) {
-        this.checked = checked;
     }
 
     public Label getTextFieldComponent() {

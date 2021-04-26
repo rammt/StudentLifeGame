@@ -55,8 +55,8 @@ public class StatScreen implements Screen{
         rank = game.firebase.getRank(pc);
 
         // Labelelements for stats in table
-        kokCount = new TextFieldComponent().create((pc.getClickCount().intValue()), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
+        kokCount = new TextFieldComponent().create(( game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create(( game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
 
         // Table
         Table table = new Table();
@@ -86,9 +86,6 @@ public class StatScreen implements Screen{
         //batch tegner vi resten på
         game.getBatch().begin();
         GlyphLayout layout = new GlyphLayout();
-        Entity player = game.getPlayer();
-        PlayerComponent pc = player.getComponent(PlayerComponent.class);
-
         layout.setText(game.getFont(), pc.getName());
         game.getFont().draw(
                 game.getBatch(),

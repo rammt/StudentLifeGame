@@ -1,6 +1,5 @@
 package no.ntnu.tdt4240.game.screens;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -8,9 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.async.AsyncExecutor;
 import com.badlogic.gdx.utils.async.AsyncResult;
@@ -21,13 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.components.HighscoreComponent;
 import no.ntnu.tdt4240.game.components.TextFieldComponent;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
 
-import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 
 public class HighscoreScreen implements Screen {
@@ -118,7 +109,7 @@ public class HighscoreScreen implements Screen {
             for(int i = 0; i < users.length; i++) {
                 table.add(new TextFieldComponent().create(null, String.valueOf(i+1), game.getSkin(), 3, true).getTextFieldComponent()).width(200);
                 table.add(new TextFieldComponent().create(null, users[i], game.getSkin(), 3, true).getTextFieldComponent());
-                table.add(new TextFieldComponent().create(null, stats[i] , game.getSkin(), 3, true).getTextFieldComponent());
+                table.add(new TextFieldComponent().create(null, game.formatMillions(Float.parseFloat(stats[i])) , game.getSkin(), 3, true).getTextFieldComponent());
                 table.row();
             }
             updated = true;

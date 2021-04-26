@@ -124,7 +124,7 @@ public class ShopElement {
             shopLabelBuilder(rgs.countResourceGainers(rgc),25,(SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*i+BUTTONHEIGHTGUI/2));
             final float gainerPrice = (float) Math.floor(rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc)-1));
             String description = rgc.getName();
-            String price = "Price: " + gainerPrice + " kok";
+            String price = "Price: " + game.formatMillions(gainerPrice) + " kok";
             String kokPerSec = "Kok gain: " + rgc.getGainPerSecond() + "/s";
             ArrayList<String> buttonText = new ArrayList<>(Arrays.asList(description, price, kokPerSec));
             ButtonElement tmpButton = new ButtonElement(
