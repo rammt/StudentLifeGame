@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">StudentLifeGame</string>
+    <string name="app_name">Kok: A Student's Life</string>
     <string name="title_activity_google_sign_in">GoogleSignInActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
