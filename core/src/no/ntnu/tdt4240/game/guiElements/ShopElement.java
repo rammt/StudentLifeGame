@@ -127,7 +127,7 @@ public class ShopElement {
             String price = "Price: " + gainerPrice + " kok";
             String kokPerSec = "Kok gain: " + rgc.getGainPerSecond() + "/s";
             ArrayList<String> buttonText = new ArrayList<>(Arrays.asList(description, price, kokPerSec));
-                    ButtonElement tmpButton = new ButtonElement(
+            ButtonElement tmpButton = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
                 (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*counter-BUTTONPADDING*counter,
                 buttonText, game.getSkin(),
@@ -144,6 +144,9 @@ public class ShopElement {
                     }
                 });
             counter++;
+            if(gainerPrice > pc.getKokCount()){
+                tmpButton.disableButton(true);
+            }
             btnActors.add(tmpButton);
         }
     }

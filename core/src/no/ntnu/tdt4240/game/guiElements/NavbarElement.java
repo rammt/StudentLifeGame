@@ -62,22 +62,23 @@ public class NavbarElement {
             }
         });
 
-
+        InputListener il = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new SettingScreen(game));
+                return true;
+            }
+        };
 
         this.statButton = new ButtonElement(
             BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
             (SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50,
-            "", game.getSkin(), new InputListener() {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new SettingScreen(game));
-                return true;
-            }
-        });
+            "", game.getSkin(), il);
 
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(settings));
         ImageButton playButton = new ImageButton(drawable);
-        playButton.setBounds((SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+10, 50, BUTTONWIDTHGUI/1.5f, BUTTONHEIGHTGUI/1.5f);
+        playButton.addListener(il);
+        playButton.setBounds((SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+50, 90, BUTTONWIDTHGUI/1.5f, BUTTONHEIGHTGUI/1.5f);
 
         actors.add(statButton);
         actors.add(shopButton);
