@@ -111,11 +111,13 @@ public class SettingScreen implements Screen {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         as.muteSound();
+                        game.setScreen(new SettingScreen(game));
                         return true;
                     }
 
                 }
         );
+        musicBtn.toggleButton(as.isSoundPlaying());
         game.getStage().addActor(musicBtn);
 
         muteBtn = new ButtonElement(
@@ -126,11 +128,13 @@ public class SettingScreen implements Screen {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         as.muteMusic();
+                        game.setScreen(new SettingScreen(game));
                         return true;
                     }
 
                 }
         );
+        muteBtn.toggleButton(as.isMusicPlaying());
         game.getStage().addActor(muteBtn);
 
         statsBtn = new ButtonElement(
