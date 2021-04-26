@@ -177,7 +177,7 @@ public class GameScreen implements Screen{
 		);
 		game.getFont().draw(
 				game.getBatch(),
-				getGainpersecond() + " kok/s",
+				game.formatMillions(getGainpersecond()) + " kok/s",
 				Gdx.graphics.getWidth() / 3f,
 				Gdx.graphics.getHeight() / 1.3f
 		);
