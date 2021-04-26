@@ -43,7 +43,7 @@ public class NavbarElement {
         this.gameButton = new ButtonElement(
             BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
             (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
-            "GAME", game.getSkin(), new InputListener() {
+            "PLAY", game.getSkin(), new InputListener() {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new GameScreen(game));

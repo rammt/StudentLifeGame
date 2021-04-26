@@ -59,6 +59,13 @@ public class ButtonElement extends Button {
         super.setColor(Color.valueOf("#ecf0f1"));
     }
 
+    public void toggleButton(boolean toggle){
+        if(toggle){
+            setColor(Color.valueOf("#2c3e50"));
+        } else {
+            setColor(Color.valueOf("#ecf0f1"));
+        }
+    }
 
     public void disableButton(boolean disabled) {
         if(disabled){
