@@ -89,7 +89,7 @@ public class ShopScreen implements Screen {
 
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
-
+        shop.updateAffordableButton(player_pc.getKokCount());
 
         // stage tegner aktorsa
         game.getStage().act();
