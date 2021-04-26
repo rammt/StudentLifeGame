@@ -15,7 +15,7 @@ import no.ntnu.tdt4240.game.systems.SavingSystem;
 //Skal bare inneholde ting som skal kjøres fra start, knapper ogsånt legges til i screens
 public class ECSengine{
 
-    private PooledEngine engine;
+    private final PooledEngine engine;
 
     public ECSengine(Firebase firebase){
         super();

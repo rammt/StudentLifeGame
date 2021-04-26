@@ -66,7 +66,7 @@ public class ShopSelectScreen implements Screen {
             }
         );
 
-        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 1 );
         for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);
         }

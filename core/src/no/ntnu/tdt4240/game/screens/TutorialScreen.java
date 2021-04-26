@@ -130,7 +130,7 @@ public class TutorialScreen implements Screen{
         // Shows menu if showMenu is specified
         if (this.showMenu) {
 
-            NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+            NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 2 );
 
             for(Button btn : navbar.getActors()){
                 System.out.println("add button");

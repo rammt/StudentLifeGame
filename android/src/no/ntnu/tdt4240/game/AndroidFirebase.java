@@ -64,23 +64,20 @@ public class AndroidFirebase implements Firebase {
 
     public void signInWithCredentials(AndroidLauncher launcher, AuthCredential credential) {
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(launcher, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //TODO handle login with some information
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            System.out.println("signInWithCredential:success");
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            System.out.println("signInWithCredential:failure, " + task.getException());
-                        }
-                    }
-                });
+            .addOnCompleteListener(launcher, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                //TODO handle login with some information
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    System.out.println("signInWithCredential:success");
+                } else {
+                    // If sign in fails, display a message to the user.
+                    System.out.println("signInWithCredential:failure, " + task.getException());
+                }
+                }
+            });
     }
-
-
-
 
     private void setStatsOnPlayerComponent(PlayerComponent pc, DocumentSnapshot document) {
         Long kokTemp = document.getLong("kokCount");

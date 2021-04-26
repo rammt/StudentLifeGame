@@ -128,7 +128,7 @@ public class UpgradeShopScreen implements Screen {
         game.getStage().addActor(combineButton);
         game.getStage().addActor(increaseClickValueButton);
 
-        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 1 );
         for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);
         }

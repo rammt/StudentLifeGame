@@ -133,7 +133,7 @@ public class GameScreen implements Screen{
 
 		//legger til aktors
 
-		navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+		navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 0);
 		for(Button btn : navbar.getActors()){
 			game.getStage().addActor(btn);
 		}

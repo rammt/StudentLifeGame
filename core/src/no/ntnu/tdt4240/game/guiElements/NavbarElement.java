@@ -19,7 +19,7 @@ import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class NavbarElement {
 
-    private Button statButton, gameButton, shopButton;
+    private ButtonElement statButton, gameButton, shopButton;
     private ArrayList<Button> actors;
     private StudentLifeGame game;
     private int SCREENWIDTH;
@@ -27,7 +27,7 @@ public class NavbarElement {
     private AudioSystem as;
     private Texture settings;
 
-    public NavbarElement(StudentLifeGame game, float BUTTONWIDTHGUI, float BUTTONHEIGHTGUI, int SCREENWIDTH){
+    public NavbarElement(StudentLifeGame game, float BUTTONWIDTHGUI, float BUTTONHEIGHTGUI, int SCREENWIDTH, int indexCurrent){
 
         this.settings = new Texture("images/iconfinder_ic_settings_48px_3669250.png");
         this.game = game;
@@ -35,11 +35,11 @@ public class NavbarElement {
         this.BUTTONWIDTHGUI = BUTTONWIDTHGUI;
         this.SCREENWIDTH = SCREENWIDTH;
         this.actors = new ArrayList<>();
-        populateActors();
+        populateActors(indexCurrent);
 
     }
 
-    private void populateActors(){
+    private void populateActors(int indexCurrent){
         this.gameButton = new ButtonElement(
             BUTTONWIDTHGUI,BUTTONHEIGHTGUI,
             (SCREENWIDTH/4f)-SCREENWIDTH/4f/2-10, 50,
@@ -80,11 +80,21 @@ public class NavbarElement {
         playButton.addListener(il);
         playButton.setBounds((SCREENWIDTH*3/4f)-SCREENWIDTH/4f/2+50, 90, BUTTONWIDTHGUI/1.5f, BUTTONHEIGHTGUI/1.5f);
 
+        switch(indexCurrent) {
+            case 2:
+                statButton.toggleButton(true);
+                break;
+            case 1:
+                shopButton.toggleButton(true);
+                break;
+            default:
+                gameButton.toggleButton(true);
+        }
+
         actors.add(statButton);
         actors.add(shopButton);
         actors.add(gameButton);
         actors.add(playButton);
-
     }
 
     public ArrayList<Button> getActors() {

@@ -22,6 +22,7 @@ import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class OnStartGameSystem extends EntitySystem {
+
     private Firebase firebase;
 
     public OnStartGameSystem(Firebase firebase) {

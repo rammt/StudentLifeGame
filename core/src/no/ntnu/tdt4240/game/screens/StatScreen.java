@@ -66,7 +66,7 @@ public class StatScreen implements Screen{
         table.add(antLevert);
 
         //navbarkode
-        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 2 );
 
         for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);

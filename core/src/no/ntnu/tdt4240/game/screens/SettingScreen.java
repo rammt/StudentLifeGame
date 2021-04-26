@@ -189,7 +189,7 @@ public class SettingScreen implements Screen {
         logOutBtn.setColor(Color.RED);
         game.getStage().addActor(logOutBtn);
 
-        navbar = new NavbarElement(game,BUTTONWIDTHGUI,BUTTONHEIGHTGUI,SCREENWIDTH);
+        navbar = new NavbarElement(game,BUTTONWIDTHGUI,BUTTONHEIGHTGUI,SCREENWIDTH, 2);
 
         for(Button btn : navbar.getActors()){
             game.getStage().addActor(btn);

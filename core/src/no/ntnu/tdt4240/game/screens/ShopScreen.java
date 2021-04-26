@@ -64,7 +64,7 @@ public class ShopScreen implements Screen {
 
         //builders
         shop = new ShopElement(game, resourceGainers, SCREENWIDTH, SCREENHEIGTH, BUTTONWIDTHGUI, BUTTONHEIGHTGUI,player_pc,currentIndex);
-        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 1 );
 
         for(Button btn : shop.getButtonActors()){
             game.getStage().addActor(btn);
