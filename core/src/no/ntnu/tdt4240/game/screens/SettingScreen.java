@@ -117,7 +117,10 @@ public class SettingScreen implements Screen {
 
                 }
         );
-        musicBtn.toggleButton(as.isSoundPlaying());
+        if(as.isSoundPlaying()){
+            musicBtn.toggleButton(as.isSoundPlaying());
+            musicBtn.setText("play sounds");
+        }
         game.getStage().addActor(musicBtn);
 
         muteBtn = new ButtonElement(
@@ -134,7 +137,10 @@ public class SettingScreen implements Screen {
 
                 }
         );
-        muteBtn.toggleButton(as.isMusicPlaying());
+        if(as.isMusicPlaying()){
+            muteBtn.toggleButton(as.isMusicPlaying());
+            muteBtn.setText("play music");
+        }
         game.getStage().addActor(muteBtn);
 
         statsBtn = new ButtonElement(

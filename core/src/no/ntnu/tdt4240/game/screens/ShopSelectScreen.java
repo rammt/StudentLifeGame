@@ -41,31 +41,29 @@ public class ShopSelectScreen implements Screen {
         as.startShopMusic();
 
         upgradeScreenButton = new ButtonElement(
-                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-50,
-                "Upgrades", game.getSkin(),
-                new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                            game.setScreen(new UpgradeShopScreen(game));
-                            return true;
-                        }
-
-                    }
-                 );
+            BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
+            SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-50,
+            "Upgrades", game.getSkin(),
+            new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new UpgradeShopScreen(game));
+                    return true;
+                }
+            }
+         );
 
         upgradeRGButton = new ButtonElement(
-                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
-                "Resource Gainers", game.getSkin(),
-                new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new ShopScreen(game, 0));
-                        return true;
-                    }
-
+            BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
+            SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
+            "Resource Gainers", game.getSkin(),
+            new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new ShopScreen(game, 0));
+                    return true;
                 }
+            }
         );
 
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
