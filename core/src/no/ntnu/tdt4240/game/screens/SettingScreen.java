@@ -2,6 +2,7 @@ package no.ntnu.tdt4240.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -23,7 +24,7 @@ public class SettingScreen implements Screen {
     private final int SCREENWIDTH;;
     private final int SCREENHEIGTH;
     private final StudentLifeGame game;
-    private ButtonElement saveOfflineBtn, saveOnlineBtn, musicBtn, muteBtn, highscoreBtn, statsBtn, tutorialBtn;
+    private ButtonElement saveOfflineBtn, saveOnlineBtn, musicBtn, muteBtn, highscoreBtn, statsBtn, tutorialBtn, logOutBtn;
     private NavbarElement navbar;
     private AudioSystem as;
 
@@ -172,6 +173,20 @@ public class SettingScreen implements Screen {
                 }
         );
         game.getStage().addActor(tutorialBtn);
+
+        logOutBtn = new ButtonElement(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI/2,
+                SCREENWIDTH/2f-10-BUTTONWIDTHGUI/2, 75+BUTTONHEIGHTGUI,
+                "Log out", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.firebase.logOut();
+                game.setScreen(new StartScreen(game, null));
+                return true;
+            }
+        });
+        logOutBtn.setColor(Color.RED);
+        game.getStage().addActor(logOutBtn);
 
         navbar = new NavbarElement(game,BUTTONWIDTHGUI,BUTTONHEIGHTGUI,SCREENWIDTH);
 

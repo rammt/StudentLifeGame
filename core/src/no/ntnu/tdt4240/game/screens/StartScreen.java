@@ -54,7 +54,7 @@ public class StartScreen implements Screen {
         title.setFontScale(3f);
         Label lastSave = new Label("Last save: " + new Date(offlinePC.getLastSave()).toString(), game.getSkin());
         lastSave.setFontScale(2f);
-        Label kokCount = new Label("KokCount: " + offlinePC.getKokCount(), game.getSkin());
+        Label kokCount = new Label("KokCount: " + game.formatMillions(offlinePC.getKokCount()), game.getSkin());
         kokCount.setFontScale(2f);
 
         localData = new Table();
@@ -119,7 +119,7 @@ public class StartScreen implements Screen {
             cloudTitle.setFontScale(3);
             cloudLastSave = new Label("Last save: " + new Date(onlinePC.getLastSave()).toString(), game.getSkin());
             cloudLastSave.setFontScale(2);
-            cloudKokCount = new Label("KokCount: " + onlinePC.getKokCount(), game.getSkin());
+            cloudKokCount = new Label("KokCount: " + game.formatMillions(onlinePC.getKokCount()), game.getSkin());
             cloudKokCount.setFontScale(2);
 
             cloudData = new Table();
