@@ -3,6 +3,7 @@ package no.ntnu.tdt4240.game.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,11 +51,11 @@ public class StartScreen implements Screen {
         final Entity offlinePlayer = startingSystem.getOfflinePlayer(game.getEngine());
         PlayerComponent offlinePC = offlinePlayer.getComponent(PlayerComponent.class);
         Label title = new Label("Use Local Data", game.getSkin());
-        title.setFontScale(3);
+        title.setFontScale(3f);
         Label lastSave = new Label("Last save: " + new Date(offlinePC.getLastSave()).toString(), game.getSkin());
-        lastSave.setFontScale(2);
+        lastSave.setFontScale(2f);
         Label kokCount = new Label("KokCount: " + offlinePC.getKokCount(), game.getSkin());
-        kokCount.setFontScale(2);
+        kokCount.setFontScale(2f);
 
         localData = new Table();
         localData.add(title);
@@ -62,7 +63,6 @@ public class StartScreen implements Screen {
         localData.add(lastSave).pad(30, 10, 30, 10);
         localData.row();
         localData.add(kokCount).pad(30, 10, 30, 10);
-
         localData.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -71,7 +71,7 @@ public class StartScreen implements Screen {
                 return true;
             }
         });
-
+        localData.setBackground(game.getSkin().getDrawable("button"));
         layout.add(localData).padBottom(100);
         layout.row();
 
@@ -109,8 +109,6 @@ public class StartScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
-
-
         if (onlinePlayer != null) {
             PlayerComponent onlinePC = onlinePlayer.getComponent(PlayerComponent.class);
 
@@ -139,6 +137,7 @@ public class StartScreen implements Screen {
                     return true;
                 }
             });
+            cloudData.setBackground(game.getSkin().getDrawable("button"));
 
             layout.row();
             layout.add(cloudData);
