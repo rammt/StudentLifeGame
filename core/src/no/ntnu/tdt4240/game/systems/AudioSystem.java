@@ -125,8 +125,10 @@ public class AudioSystem extends EntitySystem {
         mc.get(playingMusic).stopMusic();
     }
     public void startShopMusic(){
-        stopBackgroundMusic();
-        mc.get(backgroundMusic).startMusic(volumeMusic);
+        if(!mc.get(backgroundMusic).isPlaying()){
+            stopBackgroundMusic();
+            mc.get(backgroundMusic).startMusic(volumeMusic);
+        }
     }
 
     public void startGameMusic(){
