@@ -89,22 +89,23 @@ public class ShopScreen implements Screen {
 
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
+        shop.updateAffordableButton(player_pc.getKokCount());
+
         // stage tegner aktorsa
         game.getStage().act();
         game.getStage().draw();
         DecimalFormat formatter = new DecimalFormat("#,###");
         //batch tegner vi resten på
         game.getBatch().begin();
+        String kokAmount = game.formatMillions(player_pc.getKokCount());
         game.getFont().draw(
                 game.getBatch(),
                 //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
-                "Kokt: " + String.valueOf(game.formatMillions(player_pc.getKokCount())),
+                "Kokt: " + kokAmount,
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );
-
         game.getBatch().end();
-
         game.getEngine().update(Gdx.graphics.getDeltaTime());
 
     }

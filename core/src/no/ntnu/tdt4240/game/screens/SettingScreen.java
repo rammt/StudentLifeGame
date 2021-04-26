@@ -2,6 +2,7 @@ package no.ntnu.tdt4240.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -23,7 +24,7 @@ public class SettingScreen implements Screen {
     private final int SCREENWIDTH;;
     private final int SCREENHEIGTH;
     private final StudentLifeGame game;
-    private ButtonElement saveOfflineBtn, saveOnlineBtn, musicBtn, muteBtn, highscoreBtn, statsBtn, tutorialBtn;
+    private ButtonElement saveOfflineBtn, saveOnlineBtn, musicBtn, muteBtn, highscoreBtn, statsBtn, tutorialBtn, logOutBtn;
     private NavbarElement navbar;
     private AudioSystem as;
 
@@ -39,9 +40,24 @@ public class SettingScreen implements Screen {
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
 
+        highscoreBtn = new ButtonElement(
+                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2,SCREENHEIGTH*5/8f+BUTTONHEIGHTGUI+10,
+                "Highscore", game.getSkin(),
+                new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        game.setScreen(new HighscoreScreen(game));
+                        return true;
+                    }
+
+                }
+        );
+        game.getStage().addActor(highscoreBtn);
+
         saveOfflineBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f, SCREENHEIGTH*5/8f,
+                SCREENWIDTH/2f,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
                 "Save offline", game.getSkin(),
                 new InputListener() {
                     @Override
@@ -58,7 +74,7 @@ public class SettingScreen implements Screen {
         if (game.firebase.isLoggedIn()) {
             saveOnlineBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75, SCREENHEIGTH*5/8f,
+                    SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
                 "Save online", game.getSkin(),
                 new InputListener() {
                     @Override
@@ -73,7 +89,7 @@ public class SettingScreen implements Screen {
         } else {
             saveOnlineBtn = new ButtonElement(
                     BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                    SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75, SCREENHEIGTH*5/8f,
+            SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
                     "Login to save online", game.getSkin(),
                     new InputListener() {
                         @Override
@@ -96,31 +112,56 @@ public class SettingScreen implements Screen {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         as.muteSound();
-                    return true;
-                    }
-
-                }
-        );
-        game.getStage().addActor(musicBtn);
-
-        muteBtn = new ButtonElement(
-                BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-10*2,
-                "mute music", game.getSkin(),
-                new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        as.muteMusic();
+                        game.setScreen(new SettingScreen(game));
                         return true;
                     }
 
                 }
         );
+        if(as.isSoundPlaying()){
+            musicBtn.toggleButton(as.isSoundPlaying());
+            musicBtn.setText("play sounds");
+        }
+        game.getStage().addActor(musicBtn);
+
+        muteBtn = new ButtonElement(
+                BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-10*2,
+                "mute music", game.getSkin(),
+                new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        as.muteMusic();
+                        game.setScreen(new SettingScreen(game));
+                        return true;
+                    }
+
+                }
+        );
+        if(as.isMusicPlaying()){
+            muteBtn.toggleButton(as.isMusicPlaying());
+            muteBtn.setText("play music");
+        }
         game.getStage().addActor(muteBtn);
+
+        statsBtn = new ButtonElement(
+                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
+                "Statistics", game.getSkin(),
+                new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        game.setScreen(new StatScreen(game));
+                        return true;
+                    }
+
+                }
+        );
+        game.getStage().addActor(statsBtn);
 
         tutorialBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-10,
                 "Tutorial", game.getSkin(),
                 new InputListener() {
                     @Override
@@ -133,35 +174,19 @@ public class SettingScreen implements Screen {
         );
         game.getStage().addActor(tutorialBtn);
 
-        highscoreBtn = new ButtonElement(
-                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI-10,
-                "Highscore", game.getSkin(),
-                new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new HighscoreScreen(game));
-                        return true;
-                    }
-
-                }
-        );
-        game.getStage().addActor(highscoreBtn);
-
-        statsBtn = new ButtonElement(
-                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f+BUTTONHEIGHTGUI+10,
-                "Statistics", game.getSkin(),
-                new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        game.setScreen(new StatScreen(game));
-                        return true;
-                    }
-
-                }
-        );
-        game.getStage().addActor(statsBtn);
+        logOutBtn = new ButtonElement(
+                BUTTONWIDTHGUI,BUTTONHEIGHTGUI/2,
+                SCREENWIDTH/2f-10-BUTTONWIDTHGUI/2, 75+BUTTONHEIGHTGUI,
+                "Log out", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.firebase.logOut();
+                game.setScreen(new StartScreen(game, null));
+                return true;
+            }
+        });
+        logOutBtn.setColor(Color.RED);
+        game.getStage().addActor(logOutBtn);
 
         navbar = new NavbarElement(game,BUTTONWIDTHGUI,BUTTONHEIGHTGUI,SCREENWIDTH);
 

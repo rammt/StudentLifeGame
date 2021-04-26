@@ -18,7 +18,7 @@ import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class ShopElement {
 
-    private ArrayList<Button> btnActors;
+    private ArrayList<ButtonElement> btnActors;
     private ArrayList<Label> labelActors;
     private StudentLifeGame game;
     private PlayerComponent pc;
@@ -122,9 +122,9 @@ public class ShopElement {
             if(startIndex+i >= resourceGainers.size())break;
             final ResourceGainerComponent rgc = resourceGainers.get(i+startIndex);
             shopLabelBuilder(rgs.countResourceGainers(rgc),25,(SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*i+BUTTONHEIGHTGUI/2));
-            final float gainerPrice = (float) (rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc)-1));
+            final float gainerPrice = (float) Math.floor(rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc)-1));
             String description = rgc.getName();
-            String price = "Price: " + gainerPrice + " kok";
+            String price = "Price: " + game.formatMillions(gainerPrice) + " kok";
             String kokPerSec = "Kok gain: " + rgc.getGainPerSecond() + "/s";
             ArrayList<String> buttonText = new ArrayList<>(Arrays.asList(description, price, kokPerSec));
             ButtonElement tmpButton = new ButtonElement(
@@ -159,11 +159,24 @@ public class ShopElement {
         labelActors.add(ownedCountLabel);
     }
 
-    public ArrayList<Button> getButtonActors(){
+    public ArrayList<ButtonElement> getButtonActors(){
         return btnActors;
     }
     public ArrayList<Label> getLabelActors(){
         return labelActors;
     }
 
+    public void updateAffordableButton(float kok) {
+
+        for(int i = 0; i < 4; i++){
+            if(currentIndex+i >= resourceGainers.size())break;
+            final ResourceGainerComponent rgc = resourceGainers.get(i+currentIndex);
+            final float gainerPrice = (float) (rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc)-1));
+            if(gainerPrice > kok){
+                getButtonActors().get(i).disableButton(true);
+            } else {
+                getButtonActors().get(i).disableButton(false);
+            }
+        }
+    }
 }

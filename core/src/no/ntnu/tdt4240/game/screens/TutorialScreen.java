@@ -24,7 +24,7 @@ import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 public class TutorialScreen implements Screen{
 
     private Button statButton, gameButton, shopButton;
-    private Button previousButton, nextButton;
+    private Button previousButton, nextButton, lastButton;
     private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI,SMALLBUTTONHEIGHTGUI;
     private int page;
     private boolean showMenu;
@@ -116,6 +116,17 @@ public class TutorialScreen implements Screen{
             });
         }
 
+        lastButton = new ButtonElement(
+                Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                Gdx.graphics.getWidth() / 2f, 50 + BUTTONHEIGHTGUI + 50,
+                "FINISH", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game));
+                return true;
+            }
+        });
+
         // Shows menu if showMenu is specified
         if (this.showMenu) {
 
@@ -136,6 +147,8 @@ public class TutorialScreen implements Screen{
         // Has next page
         if (page < title.size()-1) {
             game.getStage().addActor(nextButton);
+        } else {
+            game.getStage().addActor(lastButton);
         }
 
     }

@@ -27,35 +27,16 @@ public class StatScreen implements Screen{
 
     private Label kokCount;
     private Label antLevert;
-    private Label leaderboard;
-    private Label aiKok;
-    private Label hackerKok;
-    private Label professorKok;
 
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
-
-    private int kokere = 0;
-    private int hackere = 0;
-    private int studass = 0;
-    private int scripts = 0;
     private int rank;
-
-    private Button highscoreButton, musicButton, skipButton, muteButton, logOutbutton;
-    private Button tutorialButton;
-
-    private Button saveStatsButton, saveOffline;
 
     final StudentLifeGame game;
     private PlayerComponent pc;
-    private ImmutableArray<Entity> rg;
-    private ComponentMapper<ResourceGainerComponent> rgm;
-    private ResourceGainSystem rgs;
-
-    private AudioSystem as;
 
     public StatScreen(final StudentLifeGame game) {
 
@@ -63,12 +44,6 @@ public class StatScreen implements Screen{
         this.game.getStage().clear();
         Entity player = game.getPlayer();
         pc = player.getComponent(PlayerComponent.class);
-        rgs = game.getEngine().getSystem(ResourceGainSystem.class);
-        rg = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
-        rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
-        //rgs.countResourceGainers(rgm.get(rg.get(0)));
-
-        this.as = game.getEngine().getSystem(AudioSystem.class);
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -79,120 +54,25 @@ public class StatScreen implements Screen{
         // Get rank of player
         rank = game.firebase.getRank(pc);
 
-        // Resourcegainers for the user
-        /*
-        kokere = rgs.countResourceGainers(rgm.get(rg.get(0)));
-        hackere = rgs.countResourceGainers(rgm.get(rg.get(1)));
-        studass = rgs.countResourceGainers(rgm.get(rg.get(2)));
-        scripts = rgs.countResourceGainers(rgm.get(rg.get(3)));
-*/
         // Labelelements for stats in table
-        kokCount = new TextFieldComponent().create((pc.getClickCount().intValue()), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create((int) pc.getKokCount(), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
-        /*leaderboard = new TextFieldComponent().create(kokere, "Betalte kokere: ", game.getSkin(),3, true).getTextFieldComponent();
-        aiKok = new TextFieldComponent().create(hackere, "Studasser som koker:", game.getSkin(),3, true).getTextFieldComponent();
-        hackerKok = new TextFieldComponent().create(studass, "Kokscripts", game.getSkin(),3, true).getTextFieldComponent();
-        professorKok = new TextFieldComponent().create(scripts, "Hackere som koker:", game.getSkin(),3, true).getTextFieldComponent();
-*/
+        kokCount = new TextFieldComponent().create(( game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
+        antLevert = new TextFieldComponent().create(( game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
+
         // Table
         Table table = new Table();
         table.setFillParent(true);
         table.defaults().minWidth(500).minHeight(300).pad(40);
         table.add(kokCount);
         table.add(antLevert);
-        /*table.row();
-        table.add(leaderboard);
-        table.add(aiKok);
-        table.row();
-        table.add(hackerKok);
-        table.add(professorKok);*/
-
-
-        logOutbutton = new ButtonElement(
-                Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/5f,
-                Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f - Gdx.graphics.getHeight()/5f,
-                "Log out", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.firebase.logOut();
-                game.setScreen(new StatScreen(game));
-                return true;
-            }
-        });
-
-        highscoreButton = new ButtonElement(
-                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/3f, 50 + BUTTONHEIGHTGUI + 50,
-                "Highscores", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new HighscoreScreen(game));
-                return true;
-            }
-        });
-
-        tutorialButton = new ButtonElement(
-                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                Gdx.graphics.getWidth()/2f, 50 + BUTTONHEIGHTGUI + 50,
-                "Tutorial", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new TutorialScreen(game, 0, true));
-                return true;
-            }
-        });
-
-        if (game.firebase.isLoggedIn()) {
-            saveStatsButton = new ButtonElement(
-                    Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                    Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f,
-                    "Save cloud", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.firebase.savePlayerStats(game.getPlayer());
-                    return true;
-                }
-            });
-        } else {
-            saveStatsButton = new ButtonElement(
-                    Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                    Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/1.1f,
-                    "Log in to save to cloud", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.firebase.startSignInActivity();
-                    game.setScreen(new StatScreen(game));
-                    return true;
-                }
-            });
-        }
-
-        saveOffline = new ButtonElement(
-                Gdx.graphics.getWidth()/3f,Gdx.graphics.getHeight()/20f,
-                (Gdx.graphics.getWidth()/2f) - (saveStatsButton.getWidth()), Gdx.graphics.getHeight()/1.1f,
-                "Save offline", game.getSkin(), new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                SavingSystem savingSystem = game.getEngine().getSystem(SavingSystem.class);
-                savingSystem.saveOffline();
-                return true;
-            }
-        });
 
         //navbarkode
         NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH );
 
         for(Button btn : navbar.getActors()){
-            System.out.println("add button");
             game.getStage().addActor(btn);
         }
 
-        //game.getStage().addActor(highscoreButton);
-        //game.getStage().addActor(tutorialButton);
         game.getStage().addActor(table);
-        //game.getStage().addActor(saveStatsButton);
-        //game.getStage().addActor(saveOffline);
-        //game.getStage().addActor(logOutbutton);
     }
 
     @Override
@@ -206,9 +86,6 @@ public class StatScreen implements Screen{
         //batch tegner vi resten på
         game.getBatch().begin();
         GlyphLayout layout = new GlyphLayout();
-        Entity player = game.getPlayer();
-        PlayerComponent pc = player.getComponent(PlayerComponent.class);
-
         layout.setText(game.getFont(), pc.getName());
         game.getFont().draw(
                 game.getBatch(),

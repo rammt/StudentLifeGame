@@ -107,6 +107,20 @@ public class AudioSystem extends EntitySystem {
         volumeSound = (volumeSound == 0) ? 1 : 0;
     }
 
+    public boolean isMusicPlaying(){
+        if(volumeMusic == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isSoundPlaying(){
+        if(volumeSound == 0){
+            return true;
+        }
+        return false;
+    }
+
     public void startBackgroundMusic() {
         for (Entity m : music) {
             if (m.getComponent(MusicComponent.class).getMusic().isPlaying()) {

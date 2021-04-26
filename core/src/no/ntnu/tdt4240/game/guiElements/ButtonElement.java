@@ -2,6 +2,7 @@ package no.ntnu.tdt4240.game.guiElements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -59,6 +60,13 @@ public class ButtonElement extends Button {
         super.setColor(Color.valueOf("#ecf0f1"));
     }
 
+    public void toggleButton(boolean toggle){
+        if(toggle){
+            setColor(Color.valueOf("#2c3e50"));
+        } else {
+            setColor(Color.valueOf("#ecf0f1"));
+        }
+    }
 
     public void disableButton(boolean disabled) {
         if(disabled){
@@ -73,5 +81,14 @@ public class ButtonElement extends Button {
 
     public void setChecked(Boolean checked) {
         this.checked = checked;
+    }
+
+    public void setText(String text) {
+        Label textLabel = new Label(text, getSkin());
+        textLabel.setFontScale(3);
+        for(Actor actor : super.getChildren()){
+            super.removeActor(actor);
+        }
+        super.add(textLabel);
     }
 }
