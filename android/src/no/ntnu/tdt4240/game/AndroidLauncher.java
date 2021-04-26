@@ -65,6 +65,16 @@ public class AndroidLauncher extends AndroidApplication {
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
 
+	public void signOut() {
+		mSignInClient.signOut().addOnCompleteListener(this,
+				new OnCompleteListener<Void>() {
+					@Override
+					public void onComplete(@NonNull Task<Void> task) {
+						System.out.println("Signed out of google");
+					}
+				});
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

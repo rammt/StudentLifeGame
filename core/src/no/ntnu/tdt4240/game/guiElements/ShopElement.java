@@ -64,8 +64,9 @@ public class ShopElement {
 
     private void shopNavBuilder() {
 
-        hasNext = (currentIndex+4<resourceGainers.size()-1);
+        hasNext = (currentIndex + 4 < resourceGainers.size()-1);
         hasPrev = (currentIndex>3);
+        System.out.println("currindex: " + currentIndex + ", resourcegainerssize: " + resourceGainers.size());
 
         ButtonElement nextButton = new ButtonElement(
              BUTTONWIDTHGUI,BUTTONHEIGHTGUI/2,
@@ -122,21 +123,25 @@ public class ShopElement {
             if(startIndex+i >= resourceGainers.size())break;
             final ResourceGainerComponent rgc = resourceGainers.get(i+startIndex);
             shopLabelBuilder(rgs.countResourceGainers(rgc),25,(SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*i+BUTTONHEIGHTGUI/2));
-            final float gainerPrice = (float) Math.floor(rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc)-1));
-            String description = rgc.getName();
-            String price = "Price: " + game.formatMillions(gainerPrice) + " kok";
-            String kokPerSec = "Kok gain: " + rgc.getGainPerSecond() + "/s";
-            ArrayList<String> buttonText = new ArrayList<>(Arrays.asList(description, price, kokPerSec));
-            ButtonElement tmpButton = new ButtonElement(
+            final double gainerPrice = (float) Math.floor((rgc.getPrice() * Math.pow(1.10, rgs.countResourceGainers(rgc))));
+
+            Label name = new Label(rgc.getName(), game.getSkin());
+            name.setFontScale(3);
+            Label price = new Label("Price: " + game.formatMillions(gainerPrice) + " kok", game.getSkin());
+            price.setFontScale(2);
+            Label kokPerSec = new Label("Kok gain: " + rgc.getGainPerSecond() + "/s", game.getSkin());
+            kokPerSec.setFontScale(2);
+            ArrayList<Label> buttonLabels = new ArrayList<>(Arrays.asList(name, price, kokPerSec));
+                    ButtonElement tmpButton = new ButtonElement(
                 BUTTONWIDTHGUI*3,BUTTONHEIGHTGUI,
                 (SCREENWIDTH/2f)-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*counter-BUTTONPADDING*counter,
-                buttonText, game.getSkin(),
+                buttonLabels, game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         if(pc.getKokCount() >= gainerPrice){
                             as.playSound();
-                            pc.setKokCount(pc.getKokCount() - gainerPrice);
+                            pc.setKokCount((float) (pc.getKokCount() - gainerPrice));
                             pc.addResourceGainer(rgc);
                             game.setScreen(new ShopScreen(game,currentIndex));
                         }

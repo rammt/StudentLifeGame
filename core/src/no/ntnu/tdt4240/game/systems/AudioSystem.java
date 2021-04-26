@@ -47,7 +47,6 @@ public class AudioSystem extends EntitySystem {
 
         playingMusic = backgroundMusic2;
     }
-
     public void createSound(Engine engine){
         sound = engine.createEntity();
         sound.add(new SoundComponent().create("music/penSound.mp3"));

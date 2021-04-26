@@ -98,6 +98,9 @@ public class GameScreen implements Screen{
 			}
 		});
 
+		final double kokGainFromClick =  (1 + (getGainpersecond()/10f)*Math.pow(1.02, pc.getClickValue()));
+		System.out.println("Gained kok: " + kokGainFromClick);
+
 		deliverButton = new ButtonElement(
 				x, deliverY,
 				"DELIVER", game.getSkin(), new InputListener(){
@@ -107,7 +110,7 @@ public class GameScreen implements Screen{
 					copied=false;
 					pasted=false;
 					pc.setClickCount(pc.getClickCount()+1);
-					pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*getGainpersecond());
+					pc.setKokCount((float) (pc.getKokCount() + kokGainFromClick));
 					copyButton.disableButton(copied);
 					pasteButton.disableButton(pasted);
 					as.playSound();
@@ -116,11 +119,10 @@ public class GameScreen implements Screen{
 			}
 		});
 
-
 		copyPasteDeliverButton = new ButtonElement(x, pasteY, "KOK", game.getSkin(), new InputListener() {
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				pc.setKokCount(pc.getKokCount() + 1 + pc.getClickValue()*gainpersecond);
+				pc.setKokCount((float) (pc.getKokCount() + kokGainFromClick));
 				pc.setClickCount(pc.getClickCount() + 1);
 				as.playSound();
 				return true;
@@ -185,7 +187,7 @@ public class GameScreen implements Screen{
 
 	}
 
-	public float getGainpersecond(){
+	private float getGainpersecond(){
 		ResourceGainSystem rgs = game.getEngine().getSystem(ResourceGainSystem.class);
 
 		return rgs.getResourceGainPerSecond();

@@ -35,7 +35,7 @@ public class PlayerComponent implements Component {
         this.clickCount = 0L;
         this.resourceGainers = new ArrayList<>();
         this.combinedButtons = false;
-        this.clickValue = 0.05f;
+        this.clickValue = 1f;
 
         return this;
     }

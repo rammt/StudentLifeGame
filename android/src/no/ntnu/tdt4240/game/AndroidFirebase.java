@@ -88,6 +88,13 @@ public class AndroidFirebase implements Firebase {
         Long clickCount = document.getLong("clickCount");
         String name = (String) document.get("name");
         Long lastSave = document.getLong("lastSave");
+        Long clickValueTemp = document.getLong("clickValue");
+        float clickValue;
+        if (clickValueTemp != null) {
+            clickValue = clickValueTemp.floatValue();
+        } else {
+            clickValue = 1f;
+        }
         List<Map<String, Object>> resourceGainers = (List<Map<String, Object>>) document.get("resourceGainers");
         for (Map<String, Object> gainer: resourceGainers) {
             gainer.put("amount", ((Long) gainer.get("amount")).intValue());
@@ -99,6 +106,7 @@ public class AndroidFirebase implements Firebase {
         pc.setLastSave(lastSave);
         pc.setResourceGainers(resourceGainers);
         pc.setClickCount(clickCount);
+        pc.setClickValue(clickValue);
         pc.setCombinedButtons(combinedButtons);
     }
 
@@ -136,6 +144,7 @@ public class AndroidFirebase implements Firebase {
             playerMap.put("resourceGainers", pc.getResourceGainers());
             playerMap.put("clickCount", pc.getClickCount());
             playerMap.put("combinedButtons", pc.getCombinedButtons());
+            playerMap.put("clickValue", pc.getClickValue());
 
             db.collection("players").document(fb_user.getUid()).set(playerMap);
         }
@@ -208,6 +217,7 @@ public class AndroidFirebase implements Firebase {
                             player.put("resourceGainers", pc.getResourceGainers());
                             player.put("clickCount",pc.getClickCount());
                             player.put("combinedButtons", pc.getCombinedButtons());
+                            player.put("clickValue", pc.getClickValue());
 
                             db.collection("players").document(fb_user.getUid()).set(player);
                             Log.d(TAG, "No such document");
@@ -245,5 +255,6 @@ public class AndroidFirebase implements Firebase {
 
     public void logOut() {
         mAuth.signOut();
+        launcher.signOut();
     }
 }
