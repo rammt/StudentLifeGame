@@ -79,7 +79,7 @@ public class StartScreen implements Screen {
         layout.setFillParent(true);
 
         if (onlinePlayer == null) {
-            if (game.firebase.isLoggedIn()) {
+            if (game.getFirebase().isLoggedIn()) {
                 Entity player = startingSystem.getOnlinePlayer(game.getEngine());
                 this.onlinePlayer = player;
                 game.setScreen(new StartScreen(game, player));
@@ -94,7 +94,7 @@ public class StartScreen implements Screen {
                         Gdx.graphics.getHeight() / 2f + buttonHeight / 2, "Cloud Login", game.getSkin(), new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        game.firebase.startSignInActivity();
+                        game.getFirebase().startSignInActivity();
                         game.setScreen(new StartScreen(game, null));
                         return true;
                     }

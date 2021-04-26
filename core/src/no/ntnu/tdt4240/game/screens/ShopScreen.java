@@ -33,14 +33,9 @@ public class ShopScreen implements Screen {
     final int buttonPadding;
     private ShopElement shop;
     private NavbarElement navbar;
-    private int currentIndex;
-
     private PlayerComponent player_pc;
     private ComponentMapper<ResourceGainerComponent> rgm;
     private ArrayList<ResourceGainerComponent> resourceGainers;
-    private ComponentMapper<PlayerComponent> pm;
-    private ResourceGainSystem rgs;
-    private float[] prices;
     private final AudioSystem as;
 
 
@@ -49,7 +44,6 @@ public class ShopScreen implements Screen {
         this.game = game;
         this.game.getStage().clear();
         resourceGainers = new ArrayList<>();
-        this.currentIndex = currentIndex;
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -57,8 +51,7 @@ public class ShopScreen implements Screen {
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-        Entity player = game.getPlayer();
-        player_pc = player.getComponent(PlayerComponent.class);
+        player_pc = game.getPlayer().getComponent(PlayerComponent.class);
         resourceGainerEntities = game.getEngine().getEntitiesFor(Family.all(ResourceGainerComponent.class).get());
         rgm = ComponentMapper.getFor(ResourceGainerComponent.class);
 
@@ -101,7 +94,7 @@ public class ShopScreen implements Screen {
         game.getFont().draw(
                 game.getBatch(),
                 //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
-                "Kokt: " + kokAmount,
+                "Kok: " + kokAmount,
                 Gdx.graphics.getWidth()/3f,
                 Gdx.graphics.getHeight()/1.2f
         );

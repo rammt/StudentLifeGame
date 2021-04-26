@@ -52,7 +52,7 @@ public class StatScreen implements Screen{
         buttonPadding = 10;
 
         // Get rank of player
-        rank = game.firebase.getRank(pc);
+        rank = game.getFirebase().getRank(pc);
 
         // Labelelements for stats in table
         kokCount = new TextFieldComponent().create(( game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();

@@ -23,25 +23,16 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class OnStartGameSystem extends EntitySystem {
     private Firebase firebase;
-    private ImmutableArray<Entity> player;
-
-    private ComponentMapper<PlayerComponent> pcm = ComponentMapper.getFor(PlayerComponent.class);
-    private ComponentMapper<ResourceGainerComponent> rgcm = ComponentMapper.getFor(ResourceGainerComponent.class);
-
 
     public OnStartGameSystem(Firebase firebase) {
         this.firebase = firebase;
     }
 
     @Override
-    public void addedToEngine(Engine engine) {
-
-    }
+    public void addedToEngine(Engine engine) { }
 
     @Override
-    public void removedFromEngine(Engine engine) {
-
-    }
+    public void removedFromEngine(Engine engine) { }
 
     public Entity getOfflinePlayer(Engine engine) {
         Entity player = engine.createEntity();

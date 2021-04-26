@@ -22,42 +22,29 @@ import no.ntnu.tdt4240.game.screens.StartScreen;
 import no.ntnu.tdt4240.game.screens.TutorialScreen;
 
 public class StudentLifeGame extends Game {
-	public Firebase firebase;
 
-	public StudentLifeGame(Firebase firebase) {
-		this.firebase = firebase;
-	}
-
+	private Firebase firebase;
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private Stage stage;
 	private Skin skin;
-	private TextureAtlas textureAtlas;
-    private boolean showTutorial = true;
-
     private ECSengine engine;
-    private ShapeRenderer shapeRenderer;
+    private boolean showTutorial;
 
-    // Show tutorial on first launch
-    public boolean showTutorialFirstLaunch() {
-        if (showTutorial) {
-            this.showTutorial = false;
-            return true;
-        }
-        return false;
+    public StudentLifeGame(Firebase firebase) {
+        this.firebase = firebase;
     }
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("skin/font-big-export.fnt"));
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        stage = new Stage(new ScreenViewport());
+        engine = new ECSengine(firebase);
+        batch = new SpriteBatch();
+        Gdx.input.setInputProcessor(stage);
 
-        shapeRenderer = new ShapeRenderer();
-
-        engine = new ECSengine(shapeRenderer, font, batch, stage, firebase);
+        showTutorial = true;
 
         this.setScreen(new StartScreen(this, null));
     }
@@ -75,24 +62,24 @@ public class StudentLifeGame extends Game {
         font.dispose();
         stage.dispose();
         skin.dispose();
-        textureAtlas.dispose();
     }
 
     public SpriteBatch getBatch(){
         return batch;
     }
+
     public BitmapFont getFont(){
         return font;
     }
+
     public Stage getStage(){
         return stage;
     }
+
     public Skin getSkin(){
         return skin;
     }
-    public TextureAtlas getTextureAtlas(){
-        return textureAtlas;
-    }
+
     public PooledEngine getEngine() {
         return engine.getEngine();
     }
@@ -100,6 +87,14 @@ public class StudentLifeGame extends Game {
     public Entity getPlayer() {
         ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
         return players.get(0);
+    }
+
+    public boolean showTutorialFirstLaunch() {
+        if (showTutorial) {
+            this.showTutorial = false;
+            return true;
+        }
+        return false;
     }
 
     public String formatMillions(double num){
@@ -129,4 +124,9 @@ public class StudentLifeGame extends Game {
         }
         return String.format("%.3f", num) + " " + unit;
     }
+
+    public Firebase getFirebase() {
+        return firebase;
+    }
+
 }

@@ -171,7 +171,7 @@ public class GameScreen implements Screen{
 		game.getFont().draw(
 			game.getBatch(),
 			//"Kok : " + formatter.format(pc.getKokCount()),
-				"Kok : " + game.formatMillions(pc.getKokCount()),
+				"Kok: " + game.formatMillions(pc.getKokCount()),
 			Gdx.graphics.getWidth()/3f,
 			Gdx.graphics.getHeight()/1.2f
 		);

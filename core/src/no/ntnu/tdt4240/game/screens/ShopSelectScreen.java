@@ -22,9 +22,8 @@ public class ShopSelectScreen implements Screen {
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
+    private PlayerComponent player_pc;
     private AudioSystem as;
-
-
     private Button upgradeScreenButton, upgradeRGButton;
 
     public ShopSelectScreen(final StudentLifeGame game){
@@ -37,6 +36,7 @@ public class ShopSelectScreen implements Screen {
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
+        player_pc = game.getPlayer().getComponent(PlayerComponent.class);
         as = game.getEngine().getSystem(AudioSystem.class);
         as.startShopMusic();
 
@@ -81,6 +81,17 @@ public class ShopSelectScreen implements Screen {
 
         game.getStage().act();
         game.getStage().draw();
+
+        game.getBatch().begin();
+        String kokAmount = game.formatMillions(player_pc.getKokCount());
+        game.getFont().draw(
+                game.getBatch(),
+                //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
+                "Kok: " + kokAmount,
+                Gdx.graphics.getWidth()/3f,
+                Gdx.graphics.getHeight()/1.2f
+        );
+        game.getBatch().end();
 
         game.getEngine().update(Gdx.graphics.getDeltaTime());
     }

@@ -64,7 +64,7 @@ public class HighscoreScreen implements Screen {
         task = executor.submit(new AsyncTask<Void>() {
             @Override
             public Void call() throws Exception {
-                hl = game.firebase.getHighscore();
+                hl = game.getFirebase().getHighscore();
                 return null;
             }
         });

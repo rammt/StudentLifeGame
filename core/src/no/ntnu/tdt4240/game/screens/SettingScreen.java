@@ -71,7 +71,7 @@ public class SettingScreen implements Screen {
         );
         game.getStage().addActor(saveOfflineBtn);
 
-        if (game.firebase.isLoggedIn()) {
+        if (game.getFirebase().isLoggedIn()) {
             saveOnlineBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
                     SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
@@ -79,7 +79,7 @@ public class SettingScreen implements Screen {
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        game.firebase.savePlayerStats(game.getPlayer());
+                        game.getFirebase().savePlayerStats(game.getPlayer());
                         return true;
                     }
 
@@ -94,7 +94,7 @@ public class SettingScreen implements Screen {
                     new InputListener() {
                         @Override
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                            game.firebase.startSignInActivity();
+                            game.getFirebase().startSignInActivity();
                             game.setScreen(new StatScreen(game));
                             return true;
                         }
@@ -180,7 +180,7 @@ public class SettingScreen implements Screen {
                 "Log out", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.firebase.logOut();
+                game.getFirebase().logOut();
                 game.setScreen(new StartScreen(game, null));
                 return true;
             }
