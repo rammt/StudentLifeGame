@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
@@ -28,6 +31,11 @@ public class UpgradeShopScreen implements Screen {
     private PlayerComponent pc;
     private AudioSystem as;
     private NavbarElement navbar;
+    private float originalClickValuePrice;
+
+    private float clickValuePrice;
+
+    private int clickValueCounter;
 
     public UpgradeShopScreen(final StudentLifeGame game){
 
@@ -42,6 +50,9 @@ public class UpgradeShopScreen implements Screen {
         SCREENWIDTH = Gdx.graphics.getWidth();
         BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
+
+        originalClickValuePrice = 200;
+        clickValueCounter = pc.getClickValueCounter();
 
         combineButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
@@ -75,17 +86,27 @@ public class UpgradeShopScreen implements Screen {
                 }
         );
 
+        clickValuePrice = (float) (originalClickValuePrice * Math.pow(1,10* clickValueCounter));
+        String description = "Increase Click Value by 5%";
+        String price = "Price: " + clickValuePrice + " kok";
+        //String kokPerSec = "Kok gain: /s";
+        ArrayList<String> buttonText = new ArrayList<>(Arrays.asList(description, price));
         increaseClickValueButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI - 50,
-                "Increase Click Value: 50 000,-", game.getSkin(),
+                buttonText, game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(pc.getKokCount() >= 50000f){
-                            pc.setKokCount(pc.getKokCount()-50000f);
+                        if(pc.getKokCount() >= clickValuePrice){
+                            pc.setKokCount(pc.getKokCount()-clickValuePrice);
                             pc.setClickValue(pc.getClickValue()+0.05f);
+                            pc.increaseClickValueCounter();
+                            clickValueCounter++;
+                            //clickValuePrice = (float) (originalClickValuePrice * Math.pow(1,10* pc.getClickValueCounter()));
                             System.out.println(pc.getClickValue());
+                            System.out.println(clickValuePrice);
+
                             as.playSound();
                         }
                         return true;

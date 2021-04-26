@@ -17,6 +17,7 @@ public class PlayerComponent implements Component {
     private List<Map<String, Object>> resourceGainers;
     private boolean combinedButtons;
     private float clickValue;
+    private int clickValueCounter;
 
 
     public PlayerComponent create(String name, long lastSave, float kokCount, List<Map<String, Object>> resourceGainers) {
@@ -117,6 +118,14 @@ public class PlayerComponent implements Component {
 
     public float getClickValue(){
         return clickValue;
+    }
+
+    public void increaseClickValueCounter(){
+        this.clickValueCounter++;
+    }
+
+    public int getClickValueCounter(){
+        return clickValueCounter;
     }
 
 
