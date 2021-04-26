@@ -180,6 +180,7 @@ public class SettingScreen implements Screen {
                 "Log out", game.getSkin(), new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                as.stopBackgroundMusic();
                 game.getFirebase().logOut();
                 game.getEngine().removeAllEntities();
                 game.setScreen(new StartScreen(game, null));
