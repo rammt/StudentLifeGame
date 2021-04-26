@@ -13,6 +13,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.StartScreen;
 import no.ntnu.tdt4240.game.screens.TutorialScreen;
