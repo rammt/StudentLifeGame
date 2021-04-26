@@ -73,7 +73,7 @@ public class SettingScreen implements Screen {
         if (game.firebase.isLoggedIn()) {
             saveOnlineBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
+                    SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
                 "Save online", game.getSkin(),
                 new InputListener() {
                     @Override
@@ -88,7 +88,7 @@ public class SettingScreen implements Screen {
         } else {
             saveOnlineBtn = new ButtonElement(
                     BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                    SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
+            SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2,  SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*3-10*3,
                     "Login to save online", game.getSkin(),
                     new InputListener() {
                         @Override
@@ -125,7 +125,7 @@ public class SettingScreen implements Screen {
 
         muteBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-10*2,
+                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-10*2,
                 "mute music", game.getSkin(),
                 new InputListener() {
                     @Override
