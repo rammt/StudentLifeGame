@@ -245,5 +245,6 @@ public class AndroidFirebase implements Firebase {
 
     public void logOut() {
         mAuth.signOut();
+        launcher.signOut();
     }
 }
