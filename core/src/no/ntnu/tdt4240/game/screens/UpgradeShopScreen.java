@@ -7,13 +7,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
+import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class UpgradeShopScreen implements Screen {
 
@@ -75,24 +80,47 @@ public class UpgradeShopScreen implements Screen {
                 }
         );
 
+        int baseClickValuePrice = 200;
+
+        ResourceGainSystem rgs = game.getEngine().getSystem(ResourceGainSystem.class);
+
+
+        final double calculatedClickValuePrice = Math.floor(baseClickValuePrice * Math.pow(1.10, pc.getClickValue()));
+
+        final double kokGainFromClick =  Math.floor(1 + (rgs.getResourceGainPerSecond()/10f)*Math.pow(1.02, pc.getClickValue()));
+
+
+
+        Label description = new Label("Increase kok delivery value", game.getSkin());
+        description.setFontScale(3);
+        Label price = new Label("Price: " + game.formatMillions(calculatedClickValuePrice) + " kok", game.getSkin());
+        price.setFontScale(2);
+        Label clickVal = new Label("New click value: " + game.formatMillions(kokGainFromClick) + " kok", game.getSkin());
+        clickVal.setFontScale(2);
+        ArrayList<Label> buttonLabels = new ArrayList<>(Arrays.asList(description, price, clickVal));
+
         increaseClickValueButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI - 50,
-                "Increase Click Value: 50 000,-", game.getSkin(),
+                buttonLabels, game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(pc.getKokCount() >= 50000f){
-                            pc.setKokCount(pc.getKokCount()-50000f);
-                            pc.setClickValue(pc.getClickValue()+0.05f);
+                        if(pc.getKokCount() >= calculatedClickValuePrice){
+                            pc.setKokCount((float) (pc.getKokCount()-calculatedClickValuePrice));
+                            pc.setClickValue(pc.getClickValue()+1);
                             System.out.println(pc.getClickValue());
                             as.playSound();
+                            game.setScreen(new UpgradeShopScreen(game));
                         }
                         return true;
                     }
 
                 }
         );
+
+
+        increaseClickValueButton.disableButton(pc.getKokCount() < calculatedClickValuePrice);
 
         combineButton.disableButton(pc.getCombinedButtons());
 

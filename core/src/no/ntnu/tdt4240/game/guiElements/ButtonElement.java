@@ -29,13 +29,11 @@ public class ButtonElement extends Button {
         super.setColor(Color.valueOf("#ecf0f1"));
     }
 
-    public ButtonElement(float width, float height, float x, float y, ArrayList<String> textList, Skin skin, InputListener listener) {
+    public ButtonElement(float width, float height, float x, float y, ArrayList<Label> labelList, Skin skin, InputListener listener) {
         super(skin);
 
-        for (String text : textList) {
-            Label textLabel = new Label(text, skin);
-            textLabel.setFontScale(3);
-            super.add(textLabel);
+        for (Label label : labelList) {
+            super.add(label);
             super.row();
         }
 

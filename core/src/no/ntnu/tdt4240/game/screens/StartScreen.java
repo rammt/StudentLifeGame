@@ -109,6 +109,8 @@ public class StartScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
 
+
+
         if (onlinePlayer != null) {
             PlayerComponent onlinePC = onlinePlayer.getComponent(PlayerComponent.class);
 
