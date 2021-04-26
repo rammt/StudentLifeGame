@@ -92,12 +92,14 @@ public class AndroidFirebase implements Firebase {
         for (Map<String, Object> gainer: resourceGainers) {
             gainer.put("amount", ((Long) gainer.get("amount")).intValue());
         }
+        boolean combinedButtons = document.getBoolean("combinedButtons");
 
         pc.setKokCount(kokCount);
         pc.setName(name);
         pc.setLastSave(lastSave);
         pc.setResourceGainers(resourceGainers);
         pc.setClickCount(clickCount);
+        pc.setCombinedButtons(combinedButtons);
     }
 
     public boolean isLoggedIn() {
@@ -133,6 +135,7 @@ public class AndroidFirebase implements Firebase {
             playerMap.put("lastSave", new Date().getTime());
             playerMap.put("resourceGainers", pc.getResourceGainers());
             playerMap.put("clickCount", pc.getClickCount());
+            playerMap.put("combinedButtons", pc.getCombinedButtons());
 
             db.collection("players").document(fb_user.getUid()).set(playerMap);
         }
@@ -204,6 +207,7 @@ public class AndroidFirebase implements Firebase {
                             player.put("lastSave", pc.getLastSave());
                             player.put("resourceGainers", pc.getResourceGainers());
                             player.put("clickCount",pc.getClickCount());
+                            player.put("combinedButtons", pc.getCombinedButtons());
 
                             db.collection("players").document(fb_user.getUid()).set(player);
                             Log.d(TAG, "No such document");
