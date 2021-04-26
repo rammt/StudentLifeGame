@@ -181,6 +181,7 @@ public class SettingScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.firebase.logOut();
+                game.getEngine().removeAllEntities();
                 game.setScreen(new StartScreen(game, null));
                 return true;
             }
