@@ -32,6 +32,7 @@ public class SettingScreen implements Screen {
         this.game = game;
         this.game.getStage().clear();
         this.as = game.getEngine().getSystem(AudioSystem.class);
+        as.startGameMusic();
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
@@ -90,11 +91,11 @@ public class SettingScreen implements Screen {
         musicBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-10*2,
-                "play", game.getSkin(),
+                "mute sounds", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        as.startBackgroundMusic();
+                        as.muteSound();
                     return true;
                     }
 
@@ -105,11 +106,11 @@ public class SettingScreen implements Screen {
         muteBtn = new ButtonElement(
                 BUTTONWIDTHGUI*3/2, BUTTONHEIGHTGUI,
                 SCREENWIDTH/2f-BUTTONHEIGHTGUI*3/2f-75, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI*2-10*2,
-                "mute", game.getSkin(),
+                "mute music", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        as.mute();
+                        as.muteMusic();
                         return true;
                     }
 

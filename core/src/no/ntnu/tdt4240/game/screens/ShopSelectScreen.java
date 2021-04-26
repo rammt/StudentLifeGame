@@ -12,6 +12,7 @@ import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
+import no.ntnu.tdt4240.game.systems.AudioSystem;
 
 public class ShopSelectScreen implements Screen {
     final StudentLifeGame game;
@@ -21,6 +22,7 @@ public class ShopSelectScreen implements Screen {
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
+    private AudioSystem as;
 
 
     private Button upgradeScreenButton, upgradeRGButton;
@@ -35,7 +37,8 @@ public class ShopSelectScreen implements Screen {
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-
+        as = game.getEngine().getSystem(AudioSystem.class);
+        as.startShopMusic();
 
         upgradeScreenButton = new ButtonElement(
                 BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,

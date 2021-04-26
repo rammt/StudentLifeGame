@@ -58,6 +58,7 @@ public class GameScreen implements Screen{
 
 		this.as = game.getEngine().getSystem(AudioSystem.class);
 		as.setSound("music/Whoo.mp3");
+		as.startGameMusic();
 
 		//TODO æsj fiks dette her
 		float width = Gdx.graphics.getWidth()/2f;
