@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.components.TextFieldComponent;
 
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
 
 public class HighscoreScreen implements Screen {
 
@@ -56,7 +56,7 @@ public class HighscoreScreen implements Screen {
         BUTTONWIDTHGUI = SCREENWIDTH/4f;
         buttonPadding = 10;
 
-        Label title = new TextFieldComponent().create(null, "Highscores", game.getSkin(), 6, false).getTextFieldComponent();
+        Label title = new TextFieldElement(null, "Highscores", game.getSkin(), 6, false).getActor();
         title.setPosition(Gdx.graphics.getWidth()/2f - title.getWidth()/2,
                 Gdx.graphics.getHeight()/1.2f);
 
@@ -72,9 +72,9 @@ public class HighscoreScreen implements Screen {
         table = new Table();
         table.setFillParent(true);
         table.defaults().minWidth(400).minHeight(200).pad(1);
-        table.add(new TextFieldComponent().create(null, "Rank", game.getSkin(), 4, true).getTextFieldComponent()).width(200);
-        table.add(new TextFieldComponent().create(null, "User", game.getSkin(), 4, true).getTextFieldComponent());
-        table.add(new TextFieldComponent().create(null, "Kok", game.getSkin(), 4, true).getTextFieldComponent());
+        table.add(new TextFieldElement(null, "Rank", game.getSkin(), 4, true).getActor()).width(200);
+        table.add(new TextFieldElement(null, "User", game.getSkin(), 4, true).getActor());
+        table.add(new TextFieldElement(null, "Kok", game.getSkin(), 4, true).getActor());
         table.row();
 
 
@@ -107,9 +107,9 @@ public class HighscoreScreen implements Screen {
             }
             users[0] = String.valueOf(hl.get(0).get("name"));
             for(int i = 0; i < users.length; i++) {
-                table.add(new TextFieldComponent().create(null, String.valueOf(i+1), game.getSkin(), 3, true).getTextFieldComponent()).width(200);
-                table.add(new TextFieldComponent().create(null, users[i], game.getSkin(), 3, true).getTextFieldComponent());
-                table.add(new TextFieldComponent().create(null, game.formatMillions(Float.parseFloat(stats[i])) , game.getSkin(), 3, true).getTextFieldComponent());
+                table.add(new TextFieldElement(null, String.valueOf(i+1), game.getSkin(), 3, true).getActor()).width(200);
+                table.add(new TextFieldElement(null, users[i], game.getSkin(), 3, true).getActor());
+                table.add(new TextFieldElement(null, game.formatMillions(Float.parseFloat(stats[i])) , game.getSkin(), 3, true).getActor());
                 table.row();
             }
             updated = true;

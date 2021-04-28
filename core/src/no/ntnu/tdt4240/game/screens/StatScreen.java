@@ -16,8 +16,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
-import no.ntnu.tdt4240.game.components.TextFieldComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
+import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
@@ -55,8 +55,8 @@ public class StatScreen implements Screen{
         rank = game.getFirebase().getRank(pc);
 
         // Labelelements for stats in table
-        kokCount = new TextFieldComponent().create(( game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getTextFieldComponent();
-        antLevert = new TextFieldComponent().create(( game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(),3, true).getTextFieldComponent();
+        kokCount = new TextFieldElement(( game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getActor();
+        antLevert = new TextFieldElement(( game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(),3, true).getActor();
 
         // Table
         Table table = new Table();
