@@ -113,14 +113,6 @@ public class AndroidFirebase implements Firebase {
         return fb_user != null;
     }
 
-    private void handleLogin(FirebaseUser fb_user) {
-        if (fb_user == null) {
-            System.out.println("Didn't sign in");
-        } else {
-            System.out.println("Signed in");
-        }
-    }
-
     @Override
     public void startSignInActivity() {
         launcher.startSignInForResult();
@@ -168,6 +160,7 @@ public class AndroidFirebase implements Firebase {
         return highscoreList;
     }
 
+    //Not used, could not implement the async fetching from database properly
     public void getResourceGainers(final List<Map<String, Object>> resourceGainers) {
         CollectionReference resourceGainersReference = db.collection("resource_gainers");
         resourceGainersReference.get()
@@ -187,7 +180,6 @@ public class AndroidFirebase implements Firebase {
                     }
                 });
     }
-
 
     @Override
     public void getPlayerStats(final Entity player) {
@@ -226,7 +218,6 @@ public class AndroidFirebase implements Firebase {
             });
         }
     }
-
 
     public int getRank(PlayerComponent pc) {
         CollectionReference colRefPlayers = db.collection("players");

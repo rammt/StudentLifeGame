@@ -91,6 +91,7 @@ public class StudentLifeGame extends Game {
         return false;
     }
 
+    @SuppressWarnings("DefaultLocale")
     public String formatMillions(double num) {
         String unit = "";
         if (num >= 1000000000000000f) {

@@ -16,9 +16,6 @@ import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
 
 public class StatScreen implements Screen {
 
-    private final Label kokCount;
-    private final Label antLevert;
-
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
     final int SCREENHEIGTH;
@@ -46,8 +43,8 @@ public class StatScreen implements Screen {
         rank = game.getFirebase().getRank(pc);
 
         // Labelelements for stats in table
-        kokCount = new TextFieldElement((game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getActor();
-        antLevert = new TextFieldElement((game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(), 3, true).getActor();
+        Label kokCount = new TextFieldElement((game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getActor();
+        Label antLevert = new TextFieldElement((game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(), 3, true).getActor();
 
         // Table
         Table table = new Table();

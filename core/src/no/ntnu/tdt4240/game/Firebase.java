@@ -23,14 +23,4 @@ public interface Firebase {
     void logOut();
 
     void getResourceGainers(List<Map<String, Object>> resourceGainers);
-
-    //void getStats(Player user);
-    /*
-    public void onSignOutButtonClicked();
-    public boolean isSignedIn();
-    public void signInSilently();
-    public void submitScore(String leaderboardId, int highScore);
-    public void showLeaderboard(String leaderboardId);
-    public void setTrackerScreenName(String screenName);
-    */
 }

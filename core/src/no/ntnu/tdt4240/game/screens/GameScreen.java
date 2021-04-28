@@ -18,8 +18,6 @@ import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class GameScreen implements Screen {
 
-    private TextButton.TextButtonStyle textButtonStyleDOWN;
-    private TextButton.TextButtonStyle textButtonStyleUP;
     private final ButtonElement copyButton;
     private final ButtonElement pasteButton;
     private final ButtonElement deliverButton;
