@@ -23,8 +23,7 @@ public class NavbarElement {
     private final ArrayList<Button> actors;
     private final StudentLifeGame game;
     private final int SCREENWIDTH;
-    private final float BUTTONWIDTHGUI;
-    private final float BUTTONHEIGHTGUI;
+    private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI;
     private AudioSystem as;
     private final Texture settings;
 

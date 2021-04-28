@@ -44,7 +44,6 @@ public class AndroidFirebase implements Firebase {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private List<Map<String, Object>> highscoreList = new ArrayList<>();
-    //private List<Map<String, Object>> resourceGainers = new ArrayList<>();
     private int rank;
 
     private static final AndroidFirebase androidFirebase = new AndroidFirebase();

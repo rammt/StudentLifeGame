@@ -22,10 +22,8 @@ public class UpgradeShopScreen implements Screen {
 
     final StudentLifeGame game;
 
-    final float BUTTONHEIGHTGUI;
-    final float BUTTONWIDTHGUI;
-    final int SCREENHEIGTH;
-    final int SCREENWIDTH;
+    final float BUTTONHEIGHTGUI, BUTTONWIDTHGUI;
+    final int SCREENHEIGTH, SCREENWIDTH;
 
     final ButtonElement combineButton, increaseClickValueButton;
     private final PlayerComponent pc;

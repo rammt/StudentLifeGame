@@ -18,19 +18,10 @@ import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 
 public class GameScreen implements Screen {
 
-    private final ButtonElement copyButton;
-    private final ButtonElement pasteButton;
-    private final ButtonElement deliverButton;
-    private final ButtonElement copyPasteDeliverButton;
-    private boolean copied;
-    private boolean pasted;
+    private final ButtonElement copyButton, pasteButton, deliverButton, copyPasteDeliverButton;
+    private boolean copied, pasted;
     private final boolean delivered;
-    private final boolean upgraded = false;
-    private final int SCREENWIDTH;
-    private final int SCREENHEIGHT;
-    private final int BUTTONHEIGHTGUI;
-    private final int BUTTONWIDTHGUI;
-    private float gainpersecond;
+    private final int SCREENWIDTH, SCREENHEIGHT, BUTTONHEIGHTGUI, BUTTONWIDTHGUI;
     private final NavbarElement navbar;
     private final Entity player;
     private final PlayerComponent pc;

@@ -25,11 +25,8 @@ public class ShopScreen implements Screen {
 
     private final ImmutableArray<Entity> resourceGainerEntities;
     final StudentLifeGame game;
-    final float BUTTONHEIGHTGUI;
-    final float BUTTONWIDTHGUI;
-    final int SCREENHEIGTH;
-    final int SCREENWIDTH;
-    final int buttonPadding;
+    final float BUTTONHEIGHTGUI, BUTTONWIDTHGUI;
+    final int SCREENHEIGTH, SCREENWIDTH, buttonPadding;
     private final ShopElement shop;
     private final NavbarElement navbar;
     private final PlayerComponent player_pc;
@@ -92,7 +89,6 @@ public class ShopScreen implements Screen {
         String kokAmount = game.formatMillions(player_pc.getKokCount());
         game.getFont().draw(
                 game.getBatch(),
-                //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
                 "Kok: " + kokAmount,
                 Gdx.graphics.getWidth() / 3f,
                 Gdx.graphics.getHeight() / 1.2f

@@ -20,8 +20,7 @@ import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
 public class StartScreen implements Screen {
 
     private ButtonElement cloudLogInBtn, localLogInBtn;
-    private final Table layout;
-    private final Table localData;
+    private final Table layout, localData;
     private Table cloudData;
     private Label cloudTitle, cloudLastSave, cloudKokCount;
 
@@ -68,8 +67,6 @@ public class StartScreen implements Screen {
         localData.setBackground(game.getSkin().getDrawable("button"));
         layout.add(localData).padBottom(100);
         layout.row();
-
-        //layout.setDebug(true);
         layout.setFillParent(true);
 
         if (onlinePlayer == null) {

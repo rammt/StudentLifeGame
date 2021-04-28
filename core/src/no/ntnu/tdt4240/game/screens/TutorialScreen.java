@@ -19,15 +19,8 @@ import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 
 public class TutorialScreen implements Screen {
 
-    private Button statButton, gameButton, shopButton;
-    private final Button previousButton;
-    private final Button nextButton;
-    private final Button lastButton;
-    private final int SCREENWIDTH;
-    private final int SCREENHEIGHT;
-    private final int BUTTONHEIGHTGUI;
-    private final int BUTTONWIDTHGUI;
-    private final int SMALLBUTTONHEIGHTGUI;
+    private final Button previousButton, nextButton, lastButton;
+    private final int SCREENWIDTH, SCREENHEIGHT, BUTTONHEIGHTGUI, BUTTONWIDTHGUI, SMALLBUTTONHEIGHTGUI;
     private final int page;
     private boolean showMenu;
 
@@ -71,52 +64,30 @@ public class TutorialScreen implements Screen {
             this.showMenu = true;
         }
 
-        // TODO: Eneste forskjellen er om showMenu settes i setScreen. Fikse en bedre løsning hvor ikke hele kodeblokken kopieres
-        if (this.showMenu) {
-            previousButton = new ButtonElement(
-                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
-                    Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() / 3f, 50 + BUTTONHEIGHTGUI + 50,
-                    "PREVIOUS", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new TutorialScreen(game, page - 1, true));
-                    return true;
-                }
-            });
+        final boolean currentShowMenuStatus = this.showMenu;
 
-            nextButton = new ButtonElement(
-                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
-                    Gdx.graphics.getWidth() / 2f, 50 + BUTTONHEIGHTGUI + 50,
-                    "NEXT", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new TutorialScreen(game, page + 1, true));
-                    return true;
-                }
-            });
-        } else {
-            previousButton = new ButtonElement(
-                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
-                    Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() / 3f, 50 + BUTTONHEIGHTGUI + 50,
-                    "PREVIOUS", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new TutorialScreen(game, page - 1, false));
-                    return true;
-                }
-            });
+        previousButton = new ButtonElement(
+                Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() / 3f, 50 + BUTTONHEIGHTGUI + 50,
+                "PREVIOUS", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new TutorialScreen(game, page - 1, currentShowMenuStatus));
+                return true;
+            }
+        });
 
-            nextButton = new ButtonElement(
-                    Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
-                    Gdx.graphics.getWidth() / 2f, 50 + BUTTONHEIGHTGUI + 50,
-                    "NEXT", game.getSkin(), new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.setScreen(new TutorialScreen(game, page + 1, false));
-                    return true;
-                }
-            });
-        }
+        nextButton = new ButtonElement(
+                Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
+                Gdx.graphics.getWidth() / 2f, 50 + BUTTONHEIGHTGUI + 50,
+                "NEXT", game.getSkin(), new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new TutorialScreen(game, page + 1, currentShowMenuStatus));
+                return true;
+            }
+        });
+
 
         lastButton = new ButtonElement(
                 Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,

@@ -23,13 +23,10 @@ import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
 public class HighscoreScreen implements Screen {
 
     final StudentLifeGame game;
-    private Button gameButton;
     private final Button statButton;
 
-    final float BUTTONHEIGHTGUI;
-    final float BUTTONWIDTHGUI;
-    final int SCREENHEIGTH;
-    final int SCREENWIDTH;
+    final float BUTTONHEIGHTGUI, BUTTONWIDTHGUI;
+    final int SCREENHEIGTH, SCREENWIDTH;
     final int buttonPadding;
 
     private List<Map<String, Object>> hl = new ArrayList<Map<String, Object>>();

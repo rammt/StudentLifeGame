@@ -16,10 +16,8 @@ import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
 
 public class StatScreen implements Screen {
 
-    final float BUTTONHEIGHTGUI;
-    final float BUTTONWIDTHGUI;
-    final int SCREENHEIGTH;
-    final int SCREENWIDTH;
+    final float BUTTONHEIGHTGUI, BUTTONWIDTHGUI;
+    final int SCREENHEIGTH, SCREENWIDTH;
     final int buttonPadding;
     private final int rank;
 
