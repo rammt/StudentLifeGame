@@ -3,32 +3,26 @@ package no.ntnu.tdt4240.game.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.components.MusicComponent;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.systems.AudioSystem;
 import no.ntnu.tdt4240.game.systems.OnStartGameSystem;
-import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class StartScreen implements Screen {
 
     private ButtonElement cloudLogInBtn, localLogInBtn;
-    private Table layout, localData, cloudData;
+    private final Table layout;
+    private final Table localData;
+    private Table cloudData;
     private Label cloudTitle, cloudLastSave, cloudKokCount;
 
     final StudentLifeGame game;
@@ -107,8 +101,7 @@ public class StartScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
-
+        ScreenUtils.clear(57 / 255f, 72f / 255f, 85f / 255f, 1);
 
 
         if (onlinePlayer != null) {

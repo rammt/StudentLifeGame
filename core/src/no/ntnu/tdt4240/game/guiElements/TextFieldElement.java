@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Align;
 
 public class TextFieldElement {
 
-    private Label textField;
-    private Boolean checked = false;
+    private final Label textField;
+    private final Boolean checked = false;
 
     public TextFieldElement(String value, String text, Skin skin, int size, boolean isColor) {
 
@@ -39,7 +39,7 @@ public class TextFieldElement {
 
     }
 
-    public Label getActor(){
+    public Label getActor() {
         return textField;
     }
 

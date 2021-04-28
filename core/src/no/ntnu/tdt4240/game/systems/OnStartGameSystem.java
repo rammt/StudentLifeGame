@@ -1,20 +1,10 @@
 package no.ntnu.tdt4240.game.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.async.AsyncExecutor;
-import com.badlogic.gdx.utils.async.AsyncResult;
-import com.badlogic.gdx.utils.async.AsyncTask;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import no.ntnu.tdt4240.game.Firebase;
 import no.ntnu.tdt4240.game.StudentLifeGame;
@@ -23,17 +13,19 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class OnStartGameSystem extends EntitySystem {
 
-    private Firebase firebase;
+    private final Firebase firebase;
 
     public OnStartGameSystem(Firebase firebase) {
         this.firebase = firebase;
     }
 
     @Override
-    public void addedToEngine(Engine engine) { }
+    public void addedToEngine(Engine engine) {
+    }
 
     @Override
-    public void removedFromEngine(Engine engine) { }
+    public void removedFromEngine(Engine engine) {
+    }
 
     public Entity getOfflinePlayer(Engine engine) {
         Entity player = engine.createEntity();

@@ -6,11 +6,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-
-import java.util.Iterator;
 
 import no.ntnu.tdt4240.game.components.MusicComponent;
 import no.ntnu.tdt4240.game.components.SoundComponent;
@@ -18,8 +13,8 @@ import no.ntnu.tdt4240.game.components.SoundComponent;
 
 public class AudioSystem extends EntitySystem {
 
-    private ComponentMapper<MusicComponent> mc = ComponentMapper.getFor(MusicComponent.class);
-    private ComponentMapper<SoundComponent> sc = ComponentMapper.getFor(SoundComponent.class);
+    private final ComponentMapper<MusicComponent> mc = ComponentMapper.getFor(MusicComponent.class);
+    private final ComponentMapper<SoundComponent> sc = ComponentMapper.getFor(SoundComponent.class);
 
     private ImmutableArray<Entity> sounds;
     private ImmutableArray<Entity> music;
@@ -32,7 +27,7 @@ public class AudioSystem extends EntitySystem {
     private int volumeMusic = 1;
     private int volumeSound = 1;
 
-    public void createBackgroundMusic(Engine engine){
+    public void createBackgroundMusic(Engine engine) {
         backgroundMusic = engine.createEntity();
         backgroundMusic.add(new MusicComponent().create("music/denvicock.mp3"));
         engine.addEntity(backgroundMusic);
@@ -47,26 +42,25 @@ public class AudioSystem extends EntitySystem {
 
         playingMusic = backgroundMusic2;
     }
-    public void createSound(Engine engine){
+
+    public void createSound(Engine engine) {
         sound = engine.createEntity();
         sound.add(new SoundComponent().create("music/penSound.mp3"));
         engine.addEntity(sound);
     }
 
-    public void setMusic(String path){
+    public void setMusic(String path) {
         mc.get(backgroundMusic).setMusic(path);
     }
 
-    public void skipBackroundMusic(){
-        if(mc.get(backgroundMusic).isPlaying()){
+    public void skipBackroundMusic() {
+        if (mc.get(backgroundMusic).isPlaying()) {
             mc.get(backgroundMusic).stopMusic();
             mc.get(backgroundMusic2).startMusic(volumeMusic);
-        }
-        else if(mc.get(backgroundMusic2).isPlaying()){
+        } else if (mc.get(backgroundMusic2).isPlaying()) {
             mc.get(backgroundMusic2).stopMusic();
             mc.get(backgroundMusic3).startMusic(volumeMusic);
-        }
-        else{
+        } else {
             mc.get(backgroundMusic3).stopMusic();
             mc.get(backgroundMusic).startMusic(volumeMusic);
         }
@@ -92,7 +86,7 @@ public class AudioSystem extends EntitySystem {
         }*/
     }
 
-    public void setSound(String path){
+    public void setSound(String path) {
         sc.get(sound).setSound(path);
     }
 
@@ -102,22 +96,16 @@ public class AudioSystem extends EntitySystem {
         startBackgroundMusic();
     }
 
-    public void muteSound(){
+    public void muteSound() {
         volumeSound = (volumeSound == 0) ? 1 : 0;
     }
 
-    public boolean isMusicPlaying(){
-        if(volumeMusic == 0){
-            return true;
-        }
-        return false;
+    public boolean isMusicPlaying() {
+        return volumeMusic == 0;
     }
 
-    public boolean isSoundPlaying(){
-        if(volumeSound == 0){
-            return true;
-        }
-        return false;
+    public boolean isSoundPlaying() {
+        return volumeSound == 0;
     }
 
     public void startBackgroundMusic() {
@@ -129,7 +117,7 @@ public class AudioSystem extends EntitySystem {
         mc.get(playingMusic).startMusic(volumeMusic);
     }
 
-    public void stopBackgroundMusic(){
+    public void stopBackgroundMusic() {
         for (Entity m : music) {
             if (m.getComponent(MusicComponent.class).getMusic().isPlaying()) {
                 playingMusic = m;
@@ -137,21 +125,22 @@ public class AudioSystem extends EntitySystem {
         }
         mc.get(playingMusic).stopMusic();
     }
-    public void startShopMusic(){
-        if(!mc.get(backgroundMusic).isPlaying()){
+
+    public void startShopMusic() {
+        if (!mc.get(backgroundMusic).isPlaying()) {
             stopBackgroundMusic();
             mc.get(backgroundMusic).startMusic(volumeMusic);
         }
     }
 
-    public void startGameMusic(){
-        if(!mc.get(backgroundMusic2).isPlaying()){
+    public void startGameMusic() {
+        if (!mc.get(backgroundMusic2).isPlaying()) {
             stopBackgroundMusic();
             mc.get(backgroundMusic2).startMusic(volumeMusic);
         }
     }
 
-    public void playSound(){
+    public void playSound() {
         sc.get(sound).startSound(volumeSound);
     }
 
