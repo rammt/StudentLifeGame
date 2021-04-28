@@ -4,43 +4,46 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.tdt4240.game.StudentLifeGame;
-import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
+import no.ntnu.tdt4240.game.guiElements.ButtonElement;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
 
-public class TutorialScreen implements Screen{
+public class TutorialScreen implements Screen {
 
     private Button statButton, gameButton, shopButton;
-    private Button previousButton, nextButton, lastButton;
-    private int SCREENWIDTH, SCREENHEIGHT,BUTTONHEIGHTGUI,BUTTONWIDTHGUI,SMALLBUTTONHEIGHTGUI;
-    private int page;
+    private final Button previousButton;
+    private final Button nextButton;
+    private final Button lastButton;
+    private final int SCREENWIDTH;
+    private final int SCREENHEIGHT;
+    private final int BUTTONHEIGHTGUI;
+    private final int BUTTONWIDTHGUI;
+    private final int SMALLBUTTONHEIGHTGUI;
+    private final int page;
     private boolean showMenu;
 
-    private List<String> title = Arrays.asList("TUTORIAL: How to KOK", "Buy upgrade", "Save game", "Need some inspiration?");
-    private List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online to use", "Den koker vi");
-    private List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "on another device", "Og den koker vi");
-    private List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "Lacal save every 60 sec", "Ja, den koker vi");
-    private List<Texture> images = Arrays.asList(
-        new Texture("images/kok.png"),
-        new Texture("images/upgrade.png"),
-        new Texture("images/save.png"),
-        new Texture("images/inspiration.png")
+    private final List<String> title = Arrays.asList("TUTORIAL: How to KOK", "Buy upgrade", "Save game", "Need some inspiration?");
+    private final List<String> description1 = Arrays.asList("1. Click copy", "1. Kok a lot", "Save online to use", "Den koker vi");
+    private final List<String> description2 = Arrays.asList("2. Click paste", "2. Click SHOP", "on another device", "Og den koker vi");
+    private final List<String> description3 = Arrays.asList("3. Click deliver", "3. Buy helpers", "Lacal save every 60 sec", "Ja, den koker vi");
+    private final List<Texture> images = Arrays.asList(
+            new Texture("images/kok.png"),
+            new Texture("images/upgrade.png"),
+            new Texture("images/save.png"),
+            new Texture("images/inspiration.png")
     );
 
     final StudentLifeGame game;
+
     public TutorialScreen(final StudentLifeGame game, final int page, final boolean showMenu) {
 
         this.game = game;
@@ -64,7 +67,7 @@ public class TutorialScreen implements Screen{
         //kode for knappene pluss logikk når knappen trykkes
 
         // Show menu on last tutorial page
-        if ((page == title.size()-1)) {
+        if ((page == title.size() - 1)) {
             this.showMenu = true;
         }
 
@@ -91,8 +94,7 @@ public class TutorialScreen implements Screen{
                     return true;
                 }
             });
-        }
-        else {
+        } else {
             previousButton = new ButtonElement(
                     Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 20f,
                     Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() / 3f, 50 + BUTTONHEIGHTGUI + 50,
@@ -130,9 +132,9 @@ public class TutorialScreen implements Screen{
         // Shows menu if showMenu is specified
         if (this.showMenu) {
 
-            NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 2 );
+            NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 2);
 
-            for(Button btn : navbar.getActors()){
+            for (Button btn : navbar.getActors()) {
                 System.out.println("add button");
                 game.getStage().addActor(btn);
             }
@@ -145,7 +147,7 @@ public class TutorialScreen implements Screen{
             game.getStage().addActor(previousButton);
         }
         // Has next page
-        if (page < title.size()-1) {
+        if (page < title.size() - 1) {
             game.getStage().addActor(nextButton);
         } else {
             game.getStage().addActor(lastButton);
@@ -156,7 +158,7 @@ public class TutorialScreen implements Screen{
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
+        ScreenUtils.clear(57 / 255f, 72f / 255f, 85f / 255f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();
@@ -168,29 +170,29 @@ public class TutorialScreen implements Screen{
         game.getFont().draw(
                 game.getBatch(),
                 title.get(page),
-                Gdx.graphics.getWidth()/5f,
-                Gdx.graphics.getHeight()/1.05f
+                Gdx.graphics.getWidth() / 5f,
+                Gdx.graphics.getHeight() / 1.05f
         );
         game.getFont().draw(
                 game.getBatch(),
                 description1.get(page),
-                Gdx.graphics.getWidth()/3.5f,
-                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*6
+                Gdx.graphics.getWidth() / 3.5f,
+                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight() / 30f) * 6
         );
         game.getFont().draw(
                 game.getBatch(),
                 description2.get(page),
-                Gdx.graphics.getWidth()/3.5f,
-                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*5
+                Gdx.graphics.getWidth() / 3.5f,
+                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight() / 30f) * 5
         );
         game.getFont().draw(
                 game.getBatch(),
                 description3.get(page),
-                Gdx.graphics.getWidth()/3.5f,
-                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*4
+                Gdx.graphics.getWidth() / 3.5f,
+                50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight() / 30f) * 4
         );
 
-        game.getBatch().draw(images.get(page), 0, 50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight()/30f)*7, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+        game.getBatch().draw(images.get(page), 0, 50 + BUTTONHEIGHTGUI + (Gdx.graphics.getHeight() / 30f) * 7, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 
         game.getBatch().end();
 

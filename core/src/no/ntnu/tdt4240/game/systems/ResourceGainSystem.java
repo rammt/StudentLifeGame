@@ -1,15 +1,12 @@
 package no.ntnu.tdt4240.game.systems;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +18,7 @@ public class ResourceGainSystem extends EntitySystem {
     private ImmutableArray<Entity> player;
     private ImmutableArray<Entity> gameGainers;
 
-    private ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
+    private final ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
 
     public void addedToEngine(Engine engine) {
         player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
@@ -37,7 +34,6 @@ public class ResourceGainSystem extends EntitySystem {
         PlayerComponent pc = pm.get(player.get(0));
 
         List<Map<String, Object>> playerGainers = pc.getResourceGainers();
-
 
 
         for (Map<String, Object> resourceGainer : playerGainers) {

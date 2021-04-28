@@ -22,7 +22,7 @@ public class SavingSystem extends EntitySystem {
     private final Preferences offlinePlayer = Gdx.app.getPreferences("offlineStorage");
     private final Json json = new Json();
 
-    private ComponentMapper<PlayerComponent> pcm = ComponentMapper.getFor(PlayerComponent.class);
+    private final ComponentMapper<PlayerComponent> pcm = ComponentMapper.getFor(PlayerComponent.class);
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -62,7 +62,7 @@ public class SavingSystem extends EntitySystem {
     }
 
     public PlayerComponent getDataFromStorage() {
-        String offlinePlayerJson =  offlinePlayer.getString("playerData");
+        String offlinePlayerJson = offlinePlayer.getString("playerData");
 
         return json.fromJson(PlayerComponent.class, offlinePlayerJson);
 

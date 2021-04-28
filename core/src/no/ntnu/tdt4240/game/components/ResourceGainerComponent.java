@@ -7,7 +7,7 @@ public class ResourceGainerComponent implements Component {
     private int price;
     private float gainPerSecond;
 
-    public ResourceGainerComponent create(String id, String name, int price, float gainPerSecond){
+    public ResourceGainerComponent create(String id, String name, int price, float gainPerSecond) {
         this.name = name;
         this.id = id;
         this.price = price;

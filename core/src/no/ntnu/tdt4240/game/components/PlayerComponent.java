@@ -3,7 +3,6 @@ package no.ntnu.tdt4240.game.components;
 import com.badlogic.ashley.core.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -115,7 +114,7 @@ public class PlayerComponent implements Component {
         clickValue = amount;
     }
 
-    public float getClickValue(){
+    public float getClickValue() {
         return clickValue;
     }
 

@@ -1,33 +1,27 @@
 package no.ntnu.tdt4240.game;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import no.ntnu.tdt4240.game.components.PlayerComponent;
 import no.ntnu.tdt4240.game.screens.StartScreen;
-import no.ntnu.tdt4240.game.screens.TutorialScreen;
 
 public class StudentLifeGame extends Game {
 
-	private Firebase firebase;
-	private SpriteBatch batch;
-	private BitmapFont font;
-	private Stage stage;
-	private Skin skin;
+    private final Firebase firebase;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private Stage stage;
+    private Skin skin;
     private ECSengine engine;
     private boolean showTutorial;
 
@@ -64,19 +58,19 @@ public class StudentLifeGame extends Game {
         skin.dispose();
     }
 
-    public SpriteBatch getBatch(){
+    public SpriteBatch getBatch() {
         return batch;
     }
 
-    public BitmapFont getFont(){
+    public BitmapFont getFont() {
         return font;
     }
 
-    public Stage getStage(){
+    public Stage getStage() {
         return stage;
     }
 
-    public Skin getSkin(){
+    public Skin getSkin() {
         return skin;
     }
 
@@ -97,22 +91,19 @@ public class StudentLifeGame extends Game {
         return false;
     }
 
-    public String formatMillions(double num){
+    public String formatMillions(double num) {
         String unit = "";
-        if(num >= 1000000000000000f){
-            num = num/1000000000000000f;
-            unit="Quadrillion";
-        }
-        else if(num >= 1000000000000f){
-            num = num/1000000000000f;
-            unit="Trillion";
-        }
-        else if(num>=1000000000f){
-            num = num/1000000000;
+        if (num >= 1000000000000000f) {
+            num = num / 1000000000000000f;
+            unit = "Quadrillion";
+        } else if (num >= 1000000000000f) {
+            num = num / 1000000000000f;
+            unit = "Trillion";
+        } else if (num >= 1000000000f) {
+            num = num / 1000000000;
             unit = "Billion";
-        }
-        else if(num >= 1000000f){
-            num = num/1000000;
+        } else if (num >= 1000000f) {
+            num = num / 1000000;
             unit = "Million";
         }
 		/*else if(num >= 1000){

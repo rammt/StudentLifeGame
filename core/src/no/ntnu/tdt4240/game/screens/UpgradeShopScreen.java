@@ -1,7 +1,5 @@
 package no.ntnu.tdt4240.game.screens;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,11 +28,11 @@ public class UpgradeShopScreen implements Screen {
     final int SCREENWIDTH;
 
     final ButtonElement combineButton, increaseClickValueButton;
-    private PlayerComponent pc;
-    private AudioSystem as;
-    private NavbarElement navbar;
+    private final PlayerComponent pc;
+    private final AudioSystem as;
+    private final NavbarElement navbar;
 
-    public UpgradeShopScreen(final StudentLifeGame game){
+    public UpgradeShopScreen(final StudentLifeGame game) {
 
         this.game = game;
         game.getStage().clear();
@@ -45,26 +43,27 @@ public class UpgradeShopScreen implements Screen {
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
-        BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
-        BUTTONWIDTHGUI = SCREENWIDTH/4f;
+        BUTTONHEIGHTGUI = SCREENHEIGTH / 8f;
+        BUTTONWIDTHGUI = SCREENWIDTH / 4f;
 
         combineButton = new ButtonElement(
-                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f,
+                BUTTONWIDTHGUI * 3, BUTTONHEIGHTGUI,
+                SCREENWIDTH / 2f - BUTTONWIDTHGUI * 3 / 2, SCREENHEIGTH * 5 / 8f,
                 "Combine Buttons: 100 000,-", game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                        if(pc.getKokCount() >= 100000f && !pc.getCombinedButtons()) {
-                            pc.setKokCount(pc.getKokCount()-100000);
+                        if (pc.getKokCount() >= 100000f && !pc.getCombinedButtons()) {
+                            pc.setKokCount(pc.getKokCount() - 100000);
                             pc.setCombinedButtons(true);
                             as.playSound();
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     long time = System.currentTimeMillis();
-                                    while (System.currentTimeMillis() < time + 4000){}
+                                    while (System.currentTimeMillis() < time + 4000) {
+                                    }
                                     Gdx.app.postRunnable(new Runnable() {
                                         @Override
                                         public void run() {
@@ -87,8 +86,7 @@ public class UpgradeShopScreen implements Screen {
 
         final double calculatedClickValuePrice = Math.floor(baseClickValuePrice * Math.pow(1.10, pc.getClickValue()));
 
-        final double kokGainFromClick =  Math.floor(1 + (rgs.getResourceGainPerSecond()/10f)*Math.pow(1.02, pc.getClickValue()));
-
+        final double kokGainFromClick = Math.floor(1 + (rgs.getResourceGainPerSecond() / 10f) * Math.pow(1.02, pc.getClickValue()));
 
 
         Label description = new Label("Increase kok delivery value", game.getSkin());
@@ -100,15 +98,15 @@ public class UpgradeShopScreen implements Screen {
         ArrayList<Label> buttonLabels = new ArrayList<>(Arrays.asList(description, price, clickVal));
 
         increaseClickValueButton = new ButtonElement(
-                BUTTONWIDTHGUI*3, BUTTONHEIGHTGUI,
-                SCREENWIDTH/2f-BUTTONWIDTHGUI*3/2, SCREENHEIGTH*5/8f-BUTTONHEIGHTGUI - 50,
+                BUTTONWIDTHGUI * 3, BUTTONHEIGHTGUI,
+                SCREENWIDTH / 2f - BUTTONWIDTHGUI * 3 / 2, SCREENHEIGTH * 5 / 8f - BUTTONHEIGHTGUI - 50,
                 buttonLabels, game.getSkin(),
                 new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(pc.getKokCount() >= calculatedClickValuePrice){
-                            pc.setKokCount((float) (pc.getKokCount()-calculatedClickValuePrice));
-                            pc.setClickValue(pc.getClickValue()+1);
+                        if (pc.getKokCount() >= calculatedClickValuePrice) {
+                            pc.setKokCount((float) (pc.getKokCount() - calculatedClickValuePrice));
+                            pc.setClickValue(pc.getClickValue() + 1);
                             System.out.println(pc.getClickValue());
                             as.playSound();
                             game.setScreen(new UpgradeShopScreen(game));
@@ -128,8 +126,8 @@ public class UpgradeShopScreen implements Screen {
         game.getStage().addActor(combineButton);
         game.getStage().addActor(increaseClickValueButton);
 
-        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 1 );
-        for(Button btn : navbar.getActors()){
+        navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 1);
+        for (Button btn : navbar.getActors()) {
             game.getStage().addActor(btn);
         }
     }
@@ -137,7 +135,7 @@ public class UpgradeShopScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
+        ScreenUtils.clear(57 / 255f, 72f / 255f, 85f / 255f, 1);
 
         game.getStage().act();
         game.getStage().draw();
@@ -147,8 +145,8 @@ public class UpgradeShopScreen implements Screen {
                 game.getBatch(),
                 //"Kokt : " + String.valueOf(formatter.format(pc.getKokCount())),
                 "Kok: " + kokAmount,
-                Gdx.graphics.getWidth()/3f,
-                Gdx.graphics.getHeight()/1.2f
+                Gdx.graphics.getWidth() / 3f,
+                Gdx.graphics.getHeight() / 1.2f
         );
         game.getBatch().end();
         game.getEngine().update(Gdx.graphics.getDeltaTime());

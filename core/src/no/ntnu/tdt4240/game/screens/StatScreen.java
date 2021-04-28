@@ -1,42 +1,33 @@
 package no.ntnu.tdt4240.game.screens;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 import no.ntnu.tdt4240.game.StudentLifeGame;
 import no.ntnu.tdt4240.game.components.PlayerComponent;
-import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
-import no.ntnu.tdt4240.game.guiElements.ButtonElement;
-import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
-import no.ntnu.tdt4240.game.systems.AudioSystem;
-import no.ntnu.tdt4240.game.systems.ResourceGainSystem;
 import no.ntnu.tdt4240.game.guiElements.NavbarElement;
-import no.ntnu.tdt4240.game.systems.SavingSystem;
+import no.ntnu.tdt4240.game.guiElements.TextFieldElement;
 
-public class StatScreen implements Screen{
+public class StatScreen implements Screen {
 
-    private Label kokCount;
-    private Label antLevert;
+    private final Label kokCount;
+    private final Label antLevert;
 
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
     final int SCREENHEIGTH;
     final int SCREENWIDTH;
     final int buttonPadding;
-    private int rank;
+    private final int rank;
 
     final StudentLifeGame game;
-    private PlayerComponent pc;
+    private final PlayerComponent pc;
 
     public StatScreen(final StudentLifeGame game) {
 
@@ -47,16 +38,16 @@ public class StatScreen implements Screen{
 
         SCREENHEIGTH = Gdx.graphics.getHeight();
         SCREENWIDTH = Gdx.graphics.getWidth();
-        BUTTONHEIGHTGUI = SCREENHEIGTH/8f;
-        BUTTONWIDTHGUI = SCREENWIDTH/4f;
+        BUTTONHEIGHTGUI = SCREENHEIGTH / 8f;
+        BUTTONWIDTHGUI = SCREENWIDTH / 4f;
         buttonPadding = 10;
 
         // Get rank of player
         rank = game.getFirebase().getRank(pc);
 
         // Labelelements for stats in table
-        kokCount = new TextFieldElement(( game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getActor();
-        antLevert = new TextFieldElement(( game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(),3, true).getActor();
+        kokCount = new TextFieldElement((game.formatMillions(pc.getClickCount())), "Antall Klikk:", game.getSkin(), 3, true).getActor();
+        antLevert = new TextFieldElement((game.formatMillions(pc.getKokCount())), "Antall Levert:", game.getSkin(), 3, true).getActor();
 
         // Table
         Table table = new Table();
@@ -66,9 +57,9 @@ public class StatScreen implements Screen{
         table.add(antLevert);
 
         //navbarkode
-        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 2 );
+        NavbarElement navbar = new NavbarElement(game, BUTTONWIDTHGUI, BUTTONHEIGHTGUI, SCREENWIDTH, 2);
 
-        for(Button btn : navbar.getActors()){
+        for (Button btn : navbar.getActors()) {
             game.getStage().addActor(btn);
         }
 
@@ -78,7 +69,7 @@ public class StatScreen implements Screen{
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(57/255f, 72f/255f, 85f/255f, 1);
+        ScreenUtils.clear(57 / 255f, 72f / 255f, 85f / 255f, 1);
 
         // stage tegner aktorsa
         game.getStage().act();
@@ -90,8 +81,8 @@ public class StatScreen implements Screen{
         game.getFont().draw(
                 game.getBatch(),
                 pc.getName() + "\n Rank: " + rank,
-                Gdx.graphics.getWidth()/2f - (layout.width/2),
-                Gdx.graphics.getHeight()/1.15f
+                Gdx.graphics.getWidth() / 2f - (layout.width / 2),
+                Gdx.graphics.getHeight() / 1.15f
         );
         game.getBatch().end();
 

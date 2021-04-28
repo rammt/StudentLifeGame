@@ -3,13 +3,11 @@ package no.ntnu.tdt4240.game.guiElements;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
 
@@ -23,7 +21,7 @@ public class ButtonElement extends Button {
         Label textLabel = new Label(text, skin);
         textLabel.setFontScale(3);
         super.add(textLabel);
-        super.setSize(width,height);
+        super.setSize(width, height);
         super.setPosition(x, y);
         super.addListener(listener);
         super.setColor(Color.valueOf("#ecf0f1"));
@@ -37,7 +35,7 @@ public class ButtonElement extends Button {
             super.row();
         }
 
-        super.setSize(width,height);
+        super.setSize(width, height);
         super.setPosition(x, y);
         super.addListener(listener);
         super.setColor(Color.valueOf("#ecf0f1"));
@@ -52,14 +50,14 @@ public class ButtonElement extends Button {
         super.addListener(listener);
 
         // Default values
-        float width =  Gdx.graphics.getWidth()/2f;
-        float height = Gdx.graphics.getHeight()/8f;
+        float width = Gdx.graphics.getWidth() / 2f;
+        float height = Gdx.graphics.getHeight() / 8f;
         super.setSize(width, height);
         super.setColor(Color.valueOf("#ecf0f1"));
     }
 
-    public void toggleButton(boolean toggle){
-        if(toggle){
+    public void toggleButton(boolean toggle) {
+        if (toggle) {
             setColor(Color.valueOf("#2c3e50"));
         } else {
             setColor(Color.valueOf("#ecf0f1"));
@@ -67,7 +65,7 @@ public class ButtonElement extends Button {
     }
 
     public void disableButton(boolean disabled) {
-        if(disabled){
+        if (disabled) {
             setColor(Color.valueOf("#2c3e50"));
             setTouchable(Touchable.disabled);
         } else {
@@ -84,7 +82,7 @@ public class ButtonElement extends Button {
     public void setText(String text) {
         Label textLabel = new Label(text, getSkin());
         textLabel.setFontScale(3);
-        for(Actor actor : super.getChildren()){
+        for (Actor actor : super.getChildren()) {
             super.removeActor(actor);
         }
         super.add(textLabel);
