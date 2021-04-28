@@ -23,8 +23,7 @@ public class ShopElement {
     private final ArrayList<ResourceGainerComponent> resourceGainers;
     private final ResourceGainSystem rgs;
     private AudioSystem as;
-    private final int SCREENWIDTH;
-    private final int SCREENHEIGTH;
+    private final int SCREENWIDTH, SCREENHEIGTH;
     private int currentIndex;
     private final float BUTTONWIDTHGUI, BUTTONHEIGHTGUI, BUTTONPADDING;
     boolean hasNext, hasPrev;

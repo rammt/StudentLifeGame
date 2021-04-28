@@ -18,8 +18,7 @@ public class ShopSelectScreen implements Screen {
 
     final float BUTTONHEIGHTGUI;
     final float BUTTONWIDTHGUI;
-    final int SCREENHEIGTH;
-    final int SCREENWIDTH;
+    final int SCREENHEIGTH, SCREENWIDTH;
     final int buttonPadding;
     private final PlayerComponent player_pc;
     private final AudioSystem as;

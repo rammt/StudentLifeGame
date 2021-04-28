@@ -16,19 +16,10 @@ import no.ntnu.tdt4240.game.systems.SavingSystem;
 
 public class SettingScreen implements Screen {
 
-    private final float BUTTONHEIGHTGUI;
-    private final float BUTTONWIDTHGUI;
-    private final int SCREENWIDTH;
-    private final int SCREENHEIGTH;
+    private final float BUTTONHEIGHTGUI, BUTTONWIDTHGUI;
+    private final int SCREENWIDTH, SCREENHEIGTH;
     private final StudentLifeGame game;
-    private final ButtonElement saveOfflineBtn;
-    private final ButtonElement saveOnlineBtn;
-    private final ButtonElement musicBtn;
-    private final ButtonElement muteBtn;
-    private final ButtonElement highscoreBtn;
-    private final ButtonElement statsBtn;
-    private final ButtonElement tutorialBtn;
-    private final ButtonElement logOutBtn;
+    private final ButtonElement saveOfflineBtn, saveOnlineBtn, musicBtn, muteBtn, highscoreBtn, statsBtn, tutorialBtn, logOutBtn;
     private final NavbarElement navbar;
     private final AudioSystem as;
 

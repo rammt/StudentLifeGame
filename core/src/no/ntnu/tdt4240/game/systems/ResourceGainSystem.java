@@ -15,8 +15,7 @@ import no.ntnu.tdt4240.game.components.ResourceGainerComponent;
 
 public class ResourceGainSystem extends EntitySystem {
 
-    private ImmutableArray<Entity> player;
-    private ImmutableArray<Entity> gameGainers;
+    private ImmutableArray<Entity> player, gameGainers;
 
     private final ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor(PlayerComponent.class);
 

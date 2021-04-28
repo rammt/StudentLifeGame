@@ -19,13 +19,9 @@ public class AudioSystem extends EntitySystem {
     private ImmutableArray<Entity> sounds;
     private ImmutableArray<Entity> music;
 
-    private Entity backgroundMusic;
-    private Entity backgroundMusic2;
-    private Entity backgroundMusic3;
-    private Entity sound;
-    private Entity playingMusic;
-    private int volumeMusic = 1;
-    private int volumeSound = 1;
+    private Entity backgroundMusic, backgroundMusic2, backgroundMusic3;
+    private Entity sound, playingMusic;
+    private int volumeMusic = 1, volumeSound = 1;
 
     public void createBackgroundMusic(Engine engine) {
         backgroundMusic = engine.createEntity();

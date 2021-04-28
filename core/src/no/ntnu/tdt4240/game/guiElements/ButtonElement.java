@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class ButtonElement extends Button {
     private Boolean checked = false;
 
-    //public ButtonElement(float width, float height, float x, float y, String text, Skin skin, final TextButton.TextButtonStyle style, InputListener listener) {
     public ButtonElement(float width, float height, float x, float y, String text, Skin skin, InputListener listener) {
 
         super(skin);
